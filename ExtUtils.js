@@ -5,12 +5,14 @@ define([
     'WebWorldWind/globe/Globe2D',
     'WebWorldWind/geom/Angle',
     'WebWorldWind/geom/Vec3',
+    'WebWorldWind/geom/Matrix',
     'WebWorldWind/geom/Plane',
     'WebWorldWind/geom/Line',
     'WebWorldWind/geom/Position',
     'OpusWorldWind/Intersection'
-], function(OpusWorldWind, WorldWind, Globe, Globe2D, Angle, Vec3, Plane, Line, Position, Intersection) {
+], function(OpusWorldWind, WorldWind, Globe, Globe2D, Angle, Vec3, Matrix, Plane, Line, Position, Intersection) {
     var ExtUtils = {
+        scratchMatrix: Matrix.fromIdentity(),
         convertWorldWindPositionAltitudeMode: function(wwd, position, fromAltitudeMode, toAltitudeMode) {
             if(fromAltitudeMode === toAltitudeMode || toAltitudeMode === WorldWind.CLAMP_TO_GROUND) {
                 return new Position(position.latitude, position.longitude, position.altitude);
@@ -145,12 +147,15 @@ define([
             }
         },
         rayFromScreenPoint: function(dc, screenPoint, result) {
+            this.scratchMatrix.setToIdentity();
+            var modelviewProjectionInv = this.scratchMatrix;
+            modelviewProjectionInv.invertMatrix(dc.modelviewProjection);
             var p1 = new Vec3(screenPoint[0], screenPoint[1], 0);
             var p2 = new Vec3(screenPoint[0], screenPoint[1], 1);
-            if(!dc.unProject(p1, result.origin)) {
+            if(!modelviewProjectionInv.unProject(p1, dc.viewport, result.origin)) {
                 return null;
             }
-            if(!dc.unProject(p2, result.direction)) {
+            if(!modelviewProjectionInv.unProject(p2, dc.viewport, result.direction)) {
                 return null;
             }
             result.direction.subtract(result.origin).normalize();
@@ -158,14 +163,17 @@ define([
         },
         // computes a direction vector for a ray facing right across the screen
         computeScreenRightDirection: function(dc, result) {
+            this.scratchMatrix.setToIdentity();
+            var modelviewProjectionInv = this.scratchMatrix;
+            modelviewProjectionInv.invertMatrix(dc.modelviewProjection);
             var p1 = new Vec3(0, 0, 0);
             var p2 = new Vec3(1, 0, 0);
             var pt1 = new Vec3(0, 0, 0);
             var pt2 = new Vec3(0, 0, 0);
-            if(!dc.unProject(p1, pt1)) {
+            if(!modelviewProjectionInv.unProject(p1, dc.viewport, pt1)) {
                 return null;
             }
-            if(!dc.unProject(p2, pt2)) {
+            if(!modelviewProjectionInv.unProject(p2, dc.viewport, pt2)) {
                 return null;
             }
             pt2.subtract(pt1).normalize();

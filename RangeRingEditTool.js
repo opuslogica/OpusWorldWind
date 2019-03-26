@@ -68,10 +68,11 @@ define([
             var text = new GeographicText(pos, str);
             pedestal.altitudeMode = background.altitudeMode = text.altitudeMode = WorldWind.CLAMP_TO_GROUND;
             text.attributes.color = WorldWind.Color.WHITE;
-            var dim = this.wwd.drawContext.textSupport.textSize(text.text, text.attributes.font, true);
+            this.wwd.drawContext.textRenderer.typeFace = text.attributes.font;
+            var dim = this.wwd.drawContext.textRenderer.textSize(text.text);
             background.position = pos;
             background.width = dim[0] + 10;
-            background.height = dim[1] + 6;
+            background.height = dim[1];
             background.attributes.drawOutline = false;
             background.attributes.interiorColor = arc.attributes.outlineColor;
             background.offset = new WorldWind.Vec2(0, background.height/2 + pedestal.height);
