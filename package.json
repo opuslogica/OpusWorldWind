@@ -1,9 +1,9 @@
 {
-  "name": "OpusWorldWind",
+  "name": "opus-world-wind",
   "version": "1.0.0",
   "license": "GPL-3.0",
   "repository": {
     "type": "git",
-    "url": "https://github.com/opuslogica/ng-pane-manager"
+    "url": "https://github.com/opuslogica/OpusWorldWind"
   }
 }
