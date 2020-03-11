@@ -115,7 +115,9 @@ define([
             set: function(data) {
                 this._data = data;
                 this.reset();
-                delete this.currentData.points; // prevent points from being used by addPositions
+                if (this.currentData) {
+                    delete this.currentData.points; // prevent points from being used by addPositions
+                }
             }
         }
     });
