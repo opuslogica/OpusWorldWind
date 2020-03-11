@@ -35,6 +35,5 @@ define([
         };
     };
 
-    OpusWorldWind.EditToolClickRecognizer = EditToolClickRecognizer;
     return EditToolClickRecognizer;
 });

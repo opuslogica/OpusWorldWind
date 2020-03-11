@@ -1,5 +1,6 @@
 define([
     'OpusWorldWind/OpusWorldWind',
+    'OpusWorldWind/PointCloudAttributes',
     'WebWorldWind/WorldWind',
     'WebWorldWind/error/ArgumentError',
     'WebWorldWind/shaders/GpuProgram',
@@ -7,7 +8,7 @@ define([
     'WebWorldWind/geom/BoundingBox',
     'WebWorldWind/shapes/AbstractShape',
     'WebWorldWind/pick/PickedObject',
-], function(OpusWorldWind, WorldWind, ArgumentError, GpuProgram, Vec3, BoundingBox, AbstractShape, PickedObject) {
+], function(OpusWorldWind, PointCloudAttributes, WorldWind, ArgumentError, GpuProgram, Vec3, BoundingBox, AbstractShape, PickedObject) {
     var vertexShaderSource =
         'uniform float pointSize;\n' +
         'uniform vec3 eyePoint;\n' +
@@ -89,7 +90,7 @@ define([
 
     // data: [latitude1, longitude1, altitude1, latitude2, longitude2, altitude2, ...]
     var PointCloud = function(data, attributes) {
-        attributes = attributes || new OpusWorldWind.PointCloudAttributes(null);
+        attributes = attributes || new PointCloudAttributes(null);
 
         if(!data) {
             data = [];
@@ -270,6 +271,5 @@ define([
         gl.disableVertexAttribArray(dc.currentProgram.pointLocation);
     };
 
-    OpusWorldWind.PointCloud = PointCloud;
     return PointCloud;
 });

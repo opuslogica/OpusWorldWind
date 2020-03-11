@@ -9,6 +9,5 @@ define([
 
     Cylinder.prototype = Object.create(RigidWedgeMesh.prototype);
 
-    OpusWorldWind.Cylinder = Cylinder;
     return Cylinder;
 });

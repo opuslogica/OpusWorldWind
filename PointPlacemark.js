@@ -1,11 +1,12 @@
 define([
     'OpusWorldWind/OpusWorldWind',
+    'OpusWorldWind/PointPlacemarkAttributes',
     'WebWorldWind/WorldWind',
     'WebWorldWind/shapes/AbstractShape',
     'WebWorldWind/shaders/GpuProgram',
     'WebWorldWind/geom/Matrix',
     'WebWorldWind/pick/PickedObject'
-], function(OpusWorldWind, WorldWind, AbstractShape, GpuProgram, Matrix, PickedObject) {
+], function(OpusWorldWind, PointPlacemarkAttributes, WorldWind, AbstractShape, GpuProgram, Matrix, PickedObject) {
     var PointProgram = function(gl) {
         var vertexShaderSource =
             'uniform float pointSize;' +
@@ -55,7 +56,7 @@ define([
     };
 
     var PointPlacemark = function(position, attributes) {
-        attributes = attributes || new OpusWorldWind.PointPlacemarkAttributes(null);
+        attributes = attributes || new PointPlacemarkAttributes(null);
 
         if(!position) {
             throw new WorldWind.ArgumentError(WorldWind.Logger.logMessage(WorldWind.Logger.LEVEL_SEVERE, "PointPlacemark", "constructor", "missingPosition"));
@@ -146,8 +147,7 @@ define([
         gl.disableVertexAttribArray(dc.currentProgram.vertexPointLocation);
     };
 
-    OpusWorldWind.PointProgram = PointProgram;
-    OpusWorldWind.PointPlacemark = PointPlacemark;
+    // OpusWorldWind.PointProgram = PointProgram;
 
     return PointPlacemark;
 });

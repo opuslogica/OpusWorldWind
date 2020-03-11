@@ -1,8 +1,7 @@
 define([
-    'OpusWorldWind/OpusWorldWind',
     'WebWorldWind/WorldWind',
     'WebWorldWind/shapes/ShapeAttributes'
-], function(OpusWorldWind, WorldWind, ShapeAttributes) {
+], function(WorldWind, ShapeAttributes) {
     var PointCloudAttributes = function(attributes) {
         ShapeAttributes.call(this, attributes);
         this._pointSize = attributes ? attributes.pointSize : PointCloudAttributes.DEFAULT_POINT_SIZE;
@@ -39,6 +38,5 @@ define([
             ' ps ' + this._pointSize;
     };
 
-    OpusWorldWind.PointCloudAttributes = PointCloudAttributes;
     return PointCloudAttributes;
 });

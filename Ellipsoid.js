@@ -94,6 +94,5 @@ define([
         return indices;
     };
 
-    OpusWorldWind.Ellipsoid = Ellipsoid;
     return Ellipsoid;
 });

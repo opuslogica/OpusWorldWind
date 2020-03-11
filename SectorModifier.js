@@ -155,6 +155,5 @@ define([
         OpusWorldWind.AbstractEditTool.removeCustomGestureHandler(this._wwd, this._gestureHandler);
     };
 
-    OpusWorldWind.SectorModifier = SectorModifier;
     return SectorModifier;
 });

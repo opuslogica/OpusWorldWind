@@ -47,6 +47,5 @@ define([
         return Box.INDICES;
     };
 
-    OpusWorldWind.Box = Box;
     return Box;
 });

@@ -38,6 +38,5 @@ define([
         return Pyramid.INDICES;
     };
 
-    OpusWorldWind.Pyramid = Pyramid;
     return Pyramid;
 });

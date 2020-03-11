@@ -1,5 +1,4 @@
 define([
-    'OpusWorldWind/OpusWorldWind',
     'WebWorldWind/WorldWind',
     'WebWorldWind/shapes/Path',
     'WebWorldWind/geom/Vec3',
@@ -7,7 +6,7 @@ define([
     'WebWorldWind/pick/PickedObject',
     'OpusWorldWind/TriPathProgram',
     'OpusWorldWind/ExtUtils'
-], function(OpusWorldWind, WorldWind, Path, Vec3, Matrix, PickedObject, TriPathProgram, ExtUtils) {
+], function(WorldWind, Path, Vec3, Matrix, PickedObject, TriPathProgram, ExtUtils) {
     /**
      * A variant of Path that uses TRIANGLE_STRIP to render lines instead of LINE_STRIP and lineWidth (lineWidth is unsupported on modern browsers).
      */
@@ -165,6 +164,5 @@ define([
         gl.enable(gl.CULL_FACE);
     };
 
-    OpusWorldWind.TriPath = TriPath;
     return TriPath;
 });

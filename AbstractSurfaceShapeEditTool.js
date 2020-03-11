@@ -288,6 +288,5 @@ define([
         });
     };
 
-    OpusWorldWind.AbstractSurfaceShapeEditTool = AbstractSurfaceShapeEditTool;
     return AbstractSurfaceShapeEditTool;
 });

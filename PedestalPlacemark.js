@@ -1,10 +1,9 @@
 define([
-    'OpusWorldWind/OpusWorldWind',
     'WebWorldWind/WorldWind',
     'WebWorldWind/geom/Vec2',
     'OpusWorldWind/ScreenShapePlacemark'
-], function(OpusWorldWind, WorldWind, Vec2, ScreenShapePlacemark) {
-    var PedestalPlacemark = function(position, attributes) {
+], function (WorldWind, Vec2, ScreenShapePlacemark) {
+    var PedestalPlacemark = function (position, attributes) {
         ScreenShapePlacemark.call(this, [
             -1, 1,
             0, -1,
@@ -17,6 +16,5 @@ define([
 
     PedestalPlacemark.prototype = Object.create(ScreenShapePlacemark.prototype);
 
-    OpusWorldWind.PedestalPlacemark = PedestalPlacemark;
     return PedestalPlacemark;
 });

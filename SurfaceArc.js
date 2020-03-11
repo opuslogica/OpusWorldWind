@@ -1,5 +1,4 @@
 define([
-    'OpusWorldWind/OpusWorldWind',
     'WebWorldWind/WorldWind',
     'WebWorldWind/error/ArgumentError',
     'WebWorldWind/util/Logger',
@@ -7,7 +6,7 @@ define([
     'WebWorldWind/geom/Location',
     'WebWorldWind/geom/Position',
     'OpusWorldWind/TriPath'
-], function(OpusWorldWind, WorldWind, ArgumentError, Logger, Angle, Location, Position, TriPath) {
+], function(WorldWind, ArgumentError, Logger, Angle, Location, Position, TriPath) {
     var SurfaceArc = function(center, radius, angle, heading, attributes) {
         if(center === undefined) {
             throw new ArgumentError(
@@ -136,6 +135,5 @@ define([
         return SurfaceArc.staticStateKey(this);
     };
 
-    OpusWorldWind.SurfaceArc = SurfaceArc;
     return SurfaceArc;
 });

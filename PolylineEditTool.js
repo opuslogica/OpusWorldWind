@@ -54,6 +54,5 @@ define([
         return false;
     };
 
-    OpusWorldWind.PolylineEditTool = PolylineEditTool;
     return PolylineEditTool;
 });

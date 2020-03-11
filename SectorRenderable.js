@@ -1,9 +1,8 @@
 define([
-    'OpusWorldWind/OpusWorldWind',
     'WebWorldWind/WorldWind',
     'WebWorldWind/render/SurfaceTile',
     'WebWorldWind/render/Texture'
-], function(OpusWorldWind, WorldWind, SurfaceTile, Texture) {
+], function(WorldWind, SurfaceTile, Texture) {
     /**
      * Renderable for visualizing a sector. 
      */
@@ -46,6 +45,5 @@ define([
         dc.currentLayer.inCurrentFrame = true;
     };
 
-    OpusWorldWind.SectorRenderable = SectorRenderable;
     return SectorRenderable;
 });

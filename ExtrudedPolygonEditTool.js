@@ -44,6 +44,5 @@ define([
         return true;
     };
 
-    OpusWorldWind.ExtrudedPolygonEditTool = ExtrudedPolygonEditTool;
     return ExtrudedPolygonEditTool;
 });

@@ -1,8 +1,7 @@
 define([
-    'OpusWorldWind/OpusWorldWind',
     'WebWorldWind/WorldWind',
     'WebWorldWind/shaders/GpuProgram'
-], function(OpusWorldWind, WorldWind, GpuProgram) {
+], function(WorldWind, GpuProgram) {
     // Derived from BasicTextureProgram
     var TriPathProgram = function(gl) {
         var vertexShaderSource =
@@ -137,6 +136,5 @@ define([
         gl.uniform1i(this.applyLightingLocation, applyLighting);
     };
 
-    OpusWorldWind.TriPathProgram = TriPathProgram;
     return TriPathProgram;
 });

@@ -368,7 +368,5 @@ define([
         return this.wwd.drawContext.surfacePointForMode(pos.latitude, pos.longitude, pos.altitude, this.renderables[0].altitudeMode, new Vec3(0, 0, 0));
     };
 
-    OpusWorldWind.AbstractEditTool = AbstractEditTool;
-
     return AbstractEditTool;
 });

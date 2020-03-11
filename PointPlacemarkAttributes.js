@@ -29,6 +29,5 @@ define([
             ' ps ' + this._pointSize;
     };
 
-    OpusWorldWind.PointPlacemarkAttributes = PointPlacemarkAttributes;
     return PointPlacemarkAttributes;
 });

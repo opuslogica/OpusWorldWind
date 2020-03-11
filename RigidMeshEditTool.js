@@ -1,5 +1,4 @@
 define([
-    'OpusWorldWind/OpusWorldWind',
     'WebWorldWind/WorldWind',
     'WebWorldWind/shapes/Path',
     'WebWorldWind/shapes/ShapeAttributes',
@@ -16,7 +15,7 @@ define([
     'OpusWorldWind/Pyramid',
     'OpusWorldWind/Ellipsoid',
     'OpusWorldWind/ExtUtils'
-], function(OpusWorldWind, WorldWind, Path, ShapeAttributes, Color, Position, Angle, Vec3, Vec2, Line, Plane, Matrix, AbstractEditTool, AbstractRigidMesh, Pyramid, Ellipsoid, ExtUtils) {
+], function(WorldWind, Path, ShapeAttributes, Color, Position, Angle, Vec3, Vec2, Line, Plane, Matrix, AbstractEditTool, AbstractRigidMesh, Pyramid, Ellipsoid, ExtUtils) {
     var EditingMode = {
         NONE: 'NONE',
         MOVE: 'MOVE',
@@ -774,6 +773,5 @@ define([
         }
     };
 
-    OpusWorldWind.RigidMeshEditTool = RigidMeshEditTool;
     return RigidMeshEditTool;
 });

@@ -96,6 +96,5 @@ define([
         throw new UnsupportedOperationError(Logger.logMessage(Logger.LEVEL_SEVERE, "AbstractSurfacePathEditTool", "isLoop", "abstractInvocation"));
     };
 
-    OpusWorldWind.AbstractSurfacePathEditTool = AbstractSurfacePathEditTool;
     return AbstractSurfacePathEditTool;
 });

@@ -88,8 +88,7 @@ define([
                     return null;
                 }
                 var pos = wwd.globe.computePositionFromPoint(p[0], p[1], p[2], new Position(0, 0, 0));
-                if(pos === null
-                    || pos.latitude < -90 || pos.latitude > 90 || pos.longitude < -180 || pos.longitude > 180) {
+                if(pos === null || pos.latitude < -90 || pos.latitude > 90 || pos.longitude < -180 || pos.longitude > 180) {
                     return null;
                 }
                 return [new Intersection(p, false)];
@@ -267,6 +266,5 @@ define([
         }
     };
 
-    OpusWorldWind.ExtUtils = ExtUtils;
     return ExtUtils;
 });

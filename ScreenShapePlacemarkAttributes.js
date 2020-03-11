@@ -1,8 +1,7 @@
 define([
-    'OpusWorldWind/OpusWorldWind',
     'WebWorldWind/WorldWind',
     'WebWorldWind/shapes/ShapeAttributes'
-], function(OpusWorldWind, WorldWind, ShapeAttributes) {
+], function(WorldWind, ShapeAttributes) {
     var ScreenShapePlacemarkAttributes = function(attributes) {
         ShapeAttributes.call(this, attributes);
         this._depthTest = attributes ? attributes.depthTest : true;
@@ -37,6 +36,5 @@ define([
             ' dt ' + this._depthTest;
     };
 
-    OpusWorldWind.ScreenShapePlacemarkAttributes = ScreenShapePlacemarkAttributes;
     return ScreenShapePlacemarkAttributes;
 });

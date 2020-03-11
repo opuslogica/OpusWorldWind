@@ -110,7 +110,5 @@ define([
         this.wwd.redraw();
     };
 
-    OpusWorldWind.PlacemarkEditTool = PlacemarkEditTool;
-
     return PlacemarkEditTool;
 });

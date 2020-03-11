@@ -1,10 +1,9 @@
 define([
-    'OpusWorldWind/OpusWorldWind',
     'WebWorldWind/WorldWind',
     'WebWorldWind/geom/Angle',
     'WebWorldWind/geom/Vec3',
     'OpusWorldWind/AbstractRigidMesh'
-], function(OpusWorldWind, WorldWind, Angle, Vec3, AbstractRigidMesh) {
+], function(WorldWind, Angle, Vec3, AbstractRigidMesh) {
     var RigidWedgeMesh = function(center, angle, majorRadius, minorRadius, verticalRadius, radiusRatio) {
         AbstractRigidMesh.call(this, center);
         if(angle < 0 || angle > 360) {
@@ -183,6 +182,5 @@ define([
         return result;
     };
 
-    OpusWorldWind.RigidWedgeMesh = RigidWedgeMesh;
     return RigidWedgeMesh;
 });

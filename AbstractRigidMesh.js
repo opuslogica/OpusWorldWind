@@ -318,6 +318,5 @@ define([
         throw new UnsupportedOperationError(Logger.logMessage(Logger.LEVEL_SEVERE, "AbstractRigidMesh", "computeIndices", "abstractInvocation"));
     };
 
-    OpusWorldWind.AbstractRigidMesh = AbstractRigidMesh;
     return AbstractRigidMesh;
 });

@@ -122,6 +122,5 @@ define([
         }
     };
 
-    OpusWorldWind.MercatorSurfaceImage = MercatorSurfaceImage;
     return MercatorSurfaceImage;
 });

@@ -1,5 +1,4 @@
 define([
-    'OpusWorldWind/OpusWorldWind',
     'WebWorldWind/WorldWind',
     'WebWorldWind/geom/Location',
     'WebWorldWind/geom/Position',
@@ -7,7 +6,7 @@ define([
     'OpusWorldWind/AbstractEditTool',
     'OpusWorldWind/PedestalPlacemark',
     'OpusWorldWind/SquarePlacemark',
-], function(OpusWorldWind, WorldWind, Location, Position, GeographicText, AbstractEditTool, PedestalPlacemark, SquarePlacemark) {
+], function(WorldWind, Location, Position, GeographicText, AbstractEditTool, PedestalPlacemark, SquarePlacemark) {
     var RangeRingEditTool = function(wwd, arc, label) {
         AbstractEditTool.call(this, wwd, arc);
 
@@ -98,6 +97,5 @@ define([
         }
     };
 
-    OpusWorldWind.RangeRingEditTool = RangeRingEditTool;
     return RangeRingEditTool;
 });

@@ -128,6 +128,5 @@ define([
         this.loadUniformColor(gl, outlineColor, this.outlineColorLocation);
     };
 
-    OpusWorldWind.OutlineTextureProgram = OutlineTextureProgram;
     return OutlineTextureProgram;
 });

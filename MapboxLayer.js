@@ -1,15 +1,13 @@
 define([
-    'OpusWorldWind/OpusWorldWind',
-    'WebWorldWind/WorldWind',
     'WebWorldWind/geom/Location',
     'WebWorldWind/geom/Sector',
     'WebWorldWind/util/Color',
+    'WebWorldWind/WorldWind',
     'WebWorldWind/layer/MercatorTiledImageLayer'
-], function(OpusWorldWind, WorldWind, Location, Sector, Color, MercatorTiledImageLayer) {
-    var servers = ['a', 'b', 'c'];
-    var RaptorOpenStreetMapImageLayer = function(displayName) {
-        this.imageSize = 256;
-        displayName = displayName || "Open Street Map";
+], function(Location, Sector, Color, WorldWind, MercatorTiledImageLayer) {
+    var MapboxLayer = function(displayName) {
+        this.imageSize = 512;
+        displayName = displayName || "Mapbox";
 
         MercatorTiledImageLayer.call(this,
             new Sector(-85.05, 85.05, -180, 180), new Location(85.05, 180), 19, "image/png", displayName,
@@ -23,14 +21,17 @@ define([
 
         this.urlBuilder = {
             urlForTile: function (tile, imageFormat) {
-                var server = servers[Math.floor(Math.random()*servers.length)];
-                return "https://" + server + ".tile.openstreetmap.org/" + (tile.level.levelNumber + 1) + "/" + tile.column + "/" + tile.row + ".png";
+                var z = tile.level.levelNumber + 1;
+                var x = tile.column;
+                var y = tile.row;
+                return 'https://api.mapbox.com/styles/v1/mapbox/light-v9/tiles/512/' + z + '/' + x + '/' + y + '@2x?access_token=pk.eyJ1Ijoib3B1c3JhcHRvciIsImEiOiJjanRxNGxwcDgwMnJqNDRzMDZiMmd3aG1lIn0.MAKhspDfvEMf4MISIyrmAQ';
             }
         };
     };
-    RaptorOpenStreetMapImageLayer.prototype = Object.create(MercatorTiledImageLayer.prototype);
 
-    RaptorOpenStreetMapImageLayer.prototype.createTopLevelTiles = function(dc) {
+    MapboxLayer.prototype = Object.create(MercatorTiledImageLayer.prototype);
+
+    MapboxLayer.prototype.createTopLevelTiles = function(dc) {
         this.topLevelTiles = [];
 
         this.topLevelTiles.push(this.createTile(null, this.levels.firstLevel(), 0, 0));
@@ -39,10 +40,9 @@ define([
         this.topLevelTiles.push(this.createTile(null, this.levels.firstLevel(), 1, 1));
     };
 
-    RaptorOpenStreetMapImageLayer.prototype.mapSizeForLevel = function(levelNumber) {
-        return 256 << (levelNumber + 1);
+    MapboxLayer.prototype.mapSizeForLevel = function(levelNumber) {
+        return 512 << (levelNumber + 1);
     };
 
-    OpusWorldWind.RaptorOpenStreetMapImageLayer = RaptorOpenStreetMapImageLayer;
-    return RaptorOpenStreetMapImageLayer;
+    return MapboxLayer;
 });

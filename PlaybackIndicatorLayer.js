@@ -29,6 +29,5 @@ define([
         this.text.render(dc);
     };
 
-    OpusWorldWind.PlaybackIndicatorLayer = PlaybackIndicatorLayer;
     return PlaybackIndicatorLayer;
 });

@@ -48,6 +48,5 @@ define([
         }
     };
 
-    OpusWorldWind.LatLonIndicatorLayer = LatLonIndicatorLayer;
     return LatLonIndicatorLayer;
 });

@@ -1,8 +1,7 @@
 define([
-    'OpusWorldWind/OpusWorldWind',
     'WebWorldWind/WorldWind',
     'OpusWorldWind/AbstractSurfaceShapeEditTool'
-], function(OpusWorldWind, WorldWind, AbstractSurfaceShapeEditTool) {
+], function(WorldWind, AbstractSurfaceShapeEditTool) {
     var SurfaceRectangleEditTool = function(wwd, shape) {
         AbstractSurfaceShapeEditTool.call(this, wwd, shape);
     };
@@ -40,6 +39,5 @@ define([
         this.renderables[0].heading = heading;
     };
 
-    OpusWorldWind.SurfaceRectangleEditTool = SurfaceRectangleEditTool;
     return SurfaceRectangleEditTool;
 });

@@ -20,6 +20,5 @@ define([
         this.wwd.canvas.style.cursor = 'default';
     };
 
-    OpusWorldWind.CursorEditTool = CursorEditTool;
     return CursorEditTool;
 });

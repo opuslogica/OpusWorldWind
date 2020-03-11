@@ -87,6 +87,5 @@ define([
         return result;
     };
     
-    OpusWorldWind.ProjectionProj4 = ProjectionProj4;
     return ProjectionProj4;
 });

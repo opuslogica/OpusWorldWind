@@ -9,6 +9,5 @@ define([
     };
     Cone.prototype = Object.create(RigidWedgeMesh.prototype);
 
-    OpusWorldWind.Cone = Cone;
     return Cone;
 });

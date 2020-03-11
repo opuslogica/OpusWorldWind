@@ -1,12 +1,13 @@
 define([
     'OpusWorldWind/OpusWorldWind',
-    'WebWorldWind/WorldWind',  
+    'WebWorldWind/WorldWind',
     'WebWorldWind/util/Logger',
     'WebWorldWind/error/UnsupportedOperationError',
-    'WebWorldWind/geom/Position',   
-    'WebWorldWind/geom/Vec2',  'WebWorldWind/geom/Vec3',  
-    'WebWorldWind/geom/Line',  
-    'OpusWorldWind/AbstractPathEditTool',  
+    'WebWorldWind/geom/Position',
+    'WebWorldWind/geom/Vec2',
+    'WebWorldWind/geom/Vec3',
+    'WebWorldWind/geom/Line',
+    'OpusWorldWind/AbstractPathEditTool',
     'OpusWorldWind/EditToolClickRecognizer',
     'OpusWorldWind/ExtUtils'
 ], function(OpusWorldWind, WorldWind, Logger, UnsupportedOperationError, Position, Vec2, Vec3, Line, AbstractPathEditTool, EditToolClickRecognizer, ExtUtils) {
@@ -195,11 +196,10 @@ define([
     AbstractAirspacePathEditTool.prototype.setPositions = function(positions) {
         throw new UnsupportedOperationError(Logger.logMessage(Logger.LEVEL_SEVERE, "AbstractAirspacePathEditTool", "setPositions", "abstractInvocation"));
     };
-    
+
     AbstractAirspacePathEditTool.prototype.isLoop = function() {
         throw new UnsupportedOperationError(Logger.logMessage(Logger.LEVEL_SEVERE, "AbstractAirspacePathEditTool", "isLoop", "abstractInvocation"));
     };
 
-    OpusWorldWind.AbstractAirspacePathEditTool = AbstractAirspacePathEditTool;
     return AbstractAirspacePathEditTool;
 });

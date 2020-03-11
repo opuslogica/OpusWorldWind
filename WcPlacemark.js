@@ -1,10 +1,9 @@
 define([
-    'OpusWorldWind/OpusWorldWind',
     'WebWorldWind/WorldWind',
     'WebWorldWind/shapes/Placemark',
     'WebWorldWind/util/Color',
     'OpusWorldWind/OutlineTextureProgram'
-], function(OpusWorldWind, WorldWind, Placemark, Color, OutlineTextureProgram) {
+], function(WorldWind, Placemark, Color, OutlineTextureProgram) {
     /**
      * An extension over Placemark that adds extra functionality needed by the Raptor Web Client.
      */
@@ -43,6 +42,5 @@ define([
         Placemark.prototype.doDrawOrderedPlacemark.call(this, dc);
     };
 
-    OpusWorldWind.WcPlacemark = WcPlacemark;
     return WcPlacemark;
 });

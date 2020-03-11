@@ -3,7 +3,7 @@ define([
     'WebWorldWind/WorldWind',
     'WebWorldWind/geom/Position',
     'OpusWorldWind/AbstractSurfacePathEditTool'
-], function(OpusWorldWind, WorldWind, Position, AbstractSurfacePathEditTool) {
+], function(WorldWind, Position, AbstractSurfacePathEditTool) {
     var SurfacePolygonEditTool = function(wwd, polygon) {
         AbstractSurfacePathEditTool.call(this, wwd, polygon);
 
@@ -90,6 +90,5 @@ define([
         this._dragStartInfo = null;
     };
 
-    OpusWorldWind.SurfacePolygonEditTool = SurfacePolygonEditTool;
     return SurfacePolygonEditTool;
 });
