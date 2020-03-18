@@ -49,8 +49,9 @@ define([
     'OpusWorldWind/ExtUtils',
     'OpusWorldWind/WcPlacemark',
     'OpusWorldWind/Wedge',
-    'OpusWorldWind/WmsLayer'
-], function(
+    'OpusWorldWind/WmsLayer',
+    'OpusWorldWind/WmsParamLayer'
+], function (
     overrides,
     AbstractAirspacePathEditTool,
     AbstractEditTool,
@@ -101,7 +102,8 @@ define([
     ExtUtils,
     WcPlacemark,
     Wedge,
-    WmsLayer
+    WmsLayer,
+    WmsParamLayer
 ) {
     'use strict';
     var OpusWorldWind = {};
@@ -155,6 +157,7 @@ define([
     OpusWorldWind.WcPlacemark = WcPlacemark;
     OpusWorldWind.Wedge = Wedge;
     OpusWorldWind.WmsLayer = WmsLayer;
+    OpusWorldWind.WmsParamLayer = WmsParamLayer;
 
     window.OpusWorldWind = OpusWorldWind;
     return OpusWorldWind;
