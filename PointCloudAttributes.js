@@ -5,7 +5,7 @@ define([
     var PointCloudAttributes = function(attributes) {
         ShapeAttributes.call(this, attributes);
         this._pointSize = attributes ? attributes.pointSize : PointCloudAttributes.DEFAULT_POINT_SIZE;
-        this._offsetDepth = attributes ? attribute.offsetDepth : true;
+        this._offsetDepth = attributes ? attributes.offsetDepth : true;
     };
 
     PointCloudAttributes.DEFAULT_POINT_SIZE = 8;
