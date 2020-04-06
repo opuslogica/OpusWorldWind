@@ -49,10 +49,11 @@ define([
         var dim = this._wwd.drawContext.textRenderer.textSize(this._text);
 
         this._pedestal.position = this._position;
-        this._pedestal.width = 8;
+        this._pedestal.width = 12;
         this._pedestal.height = 12;
         this._pedestal.attributes.drawOutline = false;
         this._pedestal.attributes.depthTest = false;
+        this._pedestal.attributes.offset = new Vec2(4 * backgroundOffsetY * window.devicePixelRatio, 0);
         this._pedestal.attributes.interiorColor = this._borderColor;
         this._pedestal.alwaysOnTop = true;
 
@@ -64,7 +65,7 @@ define([
         this._background.attributes.depthTest = false;
         this._background.width = dim[0] + backgroundHorizPadding;
         this._background.height = dim[1] + backgroundVertPadding;
-        this._background.offset = new Vec2(0, this._background.height / 2 + this._pedestal.height + backgroundOffsetY);
+        this._background.offset = (new Vec2(0, this._background.height / 2 + this._pedestal.height + backgroundOffsetY)).multiply(window.devicePixelRatio);
         this._background.alwaysOnTop = true;
 
         this._geogText.text = this._text;
@@ -76,8 +77,8 @@ define([
         this._geogText.attributes.depthTest = false;
         this._geogText.alwaysOnTop = true;
 
-        var textOffs = new Offset(WorldWind.OFFSET_FRACTION, 0.5, WorldWind.OFFSET_FRACTION, 0.0).offsetForSize(dim[0], dim[1]);
-        textOffs[1] -= this._pedestal.height + backgroundOffsetY + backgroundVertPadding / 2;
+        var textOffs = (new Offset(WorldWind.OFFSET_FRACTION, 0.5, WorldWind.OFFSET_FRACTION, 0.0).offsetForSize(dim[0], dim[1])).multiply(window.devicePixelRatio);
+        textOffs[1] += (backgroundOffsetY - this._pedestal.height) * window.devicePixelRatio;
         this._geogText.attributes.offset = new Offset(WorldWind.OFFSET_PIXELS, textOffs[0], WorldWind.OFFSET_PIXELS, textOffs[1]);
     };
 
