@@ -16,8 +16,7 @@ define([
 
     WmsParamUrlBuilder.prototype.urlForTile = function (tile, imageFormat) {
         var sb = WmsUrlBuilder.prototype.urlForTile.call(this, tile, imageFormat);
-        if (this.extraParams)
-        {
+        if (this.extraParams) {
             var that = this;
             Object.keys(this.extraParams).forEach(function (key) {
                 sb += "&" + key + "=" + that.extraParams[key];
@@ -38,8 +37,7 @@ define([
 
         // override the default urlBuilder
         this.urlBuilder = new WmsParamUrlBuilder(config.service, config.layerNames, config.styleNames, config.version, timeString, config.extraParams);
-        if (config.coordinateSystem)
-        {
+        if (config.coordinateSystem) {
             this.urlBuilder.crs = config.coordinateSystem;
         }
     };

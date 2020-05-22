@@ -18,11 +18,9 @@ define([
         var gl = dc.currentGlContext;
         var textureKey = this.displayName;
         var texture = dc.gpuResourceCache.resourceForKey(textureKey);
-        if (texture)
-        {
+        if (texture) {
             return texture.bind(dc);
-        } else
-        {
+        } else {
             var canvas = dc.canvas2D;
             var ctx = dc.ctx2D;
             canvas.width = 1;
@@ -38,8 +36,7 @@ define([
     };
 
     SectorRenderable.prototype.render = function (dc) {
-        if (!this.enabled || dc.pickingMode || !dc.terrain || !this.sector.overlaps(dc.terrain.sector) || dc.pickingMode)
-        {
+        if (!this.enabled || dc.pickingMode || !dc.terrain || !this.sector.overlaps(dc.terrain.sector) || dc.pickingMode) {
             return;
         }
 

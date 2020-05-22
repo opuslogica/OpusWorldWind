@@ -1,5 +1,4 @@
 define([
-    '../OpusWorldWind',
     'WebWorldWind/WorldWind',
     'WebWorldWind/util/Logger',
     'WebWorldWind/error/UnsupportedOperationError',
@@ -10,7 +9,9 @@ define([
     '../edittools/AbstractPathEditTool',
     '../edittools/EditToolClickRecognizer',
     '../misc/ExtUtils'
-], function (OpusWorldWind, WorldWind, Logger, UnsupportedOperationError, Position, Vec2, Vec3, Line, AbstractPathEditTool, EditToolClickRecognizer, ExtUtils) {
+], function (WorldWind, Logger, UnsupportedOperationError, Position, Vec2, Vec3, Line, AbstractPathEditTool, EditToolClickRecognizer, ExtUtils) {
+
+    console.log('WW', WorldWind);
 
     /**
      * Constructs a layer showing the Earth's atmosphere.

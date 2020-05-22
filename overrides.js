@@ -3,7 +3,6 @@
  * these should be transformed into issues/pull requests.
  */
 require([
-    '../OpusWorldWind',
     'WebWorldWind/WorldWind',
     'WebWorldWind/cache/GpuResourceCache',
     'WebWorldWind/util/ImageSource',
@@ -18,8 +17,9 @@ require([
     'WebWorldWind/shapes/Path',
     'WebWorldWind/shapes/GeographicText',
     'WebWorldWind/pick/PickedObject'
-], function (OpusWorldWind, WorldWind, GpuResourceCache, ImageSource, Logger, Texture, TiledImageLayer, SurfaceShape, SurfaceShapeTile, SurfaceCircle, SurfaceEllipse, SurfaceRectangle, Path, GeographicText, PickedObject) {
+], function (WorldWind, GpuResourceCache, ImageSource, Logger, Texture, TiledImageLayer, SurfaceShape, SurfaceShapeTile, SurfaceCircle, SurfaceEllipse, SurfaceRectangle, Path, GeographicText, PickedObject) {
     // patch image retrieving functions to support authenticated cross-origin requests
+
     ImageSource.fromUrl = function (url, imageWidth, imageHeight) {
         var result = Object.create(ImageSource.prototype);
         result.imageUrl = url;
