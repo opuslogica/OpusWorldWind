@@ -1,6 +1,6 @@
 define([
-    'OpusWorldWind/OpusWorldWind',
-    'OpusWorldWind/placemarks/PointPlacemarkAttributes',
+    '../OpusWorldWind',
+    '../placemarks/PointPlacemarkAttributes',
     'WebWorldWind/WorldWind',
     'WebWorldWind/shapes/AbstractShape',
     'WebWorldWind/shaders/GpuProgram',
@@ -58,8 +58,7 @@ define([
     var PointPlacemark = function (position, attributes) {
         attributes = attributes || new PointPlacemarkAttributes(null);
 
-        if (!position)
-        {
+        if (!position) {
             throw new WorldWind.ArgumentError(WorldWind.Logger.logMessage(WorldWind.Logger.LEVEL_SEVERE, "PointPlacemark", "constructor", "missingPosition"));
         }
 
@@ -89,8 +88,7 @@ define([
         var surfacePoint = new WorldWind.Vec3();
         var screenPoint = new WorldWind.Vec3();
         dc.surfacePointForMode(this.position.latitude, this.position.longitude, this.position.altitude, this.altitudeMode, surfacePoint);
-        if (!dc.projectWithDepth(surfacePoint, this.depthOffset, screenPoint))
-        {
+        if (!dc.projectWithDepth(surfacePoint, this.depthOffset, screenPoint)) {
             return null;
         }
         currentData.screenPoint = screenPoint;
@@ -109,14 +107,12 @@ define([
         var gl = dc.currentGlContext;
         var program = dc.currentProgram;
 
-        if (!currentData.vboKey)
-        {
+        if (!currentData.vboKey) {
             currentData.vboKey = dc.gpuResourceCache.generateCacheKey();
         }
 
         var vboId = dc.gpuResourceCache.resourceForKey(currentData.vboKey);
-        if (!vboId)
-        {
+        if (!vboId) {
             vboId = gl.createBuffer();
             var data = Float32Array.from([0, 0, 0]);
             dc.gpuResourceCache.putResource(currentData.vboKey, vboId, data.length * 4);
@@ -126,8 +122,7 @@ define([
         }
 
         var pickColor;
-        if (dc.pickingMode)
-        {
+        if (dc.pickingMode) {
             pickColor = dc.uniquePickColor();
         }
 
@@ -142,8 +137,7 @@ define([
         gl.vertexAttribPointer(program.vertexPointLocation, 3, gl.FLOAT, false, 0, 0);
         gl.drawArrays(gl.POINTS, 0, 1);
 
-        if (dc.pickingMode)
-        {
+        if (dc.pickingMode) {
             var po = new PickedObject(pickColor, this.pickDelegate ? this.pickDelegate : this, this.position, dc.currentLayer, false);
             dc.resolvePick(po);
         }

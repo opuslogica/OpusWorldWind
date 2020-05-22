@@ -1,5 +1,5 @@
 define([
-    'OpusWorldWind/OpusWorldWind',
+    '../OpusWorldWind',
     'WebWorldWind/WorldWind',
     'WebWorldWind/layer/RenderableLayer',
     'WebWorldWind/gesture/ClickRecognizer',
@@ -7,11 +7,10 @@ define([
     'WebWorldWind/navigate/LookAtNavigator',
     'WebWorldWind/geom/Position',
     'WebWorldWind/geom/Vec3',
-    'OpusWorldWind/misc/ExtUtils'
+    '../misc/ExtUtils'
 ], function (OpusWorldWind, WorldWind, RenderableLayer, ClickRecognizer, DragRecognizer, LookAtNavigator, Position, Vec3, ExtUtils) {
     var AbstractEditTool = function (wwd, renderables) {
-        if (!(renderables instanceof Array))
-        {
+        if (!(renderables instanceof Array)) {
             renderables = [renderables];
         }
 
@@ -40,34 +39,27 @@ define([
     };
 
     AbstractEditTool.getMousedDownObject = function (wwd) {
-        if (!wwd.editToolAux || wwd.editToolAux.mousedownObject === null)
-        {
+        if (!wwd.editToolAux || wwd.editToolAux.mousedownObject === null) {
             // no edit tools
             return null;
-        } else
-        {
+        } else {
             return wwd.editToolAux.mousedownObject.userObject;
         }
     };
 
     AbstractEditTool._initWorldWindow = function (wwd) {
-        if (!wwd.editToolAux)
-        {
+        if (!wwd.editToolAux) {
             wwd.editToolAux = {};
             wwd.editToolAux.customGestureHandlers = [];
             wwd.editToolAux.allEditTools = [];
             wwd.editToolAux.clickRecognizer = new ClickRecognizer(wwd, function (recognizer) {
-                if (recognizer.state === WorldWind.RECOGNIZED)
-                {
+                if (recognizer.state === WorldWind.RECOGNIZED) {
                     var topPickedObject = wwd.pick(wwd.canvasCoordinates(recognizer.clientX, recognizer.clientY)).topPickedObject();
-                    if (topPickedObject !== null)
-                    {
-                        for (var i = 0; i !== wwd.editToolAux.allEditTools.length; ++i)
-                        {
+                    if (topPickedObject !== null) {
+                        for (var i = 0; i !== wwd.editToolAux.allEditTools.length; ++i) {
                             var editTool = wwd.editToolAux.allEditTools[i];
                             var renderables = editTool.allRenderables();
-                            if (renderables.indexOf(topPickedObject.userObject) !== -1)
-                            {
+                            if (renderables.indexOf(topPickedObject.userObject) !== -1) {
                                 editTool.emit('renderableClicked', topPickedObject.userObject, recognizer);
                             }
                         }
@@ -77,52 +69,42 @@ define([
             var overrideDragRecognizers = []; // drag recognizers that the edit tool drag recognizer take should take priority over
             wwd.editToolAux.mousedownObject = null;
             wwd.editToolAux.dragRecognizer = new DragRecognizer(wwd, function (recognizer) {
-                if (wwd.editToolAux.mousedownObject === null)
-                {
+                if (wwd.editToolAux.mousedownObject === null) {
                     return;
                 }
                 var topPickedObject = wwd.editToolAux.mousedownObject;
                 var customHandler = null;
-                for (var i = 0; i !== wwd.editToolAux.customGestureHandlers.length; ++i)
-                {
+                for (var i = 0; i !== wwd.editToolAux.customGestureHandlers.length; ++i) {
                     var handler = wwd.editToolAux.customGestureHandlers[i];
                     if (handler.shouldHandle(topPickedObject, {
                         clientX: recognizer.clientX,
                         clientY: recognizer.clientY
-                    }))
-                    {
+                    })) {
                         customHandler = handler;
                         break;
                     }
                 }
-                switch (recognizer.state)
-                {
+                switch (recognizer.state) {
                     case WorldWind.BEGAN:
                         // end any existing drags
-                        for (var i = 0; i !== wwd.editToolAux.allEditTools.length; ++i)
-                        {
+                        for (var i = 0; i !== wwd.editToolAux.allEditTools.length; ++i) {
                             var editTool = wwd.editToolAux.allEditTools[i];
-                            if (editTool._activeDragRenderable !== null)
-                            {
+                            if (editTool._activeDragRenderable !== null) {
                                 editTool.renderableDragEnded(editTool._activeDragRenderable, recognizer);
                                 editTool._activeDragRenderable = null;
                             }
                         }
-                        if (customHandler !== null)
-                        {
+                        if (customHandler !== null) {
                             customHandler.dragBegan(topPickedObject, {
                                 clientX: recognizer.clientX,
                                 clientY: recognizer.clientY
                             });
-                        } else
-                        {
+                        } else {
                             // start dragging exactly one renderable 
-                            for (var i = 0; i !== wwd.editToolAux.allEditTools.length; ++i)
-                            {
+                            for (var i = 0; i !== wwd.editToolAux.allEditTools.length; ++i) {
                                 var editTool = wwd.editToolAux.allEditTools[i];
                                 var renderables = editTool.allRenderables();
-                                if (renderables.indexOf(topPickedObject.userObject) !== -1)
-                                {
+                                if (renderables.indexOf(topPickedObject.userObject) !== -1) {
                                     editTool._activeDragRenderable = topPickedObject.userObject;
                                     editTool.emit('renderableDragBegan', editTool._activeDragRenderable, recognizer);
                                     break;
@@ -131,40 +113,32 @@ define([
                         }
                         break;
                     case WorldWind.CHANGED:
-                        if (customHandler !== null)
-                        {
+                        if (customHandler !== null) {
                             customHandler.dragChanged(topPickedObject, {
                                 clientX: recognizer.clientX,
                                 clientY: recognizer.clientY
                             });
-                        } else
-                        {
+                        } else {
                             // continue any existing drags
-                            for (var i = 0; i !== wwd.editToolAux.allEditTools.length; ++i)
-                            {
+                            for (var i = 0; i !== wwd.editToolAux.allEditTools.length; ++i) {
                                 var editTool = wwd.editToolAux.allEditTools[i];
-                                if (editTool._activeDragRenderable !== null)
-                                {
+                                if (editTool._activeDragRenderable !== null) {
                                     editTool.emit('renderableDragChanged', editTool._activeDragRenderable, recognizer);
                                 }
                             }
                         }
                         break;
                     case WorldWind.ENDED:
-                        if (customHandler !== null)
-                        {
+                        if (customHandler !== null) {
                             customHandler.dragEnded(topPickedObject, {
                                 clientX: recognizer.clientX,
                                 clientY: recognizer.clientY
                             });
-                        } else
-                        {
+                        } else {
                             // end any existing drags
-                            for (var i = 0; i !== wwd.editToolAux.allEditTools.length; ++i)
-                            {
+                            for (var i = 0; i !== wwd.editToolAux.allEditTools.length; ++i) {
                                 var editTool = wwd.editToolAux.allEditTools[i];
-                                if (editTool._activeDragRenderable !== null)
-                                {
+                                if (editTool._activeDragRenderable !== null) {
                                     editTool.emit('renderableDragEnded', editTool._activeDragRenderable, recognizer);
                                     editTool._activeDragRenderable = null;
                                 }
@@ -173,50 +147,41 @@ define([
                         break;
                 }
             });
-            if (wwd.navigator instanceof LookAtNavigator)
-            {
+            if (wwd.navigator instanceof LookAtNavigator) {
                 overrideDragRecognizers.push(wwd.worldWindowController.primaryDragRecognizer);
             }
             wwd.editToolAux.mousedownListener = function (event) {
                 // Let drag recognizers first consume the mousedown event so we can cancel them
                 setTimeout(function () {
                     var topPickedObject = wwd.pick(wwd.canvasCoordinates(event.clientX, event.clientY)).topPickedObject();
-                    if (topPickedObject !== null)
-                    {
+                    if (topPickedObject !== null) {
                         var shouldOverride = false;
 
-                        for (var i = 0; i !== wwd.editToolAux.customGestureHandlers.length; ++i)
-                        {
+                        for (var i = 0; i !== wwd.editToolAux.customGestureHandlers.length; ++i) {
                             var handler = wwd.editToolAux.customGestureHandlers[i];
                             if (handler.shouldHandle(topPickedObject, {
                                 clientX: event.clientX,
                                 clientY: event.clientY
-                            }))
-                            {
+                            })) {
                                 shouldOverride = true;
                                 break;
                             }
                         }
 
-                        if (!shouldOverride)
-                        {
-                            for (var i = 0; i !== wwd.editToolAux.allEditTools.length; ++i)
-                            {
+                        if (!shouldOverride) {
+                            for (var i = 0; i !== wwd.editToolAux.allEditTools.length; ++i) {
                                 var editTool = wwd.editToolAux.allEditTools[i];
                                 var renderables = editTool.allRenderables();
-                                if (renderables.indexOf(topPickedObject.userObject) !== -1)
-                                {
+                                if (renderables.indexOf(topPickedObject.userObject) !== -1) {
                                     shouldOverride = true;
                                     break;
                                 }
                             }
                         }
 
-                        if (shouldOverride)
-                        {
+                        if (shouldOverride) {
                             overrideDragRecognizers.forEach(function (recognizer) {
-                                if (recognizer.state === WorldWind.POSSIBLE)
-                                {
+                                if (recognizer.state === WorldWind.POSSIBLE) {
                                     recognizer.transitionToState(WorldWind.FAILED);
                                 }
                             });
@@ -236,26 +201,20 @@ define([
                 var pickedObjects = wwd.pick(wwd.canvasCoordinates(event.clientX, event.clientY)).objects.map(function (pickedObject) {
                     return pickedObject.userObject;
                 });
-                for (var i = 0; i !== wwd.editToolAux.allEditTools.length; ++i)
-                {
+                for (var i = 0; i !== wwd.editToolAux.allEditTools.length; ++i) {
                     var mousedOnQueue = []; // queue up moused-on events until after all moused-off events have been fired
                     var editTool = wwd.editToolAux.allEditTools[i];
                     var renderables = editTool.allRenderables();
-                    for (var j = 0; j !== renderables.length; ++j)
-                    {
+                    for (var j = 0; j !== renderables.length; ++j) {
                         var renderable = renderables[j];
-                        if (pickedObjects.indexOf(renderable) !== -1)
-                        {
-                            if (editTool._mousedOnRenderables.indexOf(renderable) === -1)
-                            {
+                        if (pickedObjects.indexOf(renderable) !== -1) {
+                            if (editTool._mousedOnRenderables.indexOf(renderable) === -1) {
                                 mousedOnQueue.push(renderable);
                                 editTool._mousedOnRenderables.push(renderable);
                             }
-                        } else
-                        {
+                        } else {
                             var index = editTool._mousedOnRenderables.indexOf(renderable);
-                            if (index !== -1)
-                            {
+                            if (index !== -1) {
                                 editTool.emit('renderableMousedOff', renderable, event);
                                 editTool._mousedOnRenderables.splice(index, 1);
                             }
@@ -267,23 +226,20 @@ define([
                 }
             };
             wwd.editToolAux.keydownListener = function (event) {
-                for (var i = 0; i !== wwd.editToolAux.allEditTools.length; ++i)
-                {
+                for (var i = 0; i !== wwd.editToolAux.allEditTools.length; ++i) {
                     var editTool = wwd.editToolAux.allEditTools[i];
                     editTool.emit('keydown', event);
                 }
             };
             wwd.editToolAux.keyupListener = function (event) {
-                for (var i = 0; i !== wwd.editToolAux.allEditTools.length; ++i)
-                {
+                for (var i = 0; i !== wwd.editToolAux.allEditTools.length; ++i) {
                     var editTool = wwd.editToolAux.allEditTools[i];
                     editTool.emit('keyup', event);
                 }
             };
 
             ExtUtils.beforeDrawFrame(wwd, function () {
-                for (var i = 0; i !== wwd.editToolAux.allEditTools.length; ++i)
-                {
+                for (var i = 0; i !== wwd.editToolAux.allEditTools.length; ++i) {
                     var editTool = wwd.editToolAux.allEditTools[i];
                     editTool.emit('beforeDrawFrame');
                 }
@@ -306,8 +262,7 @@ define([
     AbstractEditTool.removeCustomGestureHandler = function (wwd, handler) {
         AbstractEditTool._initWorldWindow(wwd);
         var index = wwd.editToolAux.customGestureHandlers.indexOf(handler);
-        if (index >= 0)
-        {
+        if (index >= 0) {
             wwd.editToolAux.customGestureHandlers.splice(index, 1);
         }
     };
@@ -344,16 +299,14 @@ define([
      * of the edit tool's renderables.
      */
     AbstractEditTool.prototype.update = function () {
-        for (var i = 0; i !== this.renderables.length; ++i)
-        {
+        for (var i = 0; i !== this.renderables.length; ++i) {
             this.emit('renderableUpdated', this.renderables[i]);
         }
     };
 
     AbstractEditTool.prototype.addEventListener = function (event, listener) {
         var eventListeners = this._listeners[event];
-        if (eventListeners === undefined)
-        {
+        if (eventListeners === undefined) {
             eventListeners = this._listeners[event] = [];
         }
         eventListeners.push(listener);
@@ -361,14 +314,11 @@ define([
 
     AbstractEditTool.prototype.removeEventListener = function (event, listener) {
         var eventListeners = this._listeners[event];
-        if (eventListeners !== undefined)
-        {
+        if (eventListeners !== undefined) {
             var index = eventListeners.indexOf(listener);
-            if (index !== -1)
-            {
+            if (index !== -1) {
                 eventListeners.splice(index, 1);
-                if (eventListeners.length === 0)
-                {
+                if (eventListeners.length === 0) {
                     delete this._listeners[index];
                 }
             }
@@ -378,8 +328,7 @@ define([
     AbstractEditTool.prototype.emit = function (event) {
         var that = this;
         var eventListeners = this._listeners[event];
-        if (eventListeners !== undefined)
-        {
+        if (eventListeners !== undefined) {
             var args = Array.prototype.slice.call(arguments, 1);
             eventListeners.forEach(function (listener) {
                 listener.apply(that, args);
@@ -397,8 +346,7 @@ define([
 
     AbstractEditTool.prototype.destroy = function () {
         var editToolIndex = this._wwd.editToolAux.allEditTools.indexOf(this);
-        if (editToolIndex === -1)
-        {
+        if (editToolIndex === -1) {
             throw new Error('This edit tool is already destroyed');
         }
         this.wwd.editToolAux.allEditTools.splice(editToolIndex, 1);

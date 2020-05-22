@@ -10,11 +10,11 @@ define([
     'WebWorldWind/geom/Line',
     'WebWorldWind/geom/Plane',
     'WebWorldWind/geom/Matrix',
-    'OpusWorldWind/edittools/AbstractEditTool',
-    'OpusWorldWind/shapes/AbstractRigidMesh',
-    'OpusWorldWind/shapes/Pyramid',
-    'OpusWorldWind/shapes/Ellipsoid',
-    'OpusWorldWind/misc/ExtUtils'
+    '../edittools/AbstractEditTool',
+    '../shapes/AbstractRigidMesh',
+    '../shapes/Pyramid',
+    '../shapes/Ellipsoid',
+    '../misc/ExtUtils'
 ], function (WorldWind, Path, ShapeAttributes, Color, Position, Angle, Vec3, Vec2, Line, Plane, Matrix, AbstractEditTool, AbstractRigidMesh, Pyramid, Ellipsoid, ExtUtils) {
     var EditingMode = {
         NONE: 'NONE',
@@ -144,8 +144,7 @@ define([
                 that.addEditRenderable(r);
             });
             Object.values(o.connectors).forEach(function (path) {
-                if (!(path instanceof Path))
-                {
+                if (!(path instanceof Path)) {
                     throw new Error('expected connector to be a path');
                 }
                 var outlineColor = path.attributes.outlineColor.clone();
@@ -232,19 +231,16 @@ define([
         var that = this;
         var center = info.center;
         var centerPt = this.wwd.drawContext.surfacePointForMode(center.latitude, center.longitude, center.altitude, info.altitudeMode, new Vec3(0, 0, 0));
-        if (rsk === 'rotate')
-        {
+        if (rsk === 'rotate') {
             return {
                 aroundX: centerPt,
                 aroundY: centerPt,
                 aroundZ: centerPt
             };
-        } else
-        {
+        } else {
             var eyePoint = this.wwd.drawContext.eyePoint;
             var handleCenterPts;
-            if (rsk === 'move')
-            {
+            if (rsk === 'move') {
                 handleCenterPts = {
                     widthFirst: this._pointFromCenterWithSurfaceRotation(-info.halfWidth, 0, 0),
                     widthSecond: this._pointFromCenterWithSurfaceRotation(info.halfWidth, 0, 0),
@@ -253,8 +249,7 @@ define([
                     heightFirst: this._pointFromCenterWithSurfaceRotation(0, 0, -info.halfHeight),
                     heightSecond: this._pointFromCenterWithSurfaceRotation(0, 0, info.halfHeight)
                 };
-            } else if (rsk === 'scale')
-            {
+            } else if (rsk === 'scale') {
                 handleCenterPts = {
                     widthFirst: this._pointFromCenterWithAll(-info.halfWidth, 0, 0),
                     widthSecond: this._pointFromCenterWithAll(info.halfWidth, 0, 0),
@@ -263,14 +258,12 @@ define([
                     heightFirst: this._pointFromCenterWithAll(0, 0, -info.halfHeight),
                     heightSecond: this._pointFromCenterWithAll(0, 0, info.halfHeight)
                 };
-            } else if (rsk === 'skew')
-            {
+            } else if (rsk === 'skew') {
                 handleCenterPts = {
                     x: this._pointFromCenterWithAll(info.halfWidth, 0, info.halfHeight),
                     y: this._pointFromCenterWithAll(0, info.halfLength, info.halfHeight)
                 }
-            } else
-            {
+            } else {
                 throw new Error();
             }
             var result = {};
@@ -293,8 +286,7 @@ define([
             result[k] = that.wwd.drawContext.pixelSizeAtDistance(that.wwd.drawContext.eyePoint.distanceTo(handleCenterPt));
             return result;
         }, {});
-        if (rsk === 'rotate')
-        {
+        if (rsk === 'rotate') {
             return {
                 aroundX: {
                     halfWidth: pixelSizes.aroundX * RigidMeshEditTool.ROTATE_HANDLE_THICKNESS_PX,
@@ -312,8 +304,7 @@ define([
                     halfHeight: pixelSizes.aroundZ * RigidMeshEditTool.ROTATE_HANDLE_THICKNESS_PX
                 }
             };
-        } else
-        {
+        } else {
             return Object.keys(o.handles).reduce(function (result, k) {
                 var pixelSize = pixelSizes[k];
                 result[k] = {
@@ -327,10 +318,8 @@ define([
     };
 
     RigidMeshEditTool.prototype._getConnectorHandleKeys = function (rsk, connectorKey) {
-        if (rsk === 'move')
-        {
-            switch (connectorKey)
-            {
+        if (rsk === 'move') {
+            switch (connectorKey) {
                 case 'width':
                     return ['widthFirst', 'widthSecond'];
                 case 'length':
@@ -338,10 +327,8 @@ define([
                 case 'height':
                     return ['heightFirst', 'heightSecond'];
             }
-        } else if (rsk === 'scale')
-        {
-            switch (connectorKey)
-            {
+        } else if (rsk === 'scale') {
+            switch (connectorKey) {
                 case 'width':
                     return ['widthFirst', 'widthSecond'];
                 case 'length':
@@ -349,15 +336,11 @@ define([
                 case 'height':
                     return ['heightFirst', 'heightSecond'];
             }
-        } else if (rsk === 'rotate')
-        {
-            switch (connectorKey)
-            {
+        } else if (rsk === 'rotate') {
+            switch (connectorKey) {
             }
-        } else if (rsk === 'skew')
-        {
-            switch (connectorKey)
-            {
+        } else if (rsk === 'skew') {
+            switch (connectorKey) {
                 case 'centerToX':
                     return [null, 'x'];
                 case 'centerToY':
@@ -377,8 +360,7 @@ define([
                 this._allHandles().concat(this._allConnectors()).forEach(function (renderable) {
                     renderable.enabled = false;
                 });
-                switch (this._editingMode)
-                {
+                switch (this._editingMode) {
                     case EditingMode.NONE:
                         break;
                     case EditingMode.MOVE:
@@ -473,17 +455,13 @@ define([
     RigidMeshEditTool.prototype._computeScalePlane = function (clientX, clientY, scaleHandle) {
         var right = ExtUtils.computeScreenRightDirection(this.wwd.drawContext, new Vec3(0, 0, 0));
         var handles;
-        if (scaleHandle === this._rs.scale.handles.heightFirst || scaleHandle === this._rs.scale.handles.heightSecond)
-        {
+        if (scaleHandle === this._rs.scale.handles.heightFirst || scaleHandle === this._rs.scale.handles.heightSecond) {
             handles = [this._rs.scale.handles.heightFirst, this._rs.scale.handles.heightSecond];
-        } else if (scaleHandle === this._rs.scale.handles.widthFirst || scaleHandle === this._rs.scale.handles.widthSecond)
-        {
+        } else if (scaleHandle === this._rs.scale.handles.widthFirst || scaleHandle === this._rs.scale.handles.widthSecond) {
             handles = [this._rs.scale.handles.widthFirst, this._rs.scale.handles.widthSecond];
-        } else if (scaleHandle === this._rs.scale.handles.lengthFirst || scaleHandle === this._rs.scale.handles.lengthSecond)
-        {
+        } else if (scaleHandle === this._rs.scale.handles.lengthFirst || scaleHandle === this._rs.scale.handles.lengthSecond) {
             handles = [this._rs.scale.handles.lengthFirst, this._rs.scale.handles.lengthSecond];
-        } else
-        {
+        } else {
             throw new Error();
         }
         var pa = this.wwd.drawContext.surfacePointForMode(handles[0].center.latitude, handles[0].center.longitude, handles[0].center.altitude, handles[0].altitudeMode, new Vec3(0, 0, 0));
@@ -495,20 +473,16 @@ define([
     RigidMeshEditTool.prototype._computeRotatePlane = function (clientX, clientY, rotateHandle, info) {
         info = info || this.renderables[0];
         var pa = this.pointFromPosition(info.center), pb, pc;
-        if (rotateHandle === this._rs.rotate.handles.aroundX)
-        {
+        if (rotateHandle === this._rs.rotate.handles.aroundX) {
             pb = this._pointFromCenterWithAll(0, 1, 0, info);
             pc = this._pointFromCenterWithAll(0, 0, 1, info);
-        } else if (rotateHandle === this._rs.rotate.handles.aroundY)
-        {
+        } else if (rotateHandle === this._rs.rotate.handles.aroundY) {
             pb = this._pointFromCenterWithAll(1, 0, 0, info);
             pc = this._pointFromCenterWithAll(0, 0, 1, info);
-        } else if (rotateHandle === this._rs.rotate.handles.aroundZ)
-        {
+        } else if (rotateHandle === this._rs.rotate.handles.aroundZ) {
             pb = this._pointFromCenterWithAll(1, 0, 0, info);
             pc = this._pointFromCenterWithAll(0, 1, 0, info);
-        } else
-        {
+        } else {
             throw new Error();
         }
         return Plane.fromPoints(pa, pb, pc);
@@ -524,17 +498,13 @@ define([
     RigidMeshEditTool.prototype._computeAbsoluteRotateAxisDirection = function (rotateHandle, info) {
         info = info || this.renderables[0];
         var centerPt = this.pointFromPosition(info.center);
-        if (rotateHandle === this._rs.rotate.handles.aroundX)
-        {
+        if (rotateHandle === this._rs.rotate.handles.aroundX) {
             return this._pointFromCenterWithAll(1, 0, 0, info).subtract(centerPt).normalize();
-        } else if (rotateHandle === this._rs.rotate.handles.aroundY)
-        {
+        } else if (rotateHandle === this._rs.rotate.handles.aroundY) {
             return this._pointFromCenterWithAll(0, 1, 0, info).subtract(centerPt).normalize();
-        } else if (rotateHandle === this._rs.rotate.handles.aroundZ)
-        {
+        } else if (rotateHandle === this._rs.rotate.handles.aroundZ) {
             return this._pointFromCenterWithAll(0, 0, 1, info).subtract(centerPt).normalize();
-        } else
-        {
+        } else {
             throw new Error();
         }
     };
@@ -545,31 +515,24 @@ define([
      * @param {RigidMesh} rotateHandle The handle to compute the axis of rotation for
      */
     RigidMeshEditTool.prototype._computeRelativeRotateAxisDirection = function (rotateHandle) {
-        if (rotateHandle === this._rs.rotate.handles.aroundX)
-        {
+        if (rotateHandle === this._rs.rotate.handles.aroundX) {
             return new Vec3(1, 0, 0);
-        } else if (rotateHandle === this._rs.rotate.handles.aroundY)
-        {
+        } else if (rotateHandle === this._rs.rotate.handles.aroundY) {
             return new Vec3(0, 1, 0);
-        } else if (rotateHandle === this._rs.rotate.handles.aroundZ)
-        {
+        } else if (rotateHandle === this._rs.rotate.handles.aroundZ) {
             return new Vec3(0, 0, 1);
-        } else
-        {
+        } else {
             throw new Error();
         }
     };
 
     RigidMeshEditTool.prototype._computeSkewPlane = function (clientX, clientY, skewHandle, info) {
         info = info || this.renderables[0];
-        if (skewHandle === this._rs.skew.handles.x)
-        {
+        if (skewHandle === this._rs.skew.handles.x) {
             return this._computeScalePlane(clientX, clientY, this._rs.scale.handles.widthFirst, info);
-        } else if (skewHandle === this._rs.skew.handles.y)
-        {
+        } else if (skewHandle === this._rs.skew.handles.y) {
             return this._computeScalePlane(clientX, clientY, this._rs.scale.handles.lengthFirst, info);
-        } else
-        {
+        } else {
             throw new Error();
         }
     };
@@ -577,14 +540,11 @@ define([
     RigidMeshEditTool.prototype._computeSkewDirection = function (skewHandle, info) {
         info = info || this.renderables[0];
         var centerPt = this.pointFromPosition(this.renderables[0].center);
-        if (skewHandle === this._rs.skew.handles.x)
-        {
+        if (skewHandle === this._rs.skew.handles.x) {
             return this._pointFromCenterWithAll(1, 0, 0, info).subtract(centerPt).normalize();
-        } else if (skewHandle === this._rs.skew.handles.y)
-        {
+        } else if (skewHandle === this._rs.skew.handles.y) {
             return this._pointFromCenterWithAll(0, 1, 0, info).subtract(centerPt).normalize();
-        } else
-        {
+        } else {
             throw new Error();
         }
     };
@@ -595,54 +555,46 @@ define([
         var centerPt = this.wwd.drawContext.surfacePointForMode(this.renderables[0].center.latitude, this.renderables[0].center.longitude, this.renderables[0].center.altitude, this.renderables[0].altitudeMode, new Vec3(0, 0, 0));
         var renderableAbsAltitude = ExtUtils.convertWorldWindPositionAltitudeMode(this.wwd, renderable.center, renderable.altitudeMode, WorldWind.ABSOLUTE).altitude;
         var ray = ExtUtils.rayFromScreenPoint(this.wwd.drawContext, this.wwd.drawContext.convertPointToViewport(this.wwd.canvasCoordinates(recognizer.clientX, recognizer.clientY), new Vec2(0, 0)), new Line(new Vec3(0, 0, 0), new Vec3(0, 0, 0)));
-        if ((this._editingMode === EditingMode.MOVE || this._editingMode === EditingMode.SCALE) && this._dragBeginInfo.globeIntersectPt !== null && renderable === this.renderables[0])
-        {
+        if ((this._editingMode === EditingMode.MOVE || this._editingMode === EditingMode.SCALE) && this._dragBeginInfo.globeIntersectPt !== null && renderable === this.renderables[0]) {
             var intersectPt = ExtUtils.nearestIntersectionPoint(ExtUtils.intersectGlobe(this.wwd, ray, renderableAbsAltitude), ray);
-            if (intersectPt !== null)
-            {
-                switch (this._editingMode)
-                {
+            if (intersectPt !== null) {
+                switch (this._editingMode) {
                     case EditingMode.MOVE:
-                    {
-                        var dragBeginIntersectPos = this.positionFromPoint(this._dragBeginInfo.globeIntersectPt);
-                        var intersectPos = this.positionFromPoint(intersectPt);
-                        var nextCenter = new Position(0, 0, 0).copy(this._dragBeginInfo.center);
-                        nextCenter.latitude += intersectPos.latitude - dragBeginIntersectPos.latitude;
-                        nextCenter.longitude += intersectPos.longitude - dragBeginIntersectPos.longitude;
-                        nextCenter.longitude = ExtUtils.fixLongitude(nextCenter.longitude)
-                        if (ExtUtils.isValidCoordinates(nextCenter.latitude, nextCenter.longitude))
                         {
-                            this.renderables[0].center = nextCenter;
-                            update = true;
+                            var dragBeginIntersectPos = this.positionFromPoint(this._dragBeginInfo.globeIntersectPt);
+                            var intersectPos = this.positionFromPoint(intersectPt);
+                            var nextCenter = new Position(0, 0, 0).copy(this._dragBeginInfo.center);
+                            nextCenter.latitude += intersectPos.latitude - dragBeginIntersectPos.latitude;
+                            nextCenter.longitude += intersectPos.longitude - dragBeginIntersectPos.longitude;
+                            nextCenter.longitude = ExtUtils.fixLongitude(nextCenter.longitude)
+                            if (ExtUtils.isValidCoordinates(nextCenter.latitude, nextCenter.longitude)) {
+                                this.renderables[0].center = nextCenter;
+                                update = true;
+                            }
                         }
-                    }
                         break;
                     case EditingMode.SCALE:
-                    {
-                        var lengthRatio = this._dragBeginInfo.halfLength / this._dragBeginInfo.halfWidth;
-                        var heightRatio = this._dragBeginInfo.halfHeight / this._dragBeginInfo.halfWidth;
-                        var beginCenterDist = this._dragBeginInfo.globeIntersectPt.distanceTo(centerPt);
-                        var currCenterDist = intersectPt.distanceTo(centerPt);
-                        var nextHalfWidth = Math.abs(this._dragBeginInfo.halfWidth + currCenterDist - beginCenterDist);
-                        this.renderables[0].halfWidth = nextHalfWidth;
-                        this.renderables[0].halfLength = nextHalfWidth * lengthRatio;
-                        this.renderables[0].halfHeight = nextHalfWidth * heightRatio;
-                        update = true;
-                    }
+                        {
+                            var lengthRatio = this._dragBeginInfo.halfLength / this._dragBeginInfo.halfWidth;
+                            var heightRatio = this._dragBeginInfo.halfHeight / this._dragBeginInfo.halfWidth;
+                            var beginCenterDist = this._dragBeginInfo.globeIntersectPt.distanceTo(centerPt);
+                            var currCenterDist = intersectPt.distanceTo(centerPt);
+                            var nextHalfWidth = Math.abs(this._dragBeginInfo.halfWidth + currCenterDist - beginCenterDist);
+                            this.renderables[0].halfWidth = nextHalfWidth;
+                            this.renderables[0].halfLength = nextHalfWidth * lengthRatio;
+                            this.renderables[0].halfHeight = nextHalfWidth * heightRatio;
+                            update = true;
+                        }
                         break;
                     default:
                         throw new Error();
                 }
             }
-        } else if (Object.values(this._rs.move.handles).indexOf(renderable) !== -1)
-        {
-            if (renderable === this._rs.move.handles.heightFirst || renderable === this._rs.move.handles.heightSecond)
-            {
-                if (this._dragBeginInfo.verticalPlaneIntersectPt !== null)
-                {
+        } else if (Object.values(this._rs.move.handles).indexOf(renderable) !== -1) {
+            if (renderable === this._rs.move.handles.heightFirst || renderable === this._rs.move.handles.heightSecond) {
+                if (this._dragBeginInfo.verticalPlaneIntersectPt !== null) {
                     var pt = ExtUtils.intersectPlaneWithLine(this._computeMoveVerticalPlane(recognizer.clientX, recognizer.clientY, new Vec3(0, 0, 0)), ray, new Vec3(0, 0, 0));
-                    if (pt !== null)
-                    {
+                    if (pt !== null) {
                         var dragStartPos = this.positionFromPoint(this._dragBeginInfo.verticalPlaneIntersectPt);
                         var pos = this.positionFromPoint(pt);
                         var nextCenter = new Position(0, 0, 0).copy(this.renderables[0].center);
@@ -651,68 +603,53 @@ define([
                         update = true;
                     }
                 }
-            } else if (this._dragBeginInfo.globeIntersectPt !== null)
-            {
+            } else if (this._dragBeginInfo.globeIntersectPt !== null) {
                 var dragBeginIntersectPos = this.positionFromPoint(this._dragBeginInfo.globeIntersectPt);
                 var intersectPt = ExtUtils.nearestIntersectionPoint(ExtUtils.intersectGlobe(this.wwd, ray, renderableAbsAltitude), ray);
-                if (intersectPt !== null)
-                {
+                if (intersectPt !== null) {
                     var intersectPos = this.positionFromPoint(intersectPt);
                     var nextCenter = new Position(0, 0, 0).copy(this._dragBeginInfo.center);
-                    if (renderable === this._rs.move.handles.widthFirst || renderable === this._rs.move.handles.widthSecond)
-                    {
+                    if (renderable === this._rs.move.handles.widthFirst || renderable === this._rs.move.handles.widthSecond) {
                         nextCenter.longitude += intersectPos.longitude - dragBeginIntersectPos.longitude;
-                    } else if (renderable === this._rs.move.handles.lengthFirst || renderable === this._rs.move.handles.lengthSecond)
-                    {
+                    } else if (renderable === this._rs.move.handles.lengthFirst || renderable === this._rs.move.handles.lengthSecond) {
                         nextCenter.latitude += intersectPos.latitude - dragBeginIntersectPos.latitude;
-                    } else
-                    {
+                    } else {
                         throw new Error();
                     }
                     nextCenter.longitude = ExtUtils.fixLongitude(nextCenter.longitude);
-                    if (ExtUtils.isValidCoordinates(nextCenter.latitude, nextCenter.longitude))
-                    {
+                    if (ExtUtils.isValidCoordinates(nextCenter.latitude, nextCenter.longitude)) {
                         this.renderables[0].center = nextCenter;
                         update = true;
                     }
                 }
             }
-        } else if (this._dragBeginInfo.scalePlaneIntersectPt !== null && Object.values(this._rs.scale.handles).indexOf(renderable) !== -1)
-        {
+        } else if (this._dragBeginInfo.scalePlaneIntersectPt !== null && Object.values(this._rs.scale.handles).indexOf(renderable) !== -1) {
             var plane = this._computeScalePlane(recognizer.clientX, recognizer.clientY, renderable);
             var intersectPt = ExtUtils.intersectPlaneWithLine(plane, ray, new Vec3(0, 0, 0));
-            if (intersectPt !== null)
-            {
+            if (intersectPt !== null) {
                 var startDist = this._dragBeginInfo.scalePlaneIntersectPt.distanceTo(centerPt);
                 var currDist = intersectPt.distanceTo(centerPt);
-                if (renderable === this._rs.scale.handles.widthFirst || renderable === this._rs.scale.handles.widthSecond)
-                {
+                if (renderable === this._rs.scale.handles.widthFirst || renderable === this._rs.scale.handles.widthSecond) {
                     this.renderables[0].halfWidth = this._dragBeginInfo.halfWidth + currDist - startDist;
-                } else if (renderable === this._rs.scale.handles.lengthFirst || renderable === this._rs.scale.handles.lengthSecond)
-                {
+                } else if (renderable === this._rs.scale.handles.lengthFirst || renderable === this._rs.scale.handles.lengthSecond) {
                     this.renderables[0].halfLength = this._dragBeginInfo.halfLength + currDist - startDist;
-                } else if (renderable === this._rs.scale.handles.heightFirst || renderable === this._rs.scale.handles.heightSecond)
-                {
+                } else if (renderable === this._rs.scale.handles.heightFirst || renderable === this._rs.scale.handles.heightSecond) {
                     this.renderables[0].halfHeight = this._dragBeginInfo.halfHeight + currDist - startDist;
-                } else
-                {
+                } else {
                     throw new Error();
                 }
             }
             update = true;
-        } else if (this._dragBeginInfo.rotatePlaneIntersectPt !== null && Object.values(this._rs.rotate.handles).indexOf(renderable) !== -1)
-        {
+        } else if (this._dragBeginInfo.rotatePlaneIntersectPt !== null && Object.values(this._rs.rotate.handles).indexOf(renderable) !== -1) {
             var rotMat = Matrix.fromIdentity();
             var intersectPt = ExtUtils.intersectPlaneWithLine(this._dragBeginInfo.rotatePlane, ray, new Vec3(0, 0, 0));
-            if (intersectPt !== null)
-            {
+            if (intersectPt !== null) {
                 var absAxis = this._computeAbsoluteRotateAxisDirection(renderable, this._dragBeginInfo);
                 var v1 = new Vec3(0, 0, 0).copy(this._dragBeginInfo.rotatePlaneIntersectPt).subtract(centerPt).normalize();
                 var v2 = new Vec3(0, 0, 0).copy(intersectPt).subtract(centerPt).normalize();
                 var up = new Vec3(0, 0, 0).copy(v1).multiplyByMatrix(Matrix.fromIdentity().multiplyByRotation(absAxis[0], absAxis[1], absAxis[2], 90));
                 var sign = Math.sign(v2.dot(up));
-                if (sign === 0)
-                {
+                if (sign === 0) {
                     sign = 1;
                 }
                 var deltaTheta = Math.acos(v1.dot(v2)) * sign * Angle.RADIANS_TO_DEGREES;
@@ -728,41 +665,33 @@ define([
                 this.renderables[0].heading = angles[2];
                 update = true;
             }
-        } else if (this._dragBeginInfo.skewPlaneIntersectPt !== null && Object.values(this._rs.skew.handles).indexOf(renderable) !== -1)
-        {
+        } else if (this._dragBeginInfo.skewPlaneIntersectPt !== null && Object.values(this._rs.skew.handles).indexOf(renderable) !== -1) {
             var plane = this._dragBeginInfo.skewPlane;
             var direction = this._dragBeginInfo.skewDirection;
             var intersectPt = ExtUtils.intersectPlaneWithLine(plane, ray, new Vec3(0, 0, 0));
-            if (intersectPt !== null)
-            {
+            if (intersectPt !== null) {
                 var P = new Vec3(0, 0, 0).copy(direction).multiply(direction.dot(this._dragBeginInfo.skewPlaneIntersectPt)).add(centerPt);
                 var Pp = new Vec3(0, 0, 0).copy(direction).multiply(direction.dot(intersectPt)).add(centerPt);
                 var dist = P.distanceTo(Pp);
-                if (new Vec3(0, 0, 0).copy(Pp).subtract(P).dot(direction) < 0)
-                {
+                if (new Vec3(0, 0, 0).copy(Pp).subtract(P).dot(direction) < 0) {
                     dist *= -1;
                 }
                 var nextCenter = this.positionFromPoint(new Vec3(0, 0, 0).copy(direction).multiply(dist / 2).add(this.pointFromPosition(this._dragBeginInfo.center)));
                 nextCenter.longitude = ExtUtils.fixLongitude(nextCenter.longitude);
-                if (ExtUtils.isValidCoordinates(nextCenter.latitude, nextCenter.longitude))
-                {
+                if (ExtUtils.isValidCoordinates(nextCenter.latitude, nextCenter.longitude)) {
                     this.renderables[0].center = nextCenter;
-                    if (renderable === this._rs.skew.handles.x)
-                    {
+                    if (renderable === this._rs.skew.handles.x) {
                         this.renderables[0].skewX = Math.atan(dist / (2 * this.renderables[0].halfHeight) + Math.tan((this._dragBeginInfo.skewX - 90) * Angle.DEGREES_TO_RADIANS)) * Angle.RADIANS_TO_DEGREES + 90;
-                    } else if (renderable === this._rs.skew.handles.y)
-                    {
+                    } else if (renderable === this._rs.skew.handles.y) {
                         this.renderables[0].skewY = Math.atan(dist / (2 * this.renderables[0].halfHeight) + Math.tan((this._dragBeginInfo.skewY - 90) * Angle.DEGREES_TO_RADIANS)) * Angle.RADIANS_TO_DEGREES + 90;
-                    } else
-                    {
+                    } else {
                         throw new Error();
                     }
                     update = true;
                 }
             }
         }
-        if (update)
-        {
+        if (update) {
             this.emit('update', ended);
             this.wwd.redraw();
         }
@@ -790,23 +719,18 @@ define([
             || renderable === this._rs.move.handles.widthFirst
             || renderable === this._rs.move.handles.widthSecond
             || renderable === this._rs.move.handles.lengthFirst
-            || renderable === this._rs.move.handles.lengthSecond)
-        {
+            || renderable === this._rs.move.handles.lengthSecond) {
             this._dragBeginInfo.globeIntersectPt = ExtUtils.nearestIntersectionPoint(ExtUtils.intersectGlobe(this.wwd, ray, ExtUtils.convertWorldWindPositionAltitudeMode(this.wwd, renderable.center, renderable.altitudeMode, WorldWind.ABSOLUTE).altitude), ray);
         } else if (renderable === this._rs.move.handles.heightFirst
-            || renderable === this._rs.move.handles.heightSecond)
-        {
+            || renderable === this._rs.move.handles.heightSecond) {
             this._dragBeginInfo.verticalPlaneIntersectPt = ExtUtils.intersectPlaneWithLine(this._computeMoveVerticalPlane(recognizer.clientX, recognizer.clientY), ray, new Vec3(0, 0, 0));
-        } else if (Object.values(this._rs.scale.handles).indexOf(renderable) !== -1)
-        {
+        } else if (Object.values(this._rs.scale.handles).indexOf(renderable) !== -1) {
             this._dragBeginInfo.scalePlaneIntersectPt = ExtUtils.intersectPlaneWithLine(this._computeScalePlane(recognizer.clientX, recognizer.clientY, renderable), ray, new Vec3(0, 0, 0));
-        } else if (Object.values(this._rs.rotate.handles).indexOf(renderable) !== -1)
-        {
+        } else if (Object.values(this._rs.rotate.handles).indexOf(renderable) !== -1) {
             var plane = this._computeRotatePlane(recognizer.clientX, recognizer.clientY, renderable);
             this._dragBeginInfo.rotatePlane = plane;
             this._dragBeginInfo.rotatePlaneIntersectPt = ExtUtils.intersectPlaneWithLine(plane, ray, new Vec3(0, 0, 0));
-        } else if (Object.values(this._rs.skew.handles).indexOf(renderable) !== -1)
-        {
+        } else if (Object.values(this._rs.skew.handles).indexOf(renderable) !== -1) {
             var plane = this._computeSkewPlane(recognizer.clientX, recognizer.clientY, renderable);
             var direction = this._computeSkewDirection(renderable);
             this._dragBeginInfo.skewPlane = plane;
@@ -822,12 +746,10 @@ define([
     RigidMeshEditTool.prototype._renderableDragEnded = function (renderable, recognizer) {
         this._dragged(renderable, recognizer, true);
         this._dragBeginInfo = null;
-        if (!this._haveMouseOn)
-        {
+        if (!this._haveMouseOn) {
             this._setCursorIsPointer(false);
         }
-        if (this._allHandles().indexOf(renderable) !== -1)
-        {
+        if (this._allHandles().indexOf(renderable) !== -1) {
             renderable.highlighted = false;
             this.wwd.redraw();
         }
@@ -835,13 +757,11 @@ define([
 
     RigidMeshEditTool.prototype._renderableMousedOn = function (renderable, recognizer) {
         var isHandle = this._allHandles().indexOf(renderable) !== -1;
-        if (isHandle)
-        {
+        if (isHandle) {
             renderable.highlighted = true;
             this.wwd.redraw();
         }
-        if (isHandle || renderable === this.renderables[0])
-        {
+        if (isHandle || renderable === this.renderables[0]) {
             this._setCursorIsPointer(true);
             this._haveMouseOn = true;
             this.wwd.redraw();
@@ -851,15 +771,12 @@ define([
     RigidMeshEditTool.prototype._renderableMousedOff = function (renderable, recognizer) {
         if (AbstractEditTool.getMousedDownObject(this.wwd) !== renderable
             && this.activeDragRenderable !== renderable
-            && this.editLayer.renderables.indexOf(renderable) !== -1)
-        {
+            && this.editLayer.renderables.indexOf(renderable) !== -1) {
             renderable.highlighted = false;
             this.wwd.redraw();
         }
-        if (this._allHandles().indexOf(renderable) !== -1 || renderable === this.renderables[0])
-        {
-            if (this._dragBeginInfo === null)
-            {
+        if (this._allHandles().indexOf(renderable) !== -1 || renderable === this.renderables[0]) {
+            if (this._dragBeginInfo === null) {
                 this._setCursorIsPointer(false);
             }
             this._haveMouseOn = false;

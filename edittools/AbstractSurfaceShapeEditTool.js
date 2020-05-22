@@ -1,5 +1,5 @@
 define([
-    'OpusWorldWind/OpusWorldWind',
+    '../OpusWorldWind',
     'WebWorldWind/WorldWind',
     'WebWorldWind/util/Logger',
     'WebWorldWind/util/Color',
@@ -11,11 +11,11 @@ define([
     'WebWorldWind/error/UnsupportedOperationError',
     'WebWorldWind/shapes/Path',
     'WebWorldWind/shapes/ShapeAttributes',
-    'OpusWorldWind/edittools/AbstractEditTool',
-    'OpusWorldWind/placemarks/PointPlacemark',
-    'OpusWorldWind/placemarks/PointPlacemarkAttributes',
-    'OpusWorldWind/placemarks/SquarePlacemark',
-    'OpusWorldWind/placemarks/ScreenShapePlacemarkAttributes'
+    '../edittools/AbstractEditTool',
+    '../placemarks/PointPlacemark',
+    '../placemarks/PointPlacemarkAttributes',
+    '../placemarks/SquarePlacemark',
+    '../placemarks/ScreenShapePlacemarkAttributes'
 ], function (OpusWorldWind, WorldWind, Logger, Color, WWMath, Angle, Vec3, Position, Location, UnsupportedOperationError, Path, ShapeAttributes, AbstractEditTool, PointPlacemark, PointPlacemarkAttributes, SquarePlacemark, ScreenShapePlacemarkAttributes) {
     var AbstractSurfaceShapeEditTool = function (wwd, shape) {
         AbstractEditTool.call(this, wwd, [shape]);
@@ -108,8 +108,7 @@ define([
 
     AbstractSurfaceShapeEditTool.prototype._renderableMousedOn = function (renderable, event) {
         this.wwd.canvas.style.cursor = 'pointer';
-        if (this._allHandles().indexOf(renderable) !== -1)
-        {
+        if (this._allHandles().indexOf(renderable) !== -1) {
             renderable.highlighted = true;
         }
         this._haveMouseOn = true;
@@ -119,13 +118,11 @@ define([
     AbstractSurfaceShapeEditTool.prototype._renderableMousedOff = function (renderable, event) {
         if (this.activeDragRenderable !== renderable
             && AbstractEditTool.getMousedDownObject(this.wwd) !== renderable
-            && this._allHandles().indexOf(renderable) !== -1)
-        {
+            && this._allHandles().indexOf(renderable) !== -1) {
             renderable.highlighted = false;
         }
         this._haveMouseOn = false;
-        if (this._dragStartInfo === null)
-        {
+        if (this._dragStartInfo === null) {
             this.wwd.canvas.style.cursor = 'default';
         }
         this.wwd.redraw();
@@ -145,63 +142,51 @@ define([
 
     AbstractSurfaceShapeEditTool.prototype._renderableDrag = function (renderable, recognizer, ended) {
         var pickedTerrain = this.wwd.pickTerrain(this.wwd.canvasCoordinates(recognizer.clientX, recognizer.clientY)).objects[0];
-        if (pickedTerrain)
-        {
-            if (renderable === this.renderables[0])
-            {
+        if (pickedTerrain) {
+            if (renderable === this.renderables[0]) {
                 var deltaLat = pickedTerrain.position.latitude - this._dragStartInfo.pickedTerrainPosition.latitude;
                 var deltaLon = pickedTerrain.position.longitude - this._dragStartInfo.pickedTerrainPosition.longitude;
                 var nextCenter = new Position(0, 0, 0).copy(this._dragStartInfo.center);
                 nextCenter.latitude += deltaLat;
                 nextCenter.longitude += deltaLon;
-                if (nextCenter.latitude <= 90 && nextCenter.latitude >= -90 && nextCenter.longitude >= -180 && nextCenter.longitude <= 180)
-                {
+                if (nextCenter.latitude <= 90 && nextCenter.latitude >= -90 && nextCenter.longitude >= -180 && nextCenter.longitude <= 180) {
                     this.setCenter(nextCenter);
                 }
-            } else if (renderable === this._centerHandle)
-            {
+            } else if (renderable === this._centerHandle) {
                 this.setCenter(pickedTerrain.position);
-            } else if (this._widthHandles.indexOf(renderable) !== -1)
-            {
+            } else if (this._widthHandles.indexOf(renderable) !== -1) {
                 this._axisHandleDrag(90, pickedTerrain.position, this.setHalfWidth);
-            } else if (this._heightHandles.indexOf(renderable) !== -1)
-            {
+            } else if (this._heightHandles.indexOf(renderable) !== -1) {
                 this._axisHandleDrag(0, pickedTerrain.position, this.setHalfHeight);
-            } else if (renderable === this._headingHandle)
-            {
+            } else if (renderable === this._headingHandle) {
                 var azimuthDegrees = Location.greatCircleAzimuth(this.getCenter(), pickedTerrain.position);
                 this.setHeading(azimuthDegrees);
-            } else
-            {
+            } else {
                 throw new Error('Unrecognized handle');
             }
             this._updateHandlePositions();
             this.emit('update', ended);
             this.wwd.redraw();
-        } else if (ended)
-        {
+        } else if (ended) {
             this.emit('update', true);
             this.wwd.redraw();
         }
     };
 
     AbstractSurfaceShapeEditTool.prototype._renderableUpdated = function (renderable) {
-        if (renderable === this.renderables[0])
-        {
+        if (renderable === this.renderables[0]) {
             this._updateHandlePositions();
         }
     };
 
     AbstractSurfaceShapeEditTool.prototype._renderableDragBegan = function (renderable, recognizer) {
         var pickedTerrain = this.wwd.pickTerrain(this.wwd.canvasCoordinates(recognizer.clientX, recognizer.clientY)).objects[0];
-        if (pickedTerrain)
-        {
+        if (pickedTerrain) {
             this._dragStartInfo = {
                 pickedTerrainPosition: pickedTerrain.position,
                 center: new Position(0, 0, 0).copy(this.renderables[0].center)
             };
-            if (this._allHandles().indexOf(renderable) !== -1)
-            {
+            if (this._allHandles().indexOf(renderable) !== -1) {
                 renderable.highlighted = true;
                 this.wwd.redraw();
             }
@@ -215,12 +200,10 @@ define([
     AbstractSurfaceShapeEditTool.prototype._renderableDragEnded = function (renderable, recognizer) {
         this._renderableDrag(renderable, recognizer, true);
         this._dragStartInfo = null;
-        if (!this._haveMouseOn)
-        {
+        if (!this._haveMouseOn) {
             this.wwd.canvas.style.cursor = 'default';
         }
-        if (this._allHandles().indexOf(renderable) !== -1)
-        {
+        if (this._allHandles().indexOf(renderable) !== -1) {
             renderable.highlighted = false;
             this.wwd.redraw();
         }

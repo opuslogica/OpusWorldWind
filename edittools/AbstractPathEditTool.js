@@ -1,15 +1,15 @@
 define([
-    'OpusWorldWind/OpusWorldWind',
+    '../OpusWorldWind',
     'WebWorldWind/WorldWind',
     'WebWorldWind/util/Logger',
     'WebWorldWind/error/UnsupportedOperationError',
     'WebWorldWind/shapes/ShapeAttributes',
     'WebWorldWind/geom/Position',
-    'OpusWorldWind/edittools/AbstractEditTool',
-    'OpusWorldWind/edittools/AbstractSurfaceShapeEditTool',
-    'OpusWorldWind/placemarks/SquarePlacemark',
-    'OpusWorldWind/misc/ExtUtils',
-    'OpusWorldWind/placemarks/ScreenShapePlacemarkAttributes'
+    '../edittools/AbstractEditTool',
+    '../edittools/AbstractSurfaceShapeEditTool',
+    '../placemarks/SquarePlacemark',
+    '../misc/ExtUtils',
+    '../placemarks/ScreenShapePlacemarkAttributes'
 ], function (OpusWorldWind, WorldWind, Logger, UnsupportedOperationError, ShapeAttributes, Position, AbstractEditTool, AbstractSurfaceShapeEditTool, SquarePlacemark, ExtUtils, ScreenShapePlacemarkAttributes) {
     var AbstractPathEditTool = function (wwd, path) {
         AbstractEditTool.call(this, wwd, path);
@@ -32,19 +32,14 @@ define([
     });
 
     AbstractPathEditTool.prototype.setEditingEnabled = function (enabled) {
-        if (enabled)
-        {
-            if (this._handles === null)
-            {
+        if (enabled) {
+            if (this._handles === null) {
                 this._handles = [];
                 this.updateHandles();
             }
-        } else
-        {
-            if (this._handles !== null)
-            {
-                for (var i = 0; i !== this._handles.length; ++i)
-                {
+        } else {
+            if (this._handles !== null) {
+                for (var i = 0; i !== this._handles.length; ++i) {
                     this.removeEditRenderable(this._handles[i]);
                 }
                 this._handles = null;
@@ -60,18 +55,14 @@ define([
     };
 
     AbstractPathEditTool.prototype.updateHandles = function () {
-        if (this._handles !== null)
-        {
+        if (this._handles !== null) {
             var positions = this.getPositions();
-            if (this._handles.length !== positions.length)
-            {
-                for (var i = 0; i !== this._handles.length; ++i)
-                {
+            if (this._handles.length !== positions.length) {
+                for (var i = 0; i !== this._handles.length; ++i) {
                     this.removeEditRenderable(this._handles[i]);
                 }
                 this._handles = [];
-                for (var i = 0; i !== positions.length; ++i)
-                {
+                for (var i = 0; i !== positions.length; ++i) {
                     var pos = positions[i];
                     {
                         var handle = new SquarePlacemark(new Position(pos.latitude, pos.longitude, this.getAltitude(0)));
@@ -81,8 +72,7 @@ define([
                         this.addEditRenderable(handle);
                         this._handles.push(handle);
                     }
-                    if (this.hasTwoAltitudes())
-                    {
+                    if (this.hasTwoAltitudes()) {
                         var handle = new SquarePlacemark(new Position(pos.latitude, pos.longitude, this.getAltitude(1)));
                         handle.altitudeMode = this.renderables[0].altitudeMode;
                         handle._positionIndex = i;
@@ -92,10 +82,8 @@ define([
                         this._handles.push(handle);
                     }
                 }
-            } else
-            {
-                for (var i = 0; i !== positions.length; ++i)
-                {
+            } else {
+                for (var i = 0; i !== positions.length; ++i) {
                     this._handles[i].position = positions[i];
                 }
             }
@@ -111,18 +99,15 @@ define([
     };
 
     AbstractPathEditTool.prototype._renderableUpdated = function (renderable) {
-        if (renderable === this.renderables[0])
-        {
+        if (renderable === this.renderables[0]) {
             this.updateHandles();
         }
     };
 
     AbstractPathEditTool.prototype._renderableMousedOn = function (renderable, event) {
         this.wwd.canvas.style.cursor = 'pointer';
-        if (this._handles !== null)
-        {
-            if (this._handles.indexOf(renderable) !== -1)
-            {
+        if (this._handles !== null) {
+            if (this._handles.indexOf(renderable) !== -1) {
                 renderable.highlighted = true;
             }
         }
@@ -131,10 +116,8 @@ define([
 
     AbstractPathEditTool.prototype._renderableMousedOff = function (renderable, event) {
         this.wwd.canvas.style.cursor = 'default';
-        if (this._handles !== null)
-        {
-            if (this._handles.indexOf(renderable) !== -1)
-            {
+        if (this._handles !== null) {
+            if (this._handles.indexOf(renderable) !== -1) {
                 renderable.highlighted = false;
             }
         }

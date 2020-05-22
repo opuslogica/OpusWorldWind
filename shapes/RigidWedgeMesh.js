@@ -2,12 +2,11 @@ define([
     'WebWorldWind/WorldWind',
     'WebWorldWind/geom/Angle',
     'WebWorldWind/geom/Vec3',
-    'OpusWorldWind/shapes/AbstractRigidMesh'
+    '../shapes/AbstractRigidMesh'
 ], function (WorldWind, Angle, Vec3, AbstractRigidMesh) {
     var RigidWedgeMesh = function (center, angle, majorRadius, minorRadius, verticalRadius, radiusRatio) {
         AbstractRigidMesh.call(this, center);
-        if (angle < 0 || angle > 360)
-        {
+        if (angle < 0 || angle > 360) {
             throw new Error('Illegal angle');
         }
         this._angle = angle;
@@ -45,19 +44,15 @@ define([
     };
 
     RigidWedgeMesh.prototype.shouldRecompute = function (dc) {
-        if (AbstractRigidMesh.prototype.shouldRecompute(dc))
-        {
+        if (AbstractRigidMesh.prototype.shouldRecompute(dc)) {
             return true;
-        } else
-        {
+        } else {
             var currentData = this.currentData;
             var step = this.computeThetaStep(dc);
-            if (step !== currentData.lastThetaStep)
-            {
+            if (step !== currentData.lastThetaStep) {
                 currentData.lastThetaStep = step;
                 return true;
-            } else
-            {
+            } else {
                 return false;
             }
         }
@@ -70,12 +65,10 @@ define([
     RigidWedgeMesh.prototype.computeThetas = function (dc) {
         var step = this.computeThetaStep(dc);
         var thetas = [];
-        for (var theta = 0; theta < this._angle; theta += step)
-        {
+        for (var theta = 0; theta < this._angle; theta += step) {
             thetas.push(theta);
         }
-        if (!this.is360() && Math.abs(thetas[thetas.length - 1] - this._angle) > Number.EPSILON)
-        {
+        if (!this.is360() && Math.abs(thetas[thetas.length - 1] - this._angle) > Number.EPSILON) {
             thetas.push(this._angle);
         }
         return thetas;
@@ -88,8 +81,7 @@ define([
         var that = this;
         thetas.forEach(function (theta) {
             var x = Math.sin(theta * Angle.DEGREES_TO_RADIANS), y = Math.cos(theta * Angle.DEGREES_TO_RADIANS);
-            if (that._radiusRatio > 0)
-            {
+            if (that._radiusRatio > 0) {
                 result.push(new Vec3(x * that._radiusRatio, y * that._radiusRatio, 1));
             }
             result.push(new Vec3(x, y, -1));
@@ -105,46 +97,37 @@ define([
         var is360 = this.is360();
         var hasTop = this._radiusRatio > Number.EPSILON;
         // top
-        if (hasTop)
-        {
-            for (var i = 0; i != thetas.length - 1; ++i)
-            {
+        if (hasTop) {
+            for (var i = 0; i != thetas.length - 1; ++i) {
                 result.push(0);
                 result.push(3 + 2 * i);
                 result.push(1 + 2 * i);
             }
-            if (is360)
-            {
+            if (is360) {
                 result.push(0);
                 result.push(1);
                 result.push(bottomCenterIndex - 2);
             }
         }
         // bottom
-        for (var i = 0; i != thetas.length - 1; ++i)
-        {
+        for (var i = 0; i != thetas.length - 1; ++i) {
             result.push(bottomCenterIndex);
-            if (hasTop)
-            {
+            if (hasTop) {
                 result.push(2 + 2 * (i + 1));
                 result.push(2 + 2 * i);
-            } else
-            {
+            } else {
                 result.push(2 + i);
                 result.push(1 + i);
             }
         }
-        if (is360)
-        {
+        if (is360) {
             result.push(bottomCenterIndex);
             result.push(hasTop ? 2 : 1);
             result.push(bottomCenterIndex - 1);
         }
         // outer sides
-        if (hasTop)
-        {
-            for (var i = 0; i != thetas.length - 1; ++i)
-            {
+        if (hasTop) {
+            for (var i = 0; i != thetas.length - 1; ++i) {
                 result.push(1 + 2 * i);
                 result.push(3 + 2 * i);
                 result.push(2 + 2 * i);
@@ -152,8 +135,7 @@ define([
                 result.push(3 + 2 * i);
                 result.push(4 + 2 * i);
             }
-            if (is360)
-            {
+            if (is360) {
                 result.push(bottomCenterIndex - 1);
                 result.push(bottomCenterIndex - 2);
                 result.push(1);
@@ -161,26 +143,21 @@ define([
                 result.push(1);
                 result.push(2);
             }
-        } else
-        {
-            for (var i = 0; i != thetas.length - 1; ++i)
-            {
+        } else {
+            for (var i = 0; i != thetas.length - 1; ++i) {
                 result.push(1 + i);
                 result.push(0);
                 result.push(2 + i);
             }
-            if (is360)
-            {
+            if (is360) {
                 result.push(bottomCenterIndex - 1);
                 result.push(0);
                 result.push(1);
             }
         }
         // wedge sides
-        if (!is360)
-        {
-            if (hasTop)
-            {
+        if (!is360) {
+            if (hasTop) {
                 result.push(1);
                 result.push(2);
                 result.push(bottomCenterIndex);
@@ -193,8 +170,7 @@ define([
                 result.push(bottomCenterIndex - 2);
                 result.push(bottomCenterIndex);
                 result.push(bottomCenterIndex - 1);
-            } else
-            {
+            } else {
                 result.push(0);
                 result.push(bottomCenterIndex);
                 result.push(bottomCenterIndex - 1);

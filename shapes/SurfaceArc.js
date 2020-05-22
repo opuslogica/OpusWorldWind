@@ -5,26 +5,22 @@ define([
     'WebWorldWind/geom/Angle',
     'WebWorldWind/geom/Location',
     'WebWorldWind/geom/Position',
-    'OpusWorldWind/shapes/TriPath'
+    '../shapes/TriPath'
 ], function (WorldWind, ArgumentError, Logger, Angle, Location, Position, TriPath) {
     var SurfaceArc = function (center, radius, angle, heading, attributes) {
-        if (center === undefined)
-        {
+        if (center === undefined) {
             throw new ArgumentError(
                 Logger.logMessage(Logger.LEVEL_SEVERE, 'SurfaceArc', 'constructor', 'Center is undefined.'));
         }
-        if (radius === undefined)
-        {
+        if (radius === undefined) {
             throw new ArgumentError(
                 Logger.logMessage(Logger.LEVEL_SEVERE, 'SurfaceArc', 'constructor', 'Radius is undefined.'));
         }
-        if (angle === undefined)
-        {
+        if (angle === undefined) {
             throw new ArgumentError(
                 Logger.logMessage(Logger.LEVEL_SEVERE, 'SurfaceArc', 'constructor', 'Angle is undefined.'));
         }
-        if (radius < 0)
-        {
+        if (radius < 0) {
             throw new ArgumentError(
                 Logger.logMessage(Logger.LEVEL_SEVERE, 'SurfaceArc', 'constructor', 'Radius is negative.'));
         }
@@ -93,8 +89,7 @@ define([
     SurfaceArc.MIN_NUM_INTERVALS = 8;
 
     SurfaceArc.prototype.doMakeOrderedRenderable = function (dc) {
-        if (this._dirty)
-        {
+        if (this._dirty) {
             this._positions = this.computePositions(dc);
             this._altitudeMode = WorldWind.CLAMP_TO_GROUND;
             this.referencePosition = this.determineReferencePosition(this._positions);
@@ -105,8 +100,7 @@ define([
     };
 
     SurfaceArc.prototype.computePositions = function (dc) {
-        if (this._radius === 0)
-        {
+        if (this._radius === 0) {
             return null;
         }
 
@@ -118,8 +112,7 @@ define([
         var positions = new Array(numLocations);
         var loc = new Location(0, 0);
 
-        for (var i = 0; i !== numLocations; ++i)
-        {
+        for (var i = 0; i !== numLocations; ++i) {
             var azimuth = i * da + this._heading;
             Location.greatCircleLocation(this._center, azimuth, gcPathLength, loc);
             positions[i] = new Position(loc.latitude, loc.longitude, 0);

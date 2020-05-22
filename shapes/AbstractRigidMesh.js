@@ -1,5 +1,5 @@
 define([
-    'OpusWorldWind/OpusWorldWind',
+    '../OpusWorldWind',
     'WebWorldWind/WorldWind',
     'WebWorldWind/shapes/AbstractMesh',
     'WebWorldWind/geom/Matrix',
@@ -130,18 +130,14 @@ define([
         var cotPhi = 1.0e6;
         var thetaRad = theta * Angle.DEGREES_TO_RADIANS;
         var phiRad = phi * Angle.DEGREES_TO_RADIANS;
-        if (thetaRad < EPSILON && phiRad < EPSILON)
-        {
+        if (thetaRad < EPSILON && phiRad < EPSILON) {
             cotTheta = 0;
             cotPhi = 0;
-        } else
-        {
-            if (Math.abs(Math.tan(thetaRad)) > EPSILON)
-            {
+        } else {
+            if (Math.abs(Math.tan(thetaRad)) > EPSILON) {
                 cotTheta = 1 / Math.tan(thetaRad);
             }
-            if (Math.abs(Math.tan(phiRad)) > EPSILON)
-            {
+            if (Math.abs(Math.tan(phiRad)) > EPSILON) {
                 cotPhi = 1 / Math.tan(phiRad);
             }
         }
@@ -173,16 +169,14 @@ define([
     };
 
     var addMatrixToMatrix = function (matrix1, matrix2) {
-        for (var i = 0; i != 16; ++i)
-        {
+        for (var i = 0; i != 16; ++i) {
             matrix1[i] += matrix2[i];
         }
         return matrix1;
     };
 
     var multiplyMatrixByNumber = function (matrix, term) {
-        for (var i = 0; i != 16; ++i)
-        {
+        for (var i = 0; i != 16; ++i) {
             matrix[i] *= term;
         }
         return matrix;
@@ -192,24 +186,19 @@ define([
         // https://math.stackexchange.com/questions/180418/calculate-rotation-matrix-to-align-vector-a-to-vector-b-in-3d 
         // with a special case for opposite-direction-pointing vectors
         var v = new Vec3(0, 0, 0).copy(a).cross(b);
-        if (v.magnitudeSquared() < EPSILON)
-        {
+        if (v.magnitudeSquared() < EPSILON) {
             var xScale = 1, yScale = 1, zScale = 1;
-            if (Math.abs(a[0] + b[0]) < EPSILON)
-            {
+            if (Math.abs(a[0] + b[0]) < EPSILON) {
                 xScale *= -1;
             }
-            if (Math.abs(a[1] + b[1]) < EPSILON)
-            {
+            if (Math.abs(a[1] + b[1]) < EPSILON) {
                 yScale *= -1;
             }
-            if (Math.abs(a[2] + b[2]) < EPSILON)
-            {
+            if (Math.abs(a[2] + b[2]) < EPSILON) {
                 zScale *= -1;
             }
             matrix.multiplyByScale(xScale, yScale, zScale);
-        } else
-        {
+        } else {
             var vx = skewSymmetricCrossProductMatrix(v, Matrix.fromIdentity());
             var mat = Matrix.fromIdentity();
             addMatrixToMatrix(mat, vx);
@@ -245,8 +234,7 @@ define([
         var meshPoints = new Float32Array(unitPoints.length * 3);
         var k = 0;
         var pt = new Vec3(0, 0, 0);
-        for (var i = 0; i != unitPoints.length; ++i)
-        {
+        for (var i = 0; i != unitPoints.length; ++i) {
             pt.copy(unitPoints[i]);
             pt.multiplyByMatrix(transform);
             meshPoints[k++] = pt[0];
@@ -259,8 +247,7 @@ define([
     AbstractRigidMesh.prototype.computeMeshIndices = function () {
         var indices = this.currentData.computedIndices;
         var meshIndices = new Uint16Array(indices.length);
-        for (var i = 0; i != indices.length; ++i)
-        {
+        for (var i = 0; i != indices.length; ++i) {
             meshIndices[i] = indices[i];
         }
         return meshIndices;
@@ -268,8 +255,7 @@ define([
 
     AbstractRigidMesh.prototype.doMakeOrderedRenderable = function (dc) {
         var currentData = this.currentData;
-        if (this.shouldRecompute(dc))
-        {
+        if (this.shouldRecompute(dc)) {
             delete currentData.computedUnitPoints;
             delete currentData.computedIndices;
             delete currentData.meshPoints;
@@ -281,45 +267,36 @@ define([
             delete this.texCoords;
             delete this.meshIndices;
             delete this.meshOutlineIndices;
-            if (currentData.pointsVboCacheKey)
-            {
+            if (currentData.pointsVboCacheKey) {
                 dc.gpuResourceCache.removeResource(currentData.pointsVboCacheKey);
             }
-            if (currentData.meshIndicesVboCacheKey)
-            {
+            if (currentData.meshIndicesVboCacheKey) {
                 dc.gpuResourceCache.removeResource(currentData.meshIndicesVboCacheKey);
             }
-            if (currentData.texCoordsVboCacheKey)
-            {
+            if (currentData.texCoordsVboCacheKey) {
                 dc.gpuResourceCache.removeResource(currentData.texCoordsVboCacheKey);
             }
-            if (currentData.normalsVboCacheKey)
-            {
+            if (currentData.normalsVboCacheKey) {
                 dc.gpuResourceCache.removeResource(currentData.normalsVboCacheKey);
             }
-            if (currentData.outlineIndicesVboCacheKey)
-            {
+            if (currentData.outlineIndicesVboCacheKey) {
                 dc.gpuResourceCache.removeResource(currentData.outlineIndicesVboCacheKey);
             }
         }
         dc.surfacePointForMode(this.referencePosition.latitude, this.referencePosition.longitude,
             this.referencePosition.altitude * this._altitudeScale, this.altitudeMode, currentData.referencePoint);
-        if (!currentData.computedUnitPoints)
-        {
+        if (!currentData.computedUnitPoints) {
             currentData.computedUnitPoints = this.computeUnitPoints(dc);
         }
-        if (!currentData.computedIndices)
-        {
+        if (!currentData.computedIndices) {
             currentData.computedIndices = this.computeIndices(dc);
         }
         AbstractMesh.prototype.doMakeOrderedRenderable.call(this, dc);
-        if (!currentData.eyeDistance)
-        {
+        if (!currentData.eyeDistance) {
             var eyePoint = dc.eyePoint;
             var eyeDistanceSquared = Number.MAX_VALUE;
             var pt = new Vec3(0, 0, 0);
-            for (var i = 0; i !== currentData.computedUnitPoints.length; ++i)
-            {
+            for (var i = 0; i !== currentData.computedUnitPoints.length; ++i) {
                 pt.copy(currentData.computedUnitPoints[i]);
                 pt.multiplyByMatrix(currentData.transformationMatrix);
                 eyeDistanceSquared = Math.min(eyeDistanceSquared, pt.distanceToSquared(eyePoint));

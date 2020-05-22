@@ -1,7 +1,7 @@
 define([
     'WebWorldWind/WorldWind',
     'WebWorldWind/geom/Vec2',
-    'OpusWorldWind/placemarks/ScreenShapePlacemark'
+    '../placemarks/ScreenShapePlacemark'
 ], function (WorldWind, Vec2, ScreenShapePlacemark) {
     var PedestalPlacemark = function (position, attributes) {
         ScreenShapePlacemark.call(this, [

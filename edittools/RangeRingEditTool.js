@@ -3,9 +3,9 @@ define([
     'WebWorldWind/geom/Location',
     'WebWorldWind/geom/Position',
     'WebWorldWind/shapes/GeographicText',
-    'OpusWorldWind/edittools/AbstractEditTool',
-    'OpusWorldWind/placemarks/PedestalPlacemark',
-    'OpusWorldWind/placemarks/SquarePlacemark',
+    '../edittools/AbstractEditTool',
+    '../placemarks/PedestalPlacemark',
+    '../placemarks/SquarePlacemark',
 ], function (WorldWind, Location, Position, GeographicText, AbstractEditTool, PedestalPlacemark, SquarePlacemark) {
     var RangeRingEditTool = function (wwd, arc, label) {
         AbstractEditTool.call(this, wwd, arc);
@@ -36,21 +36,18 @@ define([
     };
 
     RangeRingEditTool.prototype._renderableUpdated = function (renderable) {
-        if (renderable === this.renderables[0])
-        {
+        if (renderable === this.renderables[0]) {
             this._clearAnnotation();
             this.wwd.redraw();
         }
     };
 
     RangeRingEditTool.prototype._renderableMousedOn = function (renderable, event) {
-        if (renderable === this.renderables[0])
-        {
+        if (renderable === this.renderables[0]) {
             this.wwd.canvas.style.cursor = 'pointer';
             this._clearAnnotation();
             var pick = this.wwd.pickTerrain(this.wwd.canvasCoordinates(event.clientX, event.clientY)).objects[0];
-            if (!pick)
-            {
+            if (!pick) {
                 return;
             }
             var arc = renderable;
@@ -62,11 +59,9 @@ define([
             var pedestal = new PedestalPlacemark(pos);
             var background = new SquarePlacemark(pos);
             var str;
-            if (this._label !== null)
-            {
+            if (this._label !== null) {
                 str = this._label;
-            } else
-            {
+            } else {
                 str = Math.floor(arc.radius) / 1000 + ' km';
             }
             var text = new GeographicText(pos, str);
@@ -95,8 +90,7 @@ define([
     };
 
     RangeRingEditTool.prototype._renderableMousedOff = function (renderable, event) {
-        if (renderable === this.renderables[0])
-        {
+        if (renderable === this.renderables[0]) {
             this.wwd.canvas.style.cursor = 'default';
             this._clearAnnotation();
             this.wwd.redraw();

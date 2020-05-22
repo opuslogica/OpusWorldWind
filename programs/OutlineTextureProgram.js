@@ -1,5 +1,5 @@
 define([
-    'OpusWorldWind/OpusWorldWind',
+    '../OpusWorldWind',
     'WebWorldWind/WorldWind',
     'WebWorldWind/shaders/GpuProgram'
 ], function (OpusWorldWind, WorldWind, GpuProgram) {

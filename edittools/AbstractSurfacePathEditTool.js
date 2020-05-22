@@ -1,13 +1,13 @@
 define([
-    'OpusWorldWind/OpusWorldWind',
+    '../OpusWorldWind',
     'WebWorldWind/WorldWind',
     'WebWorldWind/util/Logger',
     'WebWorldWind/error/UnsupportedOperationError',
     'WebWorldWind/geom/Line',
     'WebWorldWind/geom/Vec3',
-    'OpusWorldWind/edittools/AbstractPathEditTool',
-    'OpusWorldWind/edittools/EditToolClickRecognizer',
-    'OpusWorldWind/misc/ExtUtils'
+    '../edittools/AbstractPathEditTool',
+    '../edittools/EditToolClickRecognizer',
+    '../misc/ExtUtils'
 ], function (OpusWorldWind, WorldWind, Logger, UnsupportedOperationError, Line, Vec3, AbstractPathEditTool, EditToolClickRecognizer, ExtUtils) {
     var AbstractSurfacePathEditTool = function (wwd, path) {
         var that = this;
@@ -28,15 +28,12 @@ define([
     AbstractSurfacePathEditTool.prototype = Object.create(AbstractPathEditTool.prototype);
 
     AbstractSurfacePathEditTool.prototype._dragged = function (renderable, recognizer, ended) {
-        if (this._handles !== null)
-        {
+        if (this._handles !== null) {
             var index = this.handlePositionIndex(renderable);
-            if (index !== null)
-            {
+            if (index !== null) {
                 var positions = this.getPositions();
                 var topPickedObject = this.wwd.pickTerrain(this.wwd.canvasCoordinates(recognizer.clientX, recognizer.clientY)).topPickedObject();
-                if (topPickedObject)
-                {
+                if (topPickedObject) {
                     var nextPositions = positions.slice();
                     nextPositions[index] = topPickedObject.position;
                     this.setPositions(nextPositions);
@@ -52,31 +49,25 @@ define([
         var that = this;
         var handleIndex;
         var positions = this.getPositions();
-        if (clickCount === 2 && this.handles !== null)
-        {
+        if (clickCount === 2 && this.handles !== null) {
             var topPickedObject = this.wwd.pickTerrain(this.wwd.canvasCoordinates(info.clientX, info.clientY)).topPickedObject();
-            if (topPickedObject !== null)
-            {
+            if (topPickedObject !== null) {
                 var pickedPosition = topPickedObject.position;
-                if (renderable === this.renderables[0])
-                {
+                if (renderable === this.renderables[0]) {
                     var insertIndex;
                     var nextPositions = positions.slice();
                     ExtUtils.addPositionToPath(this.wwd, pickedPosition, nextPositions, this.isLoop(), WorldWind.CLAMP_TO_GROUND);
                     this.setPositions(nextPositions);
                     this.updateHandles();
                     this.emit('update', true);
-                } else if ((handleIndex = this.handlePositionIndex(renderable)) !== null)
-                {
+                } else if ((handleIndex = this.handlePositionIndex(renderable)) !== null) {
                     var nextPositions = positions.slice();
-                    if (nextPositions.length > this.getMinimumRequiredPositions())
-                    {
+                    if (nextPositions.length > this.getMinimumRequiredPositions()) {
                         nextPositions.splice(handleIndex, 1);
                         this.setPositions(nextPositions);
                         this.updateHandles();
                         this.emit('update', true);
-                    } else
-                    {
+                    } else {
                         this.emit('delete');
                     }
                 }

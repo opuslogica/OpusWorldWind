@@ -1,5 +1,5 @@
 define([
-    'OpusWorldWind/OpusWorldWind',
+    '../OpusWorldWind',
     'WebWorldWind/WorldWind',
     'WebWorldWind/shapes/ShapeAttributes'
 ], function (OpusWorldWind, WorldWind, ShapeAttributes) {

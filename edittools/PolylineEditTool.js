@@ -1,8 +1,8 @@
 define([
-    'OpusWorldWind/OpusWorldWind',
+    '../OpusWorldWind',
     'WebWorldWind/WorldWind',
     'WebWorldWind/geom/Position',
-    'OpusWorldWind/edittools/AbstractAirspacePathEditTool'
+    '../edittools/AbstractAirspacePathEditTool'
 ], function (OpusWorldWind, WorldWind, Position, AbstractAirspacePathEditTool) {
     var PolylineEditTool = function (wwd, mesh) {
         AbstractAirspacePathEditTool.call(this, wwd, mesh);
@@ -20,8 +20,7 @@ define([
 
     PolylineEditTool.prototype.setAltitude = function (index, altitude) {
         var positions = this.renderables[0].positions;
-        for (var i = 0; i !== positions.length; ++i)
-        {
+        for (var i = 0; i !== positions.length; ++i) {
             positions[i][index].altitude = altitude;
         }
         this.renderables[0].positions = positions;

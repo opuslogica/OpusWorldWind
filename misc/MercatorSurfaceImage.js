@@ -1,5 +1,5 @@
 define([
-    'OpusWorldWind/OpusWorldWind',
+    '../OpusWorldWind',
     'WebWorldWind/WorldWind',
     'WebWorldWind/shapes/SurfaceImage',
     'WebWorldWind/util/Logger',
@@ -31,16 +31,14 @@ define([
         var lat, g, srcRow, kSrc, kDest, sy, dy;
         var tMin = WWMath.gudermannianInverse(sector.minLatitude);
         var tMax = WWMath.gudermannianInverse(sector.maxLatitude);
-        for (var y = 0; y < img.height; y++)
-        {
+        for (var y = 0; y < img.height; y++) {
             sy = 1 - y / (img.height - 1);
             lat = sy * sector.deltaLatitude() + sector.minLatitude;
             g = WWMath.gudermannianInverse(lat);
             dy = 1 - (g - tMin) / (tMax - tMin);
             dy = WWMath.clamp(dy, 0, 1);
             srcRow = Math.floor(dy * (img.height - 1));
-            for (var x = 0; x < img.width; x++)
-            {
+            for (var x = 0; x < img.width; x++) {
                 kSrc = 4 * (x + srcRow * img.width);
                 kDest = 4 * (x + y * img.width);
 
@@ -64,24 +62,21 @@ define([
         var imageSource = this.imageSource;
         var imageSourceKey = this._imageSourceKey();
 
-        if (!imageSource)
-        {
+        if (!imageSource) {
             return null;
         }
 
         var gl = dc.currentGlContext;
         var cache = dc.gpuResourceCache;
 
-        if (imageSource instanceof WorldWind.ImageSource)
-        {
+        if (imageSource instanceof WorldWind.ImageSource) {
             var unprojImg = this._unprojectImage(dc, imageSource.image);
             var t = new WorldWind.Texture(gl, unprojImg, gl.CLAMP_TO_EDGE);
             cache.putResource(imageSourceKey, t, t.size);
             return t;
         }
 
-        if (cache.currentRetrievals[imageSourceKey] || cache.absentResourceList.isResourceAbsent(imageSourceKey))
-        {
+        if (cache.currentRetrievals[imageSourceKey] || cache.absentResourceList.isResourceAbsent(imageSourceKey)) {
             return null;
         }
 
@@ -116,15 +111,12 @@ define([
     MercatorSurfaceImage.prototype.bind = function (dc) {
         var imageSourceKey = this._imageSourceKey();
         var texture = dc.gpuResourceCache.resourceForKey(imageSourceKey);
-        if (texture && !this.imageSourceWasUpdated)
-        {
+        if (texture && !this.imageSourceWasUpdated) {
             return this.bindTexture(dc, texture);
-        } else
-        {
+        } else {
             texture = this._retrieveTexture(dc);
             this.imageSourceWasUpdated = false;
-            if (texture)
-            {
+            if (texture) {
                 return this.bindTexture(dc, texture);
             }
         }

@@ -3,7 +3,7 @@
  * these should be transformed into issues/pull requests.
  */
 require([
-    'OpusWorldWind/OpusWorldWind',
+    '../OpusWorldWind',
     'WebWorldWind/WorldWind',
     'WebWorldWind/cache/GpuResourceCache',
     'WebWorldWind/util/ImageSource',
@@ -26,36 +26,30 @@ require([
         result.imageWidth = imageWidth * window.devicePixelRatio;
         result.imageHeight = imageHeight * window.devicePixelRatio;
         result.key = url;
-        if (imageWidth)
-        {
+        if (imageWidth) {
             result.key = 'w ' + imageWidth + ' ' + result.key;
         }
-        if (imageHeight)
-        {
+        if (imageHeight) {
             result.key = 'h ' + imageHeight + ' ' + result.key;
         }
         return result;
     };
     GpuResourceCache.prototype.retrieveTexture = function (gl, imageSource, wrapMode) {
-        if (!imageSource)
-        {
+        if (!imageSource) {
             return null;
         }
 
-        if (imageSource instanceof ImageSource && imageSource.image)
-        {
+        if (imageSource instanceof ImageSource && imageSource.image) {
             var t = new Texture(gl, imageSource.image, wrapMode);
             this.putResource(imageSource.key, t, t.size);
             return t;
         }
 
-        if (!(imageSource instanceof ImageSource))
-        {
+        if (!(imageSource instanceof ImageSource)) {
             imageSource = ImageSource.fromUrl(imageSource);
         }
 
-        if (this.currentRetrievals[imageSource.key] || this.absentResourceList.isResourceAbsent(imageSource.key))
-        {
+        if (this.currentRetrievals[imageSource.key] || this.absentResourceList.isResourceAbsent(imageSource.key)) {
             return null;
         }
 
@@ -87,22 +81,18 @@ require([
         this.currentRetrievals[imageSource.key] = imageSource;
         image.crossOrigin = 'use-credentials';
         image.src = imageSource.imageUrl;
-        if (imageSource.imageWidth)
-        {
+        if (imageSource.imageWidth) {
             image.width = imageSource.imageWidth;
         }
-        if (imageSource.imageHeight)
-        {
+        if (imageSource.imageHeight) {
             image.height = imageSource.imageHeight;
         }
 
         return null;
     };
     TiledImageLayer.prototype.retrieveTileImage = function (dc, tile, suppressRedraw) {
-        if (this.currentRetrievals.indexOf(tile.imagePath) < 0)
-        {
-            if (this.absentResourceList.isResourceAbsent(tile.imagePath))
-            {
+        if (this.currentRetrievals.indexOf(tile.imagePath) < 0) {
+            if (this.absentResourceList.isResourceAbsent(tile.imagePath)) {
                 return;
             }
 
@@ -113,8 +103,7 @@ require([
                 canvas = dc.currentGlContext.canvas,
                 layer = this;
 
-            if (!url)
-            {
+            if (!url) {
                 this.currentTilesInvalid = true;
                 return;
             }
@@ -124,15 +113,13 @@ require([
                 var texture = layer.createTexture(dc, tile, image);
                 layer.removeFromCurrentRetrievals(imagePath);
 
-                if (texture)
-                {
+                if (texture) {
                     cache.putResource(imagePath, texture, texture.size);
 
                     layer.currentTilesInvalid = true;
                     layer.absentResourceList.unmarkResourceAbsent(imagePath);
 
-                    if (!suppressRedraw)
-                    {
+                    if (!suppressRedraw) {
                         // Send an event to request a redraw.
                         var e = document.createEvent('Event');
                         e.initEvent(WorldWind.REDRAW_EVENT_TYPE, true, true);
@@ -251,14 +238,11 @@ require([
             Object.setPrototypeOf(newPrototype, Object.getPrototypeOf(clazz.prototype));
             Object.getOwnPropertyNames(clazz.prototype).forEach(function (propName) {
                 var descriptor = Object.getOwnPropertyDescriptor(clazz.prototype, propName);
-                for (var k in propertyDescOverrides)
-                {
-                    if (descriptor[k] !== undefined)
-                    {
+                for (var k in propertyDescOverrides) {
+                    if (descriptor[k] !== undefined) {
                         var orig = descriptor[k];
                         descriptor[k] = propertyDescOverrides[k];
-                        if (typeof descriptor[k] === 'function')
-                        {
+                        if (typeof descriptor[k] === 'function') {
                             var fn = descriptor[k];
                             descriptor[k] = function () {
                                 return fn.apply(this, [orig].concat(arguments));
@@ -273,11 +257,9 @@ require([
     // disable picking on GeographicText (it currently does not work correctly if there are multiple GeographicTexts)
     var prevGtRender = GeographicText.prototype.render;
     GeographicText.prototype.render = function (dc) {
-        if (dc.pickingMode)
-        {
+        if (dc.pickingMode) {
             return;
-        } else
-        {
+        } else {
             prevGtRender.call(this, dc);
         }
     };
@@ -311,23 +293,18 @@ require([
         var drawInterior = (!this._isInteriorInhibited && attributes.drawInterior);
         var drawOutline = (attributes.drawOutline && attributes.outlineWidth > 0);
 
-        if (!drawInterior && !drawOutline)
-        {
+        if (!drawInterior && !drawOutline) {
             return;
         }
 
-        if (dc.pickingMode && !this.pickColor)
-        {
+        if (dc.pickingMode && !this.pickColor) {
             this.pickColor = dc.uniquePickColor();
         }
 
-        if (dc.pickingMode)
-        {
+        if (dc.pickingMode) {
             var pickColor = this.pickColor.toHexString();
-        } else
-        {
-            if (this._showHatchPattern)
-            {
+        } else {
+            if (this._showHatchPattern) {
                 var w = patternCanvas.width;
                 var h = patternCanvas.height;
                 patternCtx2D.fillStyle = attributes.interiorColor.toCssColorString();
@@ -342,51 +319,40 @@ require([
             }
         }
 
-        if (this.crossesAntiMeridian || this.containsPole)
-        {
-            if (drawInterior)
-            {
+        if (this.crossesAntiMeridian || this.containsPole) {
+            if (drawInterior) {
                 this.draw(this._interiorGeometry, ctx2D, xScale, yScale, dx, dy);
-                if (!dc.pickingMode && this._showHatchPattern)
-                {
+                if (!dc.pickingMode && this._showHatchPattern) {
                     ctx2D.fillStyle = ctx2D.createPattern(patternCanvas, 'repeat');
-                } else
-                {
+                } else {
                     ctx2D.fillStyle = dc.pickingMode ? pickColor : attributes.interiorColor.toCssColorString();
                 }
                 ctx2D.fill();
             }
-            if (drawOutline)
-            {
+            if (drawOutline) {
                 this.draw(this._outlineGeometry, ctx2D, xScale, yScale, dx, dy);
                 ctx2D.lineWidth = attributes.outlineWidth;
                 ctx2D.strokeStyle = dc.pickingMode ? pickColor : attributes.outlineColor.toCssColorString();
                 ctx2D.stroke();
             }
-        } else
-        {
+        } else {
             this.draw(this._interiorGeometry, ctx2D, xScale, yScale, dx, dy);
-            if (drawInterior)
-            {
-                if (!dc.pickingMode && this._showHatchPattern)
-                {
+            if (drawInterior) {
+                if (!dc.pickingMode && this._showHatchPattern) {
                     ctx2D.fillStyle = ctx2D.createPattern(patternCanvas, 'repeat');
-                } else
-                {
+                } else {
                     ctx2D.fillStyle = dc.pickingMode ? pickColor : attributes.interiorColor.toCssColorString();
                 }
                 ctx2D.fill();
             }
-            if (drawOutline)
-            {
+            if (drawOutline) {
                 ctx2D.lineWidth = attributes.outlineWidth;
                 ctx2D.strokeStyle = dc.pickingMode ? pickColor : attributes.outlineColor.toCssColorString();
                 ctx2D.stroke();
             }
         }
 
-        if (dc.pickingMode)
-        {
+        if (dc.pickingMode) {
             var po = new PickedObject(this.pickColor.clone(), this.pickDelegate ? this.pickDelegate : this,
                 null, this.layer, false);
             dc.resolvePick(po);
@@ -402,8 +368,7 @@ require([
 
     var prevSstCreateCtx2D = SurfaceShapeTile.prototype.createCtx2D;
     SurfaceShapeTile.prototype.createCtx2D = function () {
-        if (SurfaceShapeTile.patternCanvas === null)
-        {
+        if (SurfaceShapeTile.patternCanvas === null) {
             SurfaceShapeTile.patternCanvas = document.createElement('canvas');
             SurfaceShapeTile.patternCtx2D = SurfaceShapeTile.patternCanvas.getContext('2d');
         }

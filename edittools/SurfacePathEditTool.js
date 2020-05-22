@@ -1,7 +1,7 @@
 define([
     'WebWorldWind/WorldWind',
     'WebWorldWind/shapes/ShapeAttributes',
-    'OpusWorldWind/edittools/AbstractSurfacePathEditTool'
+    '../edittools/AbstractSurfacePathEditTool'
 ], function (WorldWind, ShapeAttributes, AbstractSurfacePathEditTool) {
     var SurfacePathEditTool = function (wwd, path) {
         AbstractSurfacePathEditTool.call(this, wwd, path);

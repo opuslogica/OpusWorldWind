@@ -1,8 +1,8 @@
 define([
-    'OpusWorldWind/OpusWorldWind',
+    '../OpusWorldWind',
     'WebWorldWind/WorldWind',
     'WebWorldWind/geom/Vec3',
-    'OpusWorldWind/shapes/AbstractRigidMesh'
+    '../shapes/AbstractRigidMesh'
 ], function (OpusWorldWind, WorldWind, Vec3, AbstractRigidMesh) {
     var Pyramid = function (center, halfWidth, halfLength, halfHeight, attributes) {
         AbstractRigidMesh.call(this, center, attributes);

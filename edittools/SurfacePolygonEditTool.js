@@ -1,5 +1,5 @@
 define([
-    'OpusWorldWind/edittools/AbstractSurfacePathEditTool'
+    '../edittools/AbstractSurfacePathEditTool'
 ], function (AbstractSurfacePathEditTool) {
     var SurfacePolygonEditTool = function (wwd, polygon) {
         AbstractSurfacePathEditTool.call(this, wwd, polygon);
@@ -31,8 +31,7 @@ define([
 
     SurfacePolygonEditTool.prototype._renderableDragBegan = function (renderable, recognizer) {
         var pickedTerrain = this.wwd.pickTerrain(this.wwd.canvasCoordinates(recognizer.clientX, recognizer.clientY)).objects[0];
-        if (pickedTerrain)
-        {
+        if (pickedTerrain) {
             var positions = angular.copy(this.getPositions());
             this._dragStartInfo = {
                 pickedTerrainPosition: pickedTerrain.position,
@@ -42,43 +41,35 @@ define([
     };
 
     SurfacePolygonEditTool.prototype._renderableDrag = function (renderable, recognizer, ended) {
-        if (renderable !== this.renderables[0])
-        {
+        if (renderable !== this.renderables[0]) {
             return;
         }
         var pickedTerrain = this.wwd.pickTerrain(this.wwd.canvasCoordinates(recognizer.clientX, recognizer.clientY)).objects[0];
-        if (pickedTerrain)
-        {
+        if (pickedTerrain) {
             var deltaLat = pickedTerrain.position.latitude - this._dragStartInfo.pickedTerrainPosition.latitude;
             var deltaLon = pickedTerrain.position.longitude - this._dragStartInfo.pickedTerrainPosition.longitude;
             var positions = angular.copy(this.getPositions());
-            for (var i = 0; i !== positions.length; ++i)
-            {
+            for (var i = 0; i !== positions.length; ++i) {
                 var p_prev = this._dragStartInfo.positions[i];
                 var p = positions[i];
                 p.latitude = p_prev.latitude + deltaLat;
                 p.longitude = p_prev.longitude + deltaLon;
-                if (p.longitude > 180)
-                {
+                if (p.longitude > 180) {
                     p.longitude = -180 + (p.longitude - 180);
-                } else if (p.longitude < -180)
-                {
+                } else if (p.longitude < -180) {
                     p.longitude = 180 + (p.longitude + 180);
                 }
             }
             var allowChange = function () {
-                for (var i = 0; i !== positions.length; ++i)
-                {
+                for (var i = 0; i !== positions.length; ++i) {
                     var pos = positions[i];
-                    if (pos.latitude > 90 || pos.latitude < -90 || pos.longitude < -180 || pos.longitude > 180)
-                    {
+                    if (pos.latitude > 90 || pos.latitude < -90 || pos.longitude < -180 || pos.longitude > 180) {
                         return false;
                     }
                 }
                 return true;
             };
-            if (allowChange())
-            {
+            if (allowChange()) {
                 this.setPositions(positions);
                 this.updateHandles();
                 this.emit('update', ended);

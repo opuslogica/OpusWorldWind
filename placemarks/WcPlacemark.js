@@ -2,7 +2,7 @@ define([
     'WebWorldWind/WorldWind',
     'WebWorldWind/shapes/Placemark',
     'WebWorldWind/util/Color',
-    'OpusWorldWind/programs/OutlineTextureProgram'
+    '../programs/OutlineTextureProgram'
 ], function (WorldWind, Placemark, Color, OutlineTextureProgram) {
     /**
      * An extension over Placemark that adds extra functionality needed by the Raptor Web Client.
@@ -30,13 +30,11 @@ define([
     WcPlacemark.prototype.doDrawOrderedPlacemark = function (dc) {
         var gl = dc.currentGlContext,
             program = dc.currentProgram;
-        if (!dc.pickingMode && this.activeAttributes && this.activeAttributes.drawOutline)
-        {
+        if (!dc.pickingMode && this.activeAttributes && this.activeAttributes.drawOutline) {
             program.loadOutlineHorizontalThickness(gl, this.activeAttributes.outlineWidth / this.imageBounds.width);
             program.loadOutlineVerticalThickness(gl, this.activeAttributes.outlineWidth / this.imageBounds.height);
             program.loadOutlineColor(gl, this.activeAttributes.outlineColor);
-        } else
-        {
+        } else {
             program.loadOutlineHorizontalThickness(gl, 0);
             program.loadOutlineVerticalThickness(gl, 0);
             program.loadOutlineColor(gl, Color.TRANSPARENT);

@@ -1,10 +1,10 @@
 define([
-    'OpusWorldWind/OpusWorldWind',
+    '../OpusWorldWind',
     'WebWorldWind/WorldWind',
     'WebWorldWind/layer/RenderableLayer',
     'WebWorldWind/geom/Location',
     'WebWorldWind/geom/Vec3',
-    'OpusWorldWind/misc/SectorRenderable'
+    '../misc/SectorRenderable'
 ], function (OpusWorldWind, WorldWind, RenderableLayer, Location, Vec3, SectorRenderable) {
     /**
      * When constructed, will handle user inputs to modify a sector
@@ -43,14 +43,11 @@ define([
         var pt = new Vec3(0, 0, 0);
         var terrains = [this._wwd.terrainCenter, this._wwd.terrainRight, this._wwd.terrainCenter, dc.terrain];
         var vp = this._wwd.viewport;
-        for (var i = 0; i !== terrains.length; ++i)
-        {
+        for (var i = 0; i !== terrains.length; ++i) {
             var terrain = terrains[i];
-            if (terrain)
-            {
+            if (terrain) {
                 terrain.surfacePointForMode(latitude, longitude, 0, WorldWind.CLAMP_TO_GROUND, pt);
-                if (dc.projectWithDepth(pt, 0, result) && result[0] >= 0 && result[0] <= vp.width)
-                {
+                if (dc.projectWithDepth(pt, 0, result) && result[0] >= 0 && result[0] <= vp.width) {
                     return result;
                 }
             }
@@ -64,36 +61,30 @@ define([
         var maxLat = this._sector.maxLatitude;
         var minLon1 = shouldSplit ? -180 : this._sector.minLongitude;
         var maxLon1 = this._sector.maxLongitude;
-        if (this._renderables.length < 1)
-        {
+        if (this._renderables.length < 1) {
             this._renderables.push(new SectorRenderable(new WorldWind.Sector(minLat, maxLat, minLon1, maxLon1)));
             this._layer.addRenderable(this._renderables[0]);
-        } else
-        {
+        } else {
             var r = this._renderables[0];
             r.sector.minLatitude = minLat;
             r.sector.maxLatitude = maxLat;
             r.sector.minLongitude = minLon1;
             r.sector.maxLongitude = maxLon1;
         }
-        if (shouldSplit)
-        {
+        if (shouldSplit) {
             var minLon2 = this._sector.minLongitude + 360;
             var maxLon2 = 180;
-            if (this._renderables.length < 2)
-            {
+            if (this._renderables.length < 2) {
                 this._renderables.push(new SectorRenderable(new WorldWind.Sector(minLat, maxLat, minLon2, maxLon2)));
                 this._layer.addRenderable(this._renderables[1]);
-            } else
-            {
+            } else {
                 var r = this._renderables[1];
                 r.sector.minLatitude = minLat;
                 r.sector.maxLatitude = maxLat;
                 r.sector.minLongitude = minLon2;
                 r.sector.maxLongitude = maxLon2;
             }
-        } else if (this._renderables.length === 2)
-        {
+        } else if (this._renderables.length === 2) {
             this._layer.removeRenderable(this._renderables[1]);
             this._renderables.pop();
         }
@@ -110,8 +101,7 @@ define([
         this._sector.maxLongitude = Math.max(lon1, lon2);
         var sp1 = this._positionToScreenPoint(this._sector.minLatitude, this._sector.minLongitude, new Vec3(0, 0, 0));
         var sp2 = this._positionToScreenPoint(this._sector.maxLatitude, this._sector.maxLongitude, new Vec3(0, 0, 0));
-        if (sp1 && sp2 && sp1[0] > sp2[0])
-        {
+        if (sp1 && sp2 && sp1[0] > sp2[0]) {
             // sector crossing anti-meridian needs to be corrected
             var t = this._sector.maxLongitude;
             this._sector.maxLongitude = this._sector.minLongitude;
@@ -120,8 +110,7 @@ define([
     };
 
     SectorModifier.prototype._dragBegan = function (object, evt) {
-        if (object.position !== null)
-        {
+        if (object.position !== null) {
             this._dragStartLocation = object.position;
             this._updateSector(object.position);
             this._updateRenderables();
@@ -130,11 +119,9 @@ define([
     };
 
     SectorModifier.prototype._dragChanged = function (object, evt) {
-        if (this._dragStartLocation !== null)
-        {
+        if (this._dragStartLocation !== null) {
             var pickedTerrain = this._wwd.pickTerrain(this._wwd.canvasCoordinates(evt.clientX, evt.clientY)).objects[0];
-            if (pickedTerrain)
-            {
+            if (pickedTerrain) {
                 this._updateSector(pickedTerrain.position);
                 this._updateRenderables();
                 this._wwd.redraw();
@@ -144,8 +131,7 @@ define([
 
     SectorModifier.prototype._dragEnded = function (object, evt) {
         var that = this;
-        if (this._dragStartLocation !== null)
-        {
+        if (this._dragStartLocation !== null) {
             this._dragChanged(object, evt);
             this._sectorListeners.forEach(function (listener) {
                 listener(that._sector);
@@ -159,8 +145,7 @@ define([
 
     SectorModifier.prototype.offSectorChanged = function (listener) {
         var index = this._sectorListeners.indexOf(listener);
-        if (index >= 0)
-        {
+        if (index >= 0) {
             this._sectorListeners.splice(index, 1);
         }
     };

@@ -1,9 +1,9 @@
 define([
-    'OpusWorldWind/OpusWorldWind',
+    '../OpusWorldWind',
     'WebWorldWind/WorldWind',
     'WebWorldWind/geom/Vec2',
     'WebWorldWind/geom/Vec3',
-    'OpusWorldWind/edittools/AbstractEditTool',
+    '../edittools/AbstractEditTool',
 ], function (OpusWorldWind, WorldWind, Vec2, Vec3, AbstractEditTool) {
     var PlacemarkEditTool = function (wwd, placemarks) {
         AbstractEditTool.call(this, wwd, placemarks);
@@ -43,12 +43,10 @@ define([
         this.renderables.forEach(function (renderable, index) {
             that._prevScales[index] = renderable.attributes.imageScale;
             renderable.attributes.imageScale *= 1.2;
-            if (that._highlightOnMouseOver)
-            {
+            if (that._highlightOnMouseOver) {
                 renderable.highlighted = true;
             }
-            if (renderable.highlightAttributes)
-            {
+            if (renderable.highlightAttributes) {
                 that._prevHighlightScales[index] = renderable.highlightAttributes.imageScale;
                 renderable.highlightAttributes.imageScale *= 1.2;
             }
@@ -62,12 +60,10 @@ define([
         var that = this;
         this.renderables.forEach(function (renderable, index) {
             renderable.attributes.imageScale = that._prevScales[index];
-            if (that._highlightOnMouseOver)
-            {
+            if (that._highlightOnMouseOver) {
                 renderable.highlighted = false;
             }
-            if (renderable.highlightAttributes && that._prevHighlightScales[index] !== undefined)
-            {
+            if (renderable.highlightAttributes && that._prevHighlightScales[index] !== undefined) {
                 renderable.highlightAttributes.imageScale = that._prevHighlightScales[index];
             }
             that._prevScales[index] = undefined;
@@ -101,8 +97,7 @@ define([
             dragScreenCoord[0] += offs[0];
             dragScreenCoord[1] += offs[1];
             var pickedTerrain = that.wwd.pickTerrain(dragScreenCoord).objects[0];
-            if (pickedTerrain)
-            {
+            if (pickedTerrain) {
                 renderable.position = pickedTerrain.position;
             }
         });

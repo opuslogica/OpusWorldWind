@@ -1,5 +1,5 @@
 define([
-    'OpusWorldWind/OpusWorldWind',
+    '../OpusWorldWind',
     'WebWorldWind/WorldWind'
 ], function (OpusWorldWind, WorldWind) {
     var EditToolClickRecognizer = function (editTool, cb) {
@@ -18,11 +18,9 @@ define([
 
     EditToolClickRecognizer.prototype._renderableClicked = function (renderable, recognizer) {
         var time = new Date().getTime();
-        if (this._lastClick !== null)
-        {
+        if (this._lastClick !== null) {
             this._editTool.clearTimeout(this._lastClick.timeoutID);
-            if (this._lastClick.renderable !== renderable)
-            {
+            if (this._lastClick.renderable !== renderable) {
                 this._consumeLastClick();
             }
         }

@@ -1,5 +1,5 @@
 define([
-    'OpusWorldWind/OpusWorldWind',
+    '../OpusWorldWind',
     'WebWorldWind/WorldWind',
     'WebWorldWind/util/Color',
     'WebWorldWind/util/Font',
@@ -31,13 +31,11 @@ define([
             },
             set: function (v) {
                 this._latLon = v;
-                if (this._latLon !== null)
-                {
+                if (this._latLon !== null) {
                     var latStr = this._latLon.latitude.toString().substring(0, 6);
                     var lonStr = this._latLon.longitude.toString().substring(0, 6);
                     this.text.text = 'Lat: ' + latStr + '\xB0  Lon: ' + lonStr + '\xB0';
-                } else
-                {
+                } else {
                     this.text.text = '';
                 }
             }
@@ -45,8 +43,7 @@ define([
     });
 
     LatLonIndicatorLayer.prototype.doRender = function (dc) {
-        if (this._latLon !== null)
-        {
+        if (this._latLon !== null) {
             this.text.render(dc);
         }
     };

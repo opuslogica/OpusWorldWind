@@ -4,8 +4,8 @@ define([
     'WebWorldWind/geom/Vec3',
     'WebWorldWind/geom/Matrix',
     'WebWorldWind/pick/PickedObject',
-    'OpusWorldWind/programs/TriPathProgram',
-    'OpusWorldWind/misc/ExtUtils'
+    '../programs/TriPathProgram',
+    '../misc/ExtUtils'
 ], function (WorldWind, Path, Vec3, Matrix, PickedObject, TriPathProgram, ExtUtils) {
     /**
      * A variant of Path that uses TRIANGLE_STRIP to render lines instead of LINE_STRIP and lineWidth (lineWidth is unsupported on modern browsers).
@@ -35,11 +35,9 @@ define([
 
     TriPath.prototype.computeRenderedPath = function (dc, tessellatedPositions) {
         var altitudeMode;
-        if (this._followTerrain && this.altitudeMode !== WorldWind.CLAMP_TO_GROUND)
-        {
+        if (this._followTerrain && this.altitudeMode !== WorldWind.CLAMP_TO_GROUND) {
             altitudeMode = WorldWind.RELATIVE_TO_GROUND;
-        } else
-        {
+        } else {
             altitudeMode = this.altitudeMode;
         }
         var eyeDistSquared = Number.MAX_VALUE;
@@ -52,12 +50,10 @@ define([
             dc.surfacePointForMode(p2.latitude, p2.longitude, p2.altitude, altitudeMode, offsDir);
             offsDir.subtract(lastPt).normalize();
         }
-        for (var i = 0; i !== tessellatedPositions.length; ++i)
-        {
+        for (var i = 0; i !== tessellatedPositions.length; ++i) {
             var pos = tessellatedPositions[i];
             dc.surfacePointForMode(pos.latitude, pos.longitude, pos.altitude, altitudeMode, pt);
-            if (i > 0)
-            {
+            if (i > 0) {
                 offsDir.copy(pt).subtract(lastPt).normalize();
             }
             lastPt.copy(pt);
@@ -87,35 +83,29 @@ define([
     };
 
     TriPath.prototype.doRenderOrdered = function (dc) {
-        try
-        {
-            if (this.activeAttributes.drawOutline)
-            {
+        try {
+            if (this.activeAttributes.drawOutline) {
                 var gl = dc.currentGlContext, program = dc.currentProgram, currentData = this.currentData;
 
                 this.applyMvpMatrixForOutline(dc);
 
-                if (!currentData.ptVboCacheKey)
-                {
+                if (!currentData.ptVboCacheKey) {
                     currentData.ptVboCacheKey = dc.gpuResourceCache.generateCacheKey();
                 }
 
-                if (!currentData.offsDirVboCacheKey)
-                {
+                if (!currentData.offsDirVboCacheKey) {
                     currentData.offsDirVboCacheKey = dc.gpuResourceCache.generateCacheKey();
                 }
 
                 var vboId = dc.gpuResourceCache.resourceForKey(currentData.ptVboCacheKey);
-                if (!vboId)
-                {
+                if (!vboId) {
                     vboId = gl.createBuffer();
                     dc.gpuResourceCache.putResource(currentData.ptVboCacheKey, vboId, currentData.tessellatedPoints.length * 4);
                     currentData.fillVbo = true;
                 }
 
                 gl.bindBuffer(gl.ARRAY_BUFFER, vboId);
-                if (currentData.fillVbo)
-                {
+                if (currentData.fillVbo) {
                     gl.bufferData(gl.ARRAY_BUFFER, currentData.tessellatedPoints, gl.STATIC_DRAW);
                     dc.frameStatistics.incrementVboLoadCount(1);
                 }
@@ -124,18 +114,15 @@ define([
                 program.loadTextureEnabled(gl, false);
 
                 var color, opacity;
-                if (dc.pickingMode)
-                {
+                if (dc.pickingMode) {
                     color = dc.uniquePickColor();
                     opacity = 1;
-                } else
-                {
+                } else {
                     color = this.activeAttributes.outlineColor;
                     opacity = color.alpha * this.layer.opacity;
                 }
 
-                if (opacity < 1)
-                {
+                if (opacity < 1) {
                     gl.depthMask(false);
                 }
 
@@ -151,14 +138,12 @@ define([
                 gl.vertexAttribPointer(program.offsDirLocation, 3, gl.FLOAT, false, 24, 12);
                 gl.drawArrays(gl.TRIANGLE_STRIP, 0, currentData.tessellatedPoints.length / 6);
 
-                if (dc.pickingMode)
-                {
+                if (dc.pickingMode) {
                     var po = new PickedObject(color, this.pickDelegate ? this.pickDelegate : this, null, dc.currentLayer, false);
                     dc.resolvePick(po);
                 }
             }
-        } catch (e)
-        {
+        } catch (e) {
             console.error(e);
         }
     };
