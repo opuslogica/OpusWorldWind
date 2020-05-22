@@ -1,5 +1,4 @@
 define([
-    '../OpusWorldWind',
     'WebWorldWind/WorldWind',
     'WebWorldWind/shapes/AbstractMesh',
     'WebWorldWind/geom/Matrix',
@@ -8,7 +7,7 @@ define([
     'WebWorldWind/geom/Angle',
     'WebWorldWind/util/Logger',
     'WebWorldWind/error/UnsupportedOperationError'
-], function (OpusWorldWind, WorldWind, AbstractMesh, Matrix, Vec3, Position, Angle, Logger, UnsupportedOperationError) {
+], function (WorldWind, AbstractMesh, Matrix, Vec3, Position, Angle, Logger, UnsupportedOperationError) {
     var AbstractRigidMesh = function (center, attributes) {
         AbstractMesh.call(this, attributes);
 

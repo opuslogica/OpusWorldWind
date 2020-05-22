@@ -1,5 +1,4 @@
 define([
-    '../OpusWorldWind',
     'WebWorldWind/WorldWind',
     'WebWorldWind/util/Logger',
     'WebWorldWind/util/Color',
@@ -16,7 +15,7 @@ define([
     '../placemarks/PointPlacemarkAttributes',
     '../placemarks/SquarePlacemark',
     '../placemarks/ScreenShapePlacemarkAttributes'
-], function (OpusWorldWind, WorldWind, Logger, Color, WWMath, Angle, Vec3, Position, Location, UnsupportedOperationError, Path, ShapeAttributes, AbstractEditTool, PointPlacemark, PointPlacemarkAttributes, SquarePlacemark, ScreenShapePlacemarkAttributes) {
+], function (WorldWind, Logger, Color, WWMath, Angle, Vec3, Position, Location, UnsupportedOperationError, Path, ShapeAttributes, AbstractEditTool, PointPlacemark, PointPlacemarkAttributes, SquarePlacemark, ScreenShapePlacemarkAttributes) {
     var AbstractSurfaceShapeEditTool = function (wwd, shape) {
         AbstractEditTool.call(this, wwd, [shape]);
 

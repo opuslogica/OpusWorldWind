@@ -1,8 +1,7 @@
 define([
-    '../OpusWorldWind',
     'WebWorldWind/WorldWind',
     '../edittools/AbstractEditTool'
-], function (OpusWorldWind, WorldWind, AbstractEditTool) {
+], function (WorldWind, AbstractEditTool) {
     // An edit tool that just provides a cursor on renderable mouseover.
     var CursorEditTool = function (wwd, renderables) {
         AbstractEditTool.call(this, wwd, renderables);

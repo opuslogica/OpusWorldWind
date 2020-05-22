@@ -1,7 +1,6 @@
 define([
-    '../OpusWorldWind',
     'WebWorldWind/WorldWind'
-], function (OpusWorldWind, WorldWind) {
+], function (WorldWind) {
     var EditToolClickRecognizer = function (editTool, cb) {
         this._editTool = editTool;
         this._cb = cb;

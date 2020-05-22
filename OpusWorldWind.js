@@ -175,7 +175,6 @@ define([
     OpusWorldWind.WmsLayer = WmsLayer;
     OpusWorldWind.WmsParamLayer = WmsParamLayer;
 
-
     window.OpusWorldWind = OpusWorldWind;
 
     return OpusWorldWind;

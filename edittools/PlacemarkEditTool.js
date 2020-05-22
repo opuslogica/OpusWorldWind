@@ -1,10 +1,9 @@
 define([
-    '../OpusWorldWind',
     'WebWorldWind/WorldWind',
     'WebWorldWind/geom/Vec2',
     'WebWorldWind/geom/Vec3',
     '../edittools/AbstractEditTool',
-], function (OpusWorldWind, WorldWind, Vec2, Vec3, AbstractEditTool) {
+], function (WorldWind, Vec2, Vec3, AbstractEditTool) {
     var PlacemarkEditTool = function (wwd, placemarks) {
         AbstractEditTool.call(this, wwd, placemarks);
 

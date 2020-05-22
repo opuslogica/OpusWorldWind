@@ -1,5 +1,4 @@
 define([
-    '../OpusWorldWind',
     'WebWorldWind/WorldWind',
     'WebWorldWind/util/Color',
     'WebWorldWind/util/Font',
@@ -7,7 +6,7 @@ define([
     'WebWorldWind/layer/Layer',
     'WebWorldWind/shapes/ScreenText',
     'WebWorldWind/shapes/TextAttributes'
-], function (OpusWorldWind, WorldWind, Color, Font, Offset, Layer, ScreenText, TextAttributes) {
+], function (WorldWind, Color, Font, Offset, Layer, ScreenText, TextAttributes) {
     var LatLonIndicatorLayer = function () {
         Layer.call(this, 'Lat Lon Indicator');
 

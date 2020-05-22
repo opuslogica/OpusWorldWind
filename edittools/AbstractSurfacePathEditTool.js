@@ -1,5 +1,4 @@
 define([
-    '../OpusWorldWind',
     'WebWorldWind/WorldWind',
     'WebWorldWind/util/Logger',
     'WebWorldWind/error/UnsupportedOperationError',
@@ -8,7 +7,7 @@ define([
     '../edittools/AbstractPathEditTool',
     '../edittools/EditToolClickRecognizer',
     '../misc/ExtUtils'
-], function (OpusWorldWind, WorldWind, Logger, UnsupportedOperationError, Line, Vec3, AbstractPathEditTool, EditToolClickRecognizer, ExtUtils) {
+], function (WorldWind, Logger, UnsupportedOperationError, Line, Vec3, AbstractPathEditTool, EditToolClickRecognizer, ExtUtils) {
     var AbstractSurfacePathEditTool = function (wwd, path) {
         var that = this;
 

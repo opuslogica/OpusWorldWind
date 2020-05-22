@@ -1,9 +1,8 @@
 define([
-    '../OpusWorldWind',
     'WebWorldWind/WorldWind',
     'WebWorldWind/geom/Position',
     '../edittools/AbstractAirspacePathEditTool'
-], function (OpusWorldWind, WorldWind, Position, AbstractAirspacePathEditTool) {
+], function (WorldWind, Position, AbstractAirspacePathEditTool) {
     var ExtrudedPolygonEditTool = function (wwd, polygon) {
         AbstractAirspacePathEditTool.call(this, wwd, polygon);
     };

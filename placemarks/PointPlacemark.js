@@ -1,12 +1,11 @@
 define([
-    '../OpusWorldWind',
     '../placemarks/PointPlacemarkAttributes',
     'WebWorldWind/WorldWind',
     'WebWorldWind/shapes/AbstractShape',
     'WebWorldWind/shaders/GpuProgram',
     'WebWorldWind/geom/Matrix',
     'WebWorldWind/pick/PickedObject'
-], function (OpusWorldWind, PointPlacemarkAttributes, WorldWind, AbstractShape, GpuProgram, Matrix, PickedObject) {
+], function (PointPlacemarkAttributes, WorldWind, AbstractShape, GpuProgram, Matrix, PickedObject) {
     var PointProgram = function (gl) {
         var vertexShaderSource =
             'uniform float pointSize;' +

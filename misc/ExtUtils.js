@@ -1,5 +1,4 @@
 define([
-    '../OpusWorldWind',
     'WebWorldWind/WorldWind',
     'WebWorldWind/globe/Globe',
     'WebWorldWind/globe/Globe2D',
@@ -10,7 +9,7 @@ define([
     'WebWorldWind/geom/Line',
     'WebWorldWind/geom/Position',
     '../misc/Intersection'
-], function (OpusWorldWind, WorldWind, Globe, Globe2D, Angle, Vec3, Matrix, Plane, Line, Position, Intersection) {
+], function (WorldWind, Globe, Globe2D, Angle, Vec3, Matrix, Plane, Line, Position, Intersection) {
     var ExtUtils = {
         scratchMatrix: Matrix.fromIdentity(),
         convertWorldWindPositionAltitudeMode: function (wwd, position, fromAltitudeMode, toAltitudeMode) {

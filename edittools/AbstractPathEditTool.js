@@ -1,5 +1,4 @@
 define([
-    '../OpusWorldWind',
     'WebWorldWind/WorldWind',
     'WebWorldWind/util/Logger',
     'WebWorldWind/error/UnsupportedOperationError',
@@ -10,7 +9,7 @@ define([
     '../placemarks/SquarePlacemark',
     '../misc/ExtUtils',
     '../placemarks/ScreenShapePlacemarkAttributes'
-], function (OpusWorldWind, WorldWind, Logger, UnsupportedOperationError, ShapeAttributes, Position, AbstractEditTool, AbstractSurfaceShapeEditTool, SquarePlacemark, ExtUtils, ScreenShapePlacemarkAttributes) {
+], function (WorldWind, Logger, UnsupportedOperationError, ShapeAttributes, Position, AbstractEditTool, AbstractSurfaceShapeEditTool, SquarePlacemark, ExtUtils, ScreenShapePlacemarkAttributes) {
     var AbstractPathEditTool = function (wwd, path) {
         AbstractEditTool.call(this, wwd, path);
         this._handles = null;

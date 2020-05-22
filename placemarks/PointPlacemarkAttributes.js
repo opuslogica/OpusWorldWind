@@ -1,8 +1,7 @@
 define([
-    '../OpusWorldWind',
     'WebWorldWind/WorldWind',
     'WebWorldWind/shapes/ShapeAttributes'
-], function (OpusWorldWind, WorldWind, ShapeAttributes) {
+], function (WorldWind, ShapeAttributes) {
     var PointPlacemarkAttributes = function (attributes) {
         ShapeAttributes.call(this, attributes);
         this._pointSize = attributes ? attributes.pointSize : PointPlacemarkAttributes.DEFAULT_POINT_SIZE;
