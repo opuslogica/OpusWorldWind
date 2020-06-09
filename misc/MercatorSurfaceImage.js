@@ -4,8 +4,8 @@ define([
     'WebWorldWind/shapes/SurfaceImage',
     'WebWorldWind/util/Logger',
     'WebWorldWind/util/WWMath'
-], function (OpusWorldWind, WorldWind, SurfaceImage, Logger, WWMath) {
-    var MercatorSurfaceImage = function (sector, imageSource) {
+], function(OpusWorldWind, WorldWind, SurfaceImage, Logger, WWMath) {
+    var MercatorSurfaceImage = function(sector, imageSource) {
         SurfaceImage.call(this, sector, imageSource);
 
         this.crossOrigin = 'anonymous';
@@ -13,7 +13,7 @@ define([
 
     MercatorSurfaceImage.prototype = Object.create(SurfaceImage.prototype);
 
-    MercatorSurfaceImage.prototype._unprojectImage = function (dc, img) {
+    MercatorSurfaceImage.prototype._unprojectImage = function(dc, img) {
         var srcCanvas = dc.canvas2D;
         var srcContext = dc.ctx2D;
         var destCanvas = document.createElement('canvas');
@@ -31,16 +31,14 @@ define([
         var lat, g, srcRow, kSrc, kDest, sy, dy;
         var tMin = WWMath.gudermannianInverse(sector.minLatitude);
         var tMax = WWMath.gudermannianInverse(sector.maxLatitude);
-        for (var y = 0; y < img.height; y++)
-        {
+        for (var y = 0; y < img.height; y++) {
             sy = 1 - y / (img.height - 1);
             lat = sy * sector.deltaLatitude() + sector.minLatitude;
             g = WWMath.gudermannianInverse(lat);
             dy = 1 - (g - tMin) / (tMax - tMin);
             dy = WWMath.clamp(dy, 0, 1);
             srcRow = Math.floor(dy * (img.height - 1));
-            for (var x = 0; x < img.width; x++)
-            {
+            for (var x = 0; x < img.width; x++) {
                 kSrc = 4 * (x + srcRow * img.width);
                 kDest = 4 * (x + y * img.width);
 
@@ -55,38 +53,35 @@ define([
         return destCanvas;
     };
 
-    MercatorSurfaceImage.prototype._imageSourceKey = function () {
+    MercatorSurfaceImage.prototype._imageSourceKey = function() {
         return 'MercatorSurfaceImage:' + (this.imageSource instanceof WorldWind.ImageSource ? this.imageSource.key : this.imageSource);
     };
 
-    MercatorSurfaceImage.prototype._retrieveTexture = function (dc) {
+    MercatorSurfaceImage.prototype._retrieveTexture = function(dc) {
         var that = this;
         var imageSource = this.imageSource;
         var imageSourceKey = this._imageSourceKey();
 
-        if (!imageSource)
-        {
+        if (!imageSource) {
             return null;
         }
 
         var gl = dc.currentGlContext;
         var cache = dc.gpuResourceCache;
 
-        if (imageSource instanceof WorldWind.ImageSource)
-        {
+        if (imageSource instanceof WorldWind.ImageSource) {
             var unprojImg = this._unprojectImage(dc, imageSource.image);
             var t = new WorldWind.Texture(gl, unprojImg, gl.CLAMP_TO_EDGE);
             cache.putResource(imageSourceKey, t, t.size);
             return t;
         }
 
-        if (cache.currentRetrievals[imageSourceKey] || cache.absentResourceList.isResourceAbsent(imageSourceKey))
-        {
+        if (cache.currentRetrievals[imageSourceKey] || cache.absentResourceList.isResourceAbsent(imageSourceKey)) {
             return null;
         }
 
         var img = new Image();
-        img.onload = function () {
+        img.onload = function() {
             var unprojImg = that._unprojectImage(dc, img);
             var t = new WorldWind.Texture(gl, unprojImg, gl.CLAMP_TO_EDGE);
 
@@ -100,7 +95,7 @@ define([
             window.dispatchEvent(e);
         };
 
-        img.onerror = function () {
+        img.onerror = function() {
             delete cache.currentRetrievals[imageSourceKey];
             cache.absentResourceList.markResourceAbsent(imageSourceKey);
             Logger.log(Logger.LEVEL_WARNING, "Image retrieval failed: " + imageSource);
@@ -113,18 +108,15 @@ define([
         return null;
     };
 
-    MercatorSurfaceImage.prototype.bind = function (dc) {
+    MercatorSurfaceImage.prototype.bind = function(dc) {
         var imageSourceKey = this._imageSourceKey();
         var texture = dc.gpuResourceCache.resourceForKey(imageSourceKey);
-        if (texture && !this.imageSourceWasUpdated)
-        {
+        if (texture && !this.imageSourceWasUpdated) {
             return this.bindTexture(dc, texture);
-        } else
-        {
+        } else {
             texture = this._retrieveTexture(dc);
             this.imageSourceWasUpdated = false;
-            if (texture)
-            {
+            if (texture) {
                 return this.bindTexture(dc, texture);
             }
         }

@@ -7,11 +7,11 @@ define([
     'WebWorldWind/layer/Layer',
     'WebWorldWind/shapes/ScreenText',
     'WebWorldWind/shapes/TextAttributes'
-], function (OpusWorldWind, WorldWind, Color, Font, Offset, Layer, ScreenText, TextAttributes) {
+], function(OpusWorldWind, WorldWind, Color, Font, Offset, Layer, ScreenText, TextAttributes) {
     /**
      * A layer that indicates whether playback is active.
      */
-    var PlaybackIndicatorLayer = function () {
+    var PlaybackIndicatorLayer = function() {
         Layer.call(this, 'Playback Indicator');
 
         this.pickEnabled = false;
@@ -25,7 +25,7 @@ define([
 
     PlaybackIndicatorLayer.prototype = Object.create(Layer.prototype);
 
-    PlaybackIndicatorLayer.prototype.doRender = function (dc) {
+    PlaybackIndicatorLayer.prototype.doRender = function(dc) {
         this.text.render(dc);
     };
 

@@ -3,8 +3,8 @@ define([
     'WebWorldWind/WorldWind',
     'WebWorldWind/geom/Vec3',
     'OpusWorldWind/shapes/AbstractRigidMesh'
-], function (OpusWorldWind, WorldWind, Vec3, AbstractRigidMesh) {
-    var Pyramid = function (center, halfWidth, halfLength, halfHeight, attributes) {
+], function(OpusWorldWind, WorldWind, Vec3, AbstractRigidMesh) {
+    var Pyramid = function(center, halfWidth, halfLength, halfHeight, attributes) {
         AbstractRigidMesh.call(this, center, attributes);
         this._halfWidth = halfWidth;
         this._halfLength = halfLength;
@@ -30,11 +30,11 @@ define([
 
     Pyramid.prototype = Object.create(AbstractRigidMesh.prototype);
 
-    Pyramid.prototype.computeUnitPoints = function (dc) {
+    Pyramid.prototype.computeUnitPoints = function(dc) {
         return Pyramid.UNIT_POINTS;
     };
 
-    Pyramid.prototype.computeIndices = function (dc) {
+    Pyramid.prototype.computeIndices = function(dc) {
         return Pyramid.INDICES;
     };
 

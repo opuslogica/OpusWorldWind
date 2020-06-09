@@ -7,19 +7,19 @@ define([
     };
     SurfaceCircleEditTool.prototype = Object.create(AbstractSurfaceShapeEditTool.prototype);
 
-    SurfaceCircleEditTool.prototype.getCenter = function () {
+    SurfaceCircleEditTool.prototype.getCenter = function() {
         return this.renderables[0].center;
     };
 
-    SurfaceCircleEditTool.prototype.setCenter = function (center) {
+    SurfaceCircleEditTool.prototype.setCenter = function(center) {
         this.renderables[0].center = center;
     };
 
-    var getRadius = function () {
+    var getRadius = function() {
         return this.renderables[0].radius;
     };
 
-    var setRadius = function (radius) {
+    var setRadius = function(radius) {
         this.renderables[0].radius = radius;
     };
 
@@ -31,11 +31,11 @@ define([
 
     SurfaceCircleEditTool.prototype.setHalfHeight = setRadius;
 
-    SurfaceCircleEditTool.prototype.getHeading = function () {
+    SurfaceCircleEditTool.prototype.getHeading = function() {
         return this.renderables[0].heading;
     };
 
-    SurfaceCircleEditTool.prototype.setHeading = function (heading) {
+    SurfaceCircleEditTool.prototype.setHeading = function(heading) {
         this.renderables[0].heading = heading;
     };
 

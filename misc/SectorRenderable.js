@@ -6,7 +6,7 @@ define([
     /**
      * Renderable for visualizing a sector.
      */
-    var SectorRenderable = function (sector) {
+    var SectorRenderable = function(sector) {
         SurfaceTile.call(this, sector);
 
         this.enabled = true;
@@ -14,15 +14,13 @@ define([
     };
     SectorRenderable.prototype = Object.create(SurfaceTile.prototype);
 
-    SectorRenderable.prototype.bind = function (dc) {
+    SectorRenderable.prototype.bind = function(dc) {
         var gl = dc.currentGlContext;
         var textureKey = this.displayName;
         var texture = dc.gpuResourceCache.resourceForKey(textureKey);
-        if (texture)
-        {
+        if (texture) {
             return texture.bind(dc);
-        } else
-        {
+        } else {
             var canvas = dc.canvas2D;
             var ctx = dc.ctx2D;
             canvas.width = 1;
@@ -34,12 +32,10 @@ define([
         }
     };
 
-    SectorRenderable.prototype.applyInternalTransform = function (dc, matrix) {
-    };
+    SectorRenderable.prototype.applyInternalTransform = function(dc, matrix) {};
 
-    SectorRenderable.prototype.render = function (dc) {
-        if (!this.enabled || dc.pickingMode || !dc.terrain || !this.sector.overlaps(dc.terrain.sector) || dc.pickingMode)
-        {
+    SectorRenderable.prototype.render = function(dc) {
+        if (!this.enabled || dc.pickingMode || !dc.terrain || !this.sector.overlaps(dc.terrain.sector) || dc.pickingMode) {
             return;
         }
 

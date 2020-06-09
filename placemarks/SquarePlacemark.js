@@ -1,8 +1,8 @@
 define([
     'WebWorldWind/WorldWind',
     'OpusWorldWind/ScreenShapePlacemark'
-], function (WorldWind, ScreenShapePlacemark) {
-    var SquarePlacemark = function (position, attributes) {
+], function(WorldWind, ScreenShapePlacemark) {
+    var SquarePlacemark = function(position, attributes) {
         ScreenShapePlacemark.call(this, [
             -1, 1,
             1, -1,

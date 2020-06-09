@@ -20,7 +20,7 @@ define([
         this.destContext = this.destCanvas.getContext("2d");
 
         this.urlBuilder = {
-            urlForTile: function (tile, imageFormat) {
+            urlForTile: function(tile, imageFormat) {
                 var z = tile.level.levelNumber + 1;
                 var x = tile.column;
                 var y = tile.row;

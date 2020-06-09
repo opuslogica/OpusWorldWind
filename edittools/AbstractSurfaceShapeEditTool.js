@@ -16,8 +16,8 @@ define([
     'OpusWorldWind/placemarks/PointPlacemarkAttributes',
     'OpusWorldWind/placemarks/SquarePlacemark',
     'OpusWorldWind/placemarks/ScreenShapePlacemarkAttributes'
-], function (OpusWorldWind, WorldWind, Logger, Color, WWMath, Angle, Vec3, Position, Location, UnsupportedOperationError, Path, ShapeAttributes, AbstractEditTool, PointPlacemark, PointPlacemarkAttributes, SquarePlacemark, ScreenShapePlacemarkAttributes) {
-    var AbstractSurfaceShapeEditTool = function (wwd, shape) {
+], function(OpusWorldWind, WorldWind, Logger, Color, WWMath, Angle, Vec3, Position, Location, UnsupportedOperationError, Path, ShapeAttributes, AbstractEditTool, PointPlacemark, PointPlacemarkAttributes, SquarePlacemark, ScreenShapePlacemarkAttributes) {
+    var AbstractSurfaceShapeEditTool = function(wwd, shape) {
         AbstractEditTool.call(this, wwd, [shape]);
 
         var centerHandlePosition = this._computeCenterHandlePosition();
@@ -35,7 +35,7 @@ define([
             new SquarePlacemark(heightHandlePositions[1])
         ];
 
-        [this._centerHandle].concat(this._widthHandles).concat(this._heightHandles).forEach(function (handle) {
+        [this._centerHandle].concat(this._widthHandles).concat(this._heightHandles).forEach(function(handle) {
             handle.attributes.interiorColor = AbstractSurfaceShapeEditTool.NORMAL_HANDLE_COLOR;
             handle.attributes.drawOutline = false;
             handle.highlightAttributes = new ScreenShapePlacemarkAttributes(handle.attributes);
@@ -44,7 +44,7 @@ define([
 
         this._allHandles().forEach(this.addEditRenderable.bind(this));
 
-        this.editLayer.renderables.forEach(function (r) {
+        this.editLayer.renderables.forEach(function(r) {
             r.altitudeMode = WorldWind.CLAMP_TO_GROUND;
         });
 
@@ -63,11 +63,11 @@ define([
 
     AbstractSurfaceShapeEditTool.prototype = Object.create(AbstractEditTool.prototype);
 
-    AbstractSurfaceShapeEditTool.prototype._allHandles = function () {
+    AbstractSurfaceShapeEditTool.prototype._allHandles = function() {
         return [this._centerHandle].concat(this._heightHandles).concat(this._widthHandles);
     };
 
-    AbstractSurfaceShapeEditTool.prototype._fromCenterWithHeading = function (xLength, yLength) {
+    AbstractSurfaceShapeEditTool.prototype._fromCenterWithHeading = function(xLength, yLength) {
         // use the same calculation here as for (most) surface shapes
         var distance = Math.sqrt(xLength * xLength + yLength * yLength);
         var center = this.getCenter();
@@ -77,25 +77,25 @@ define([
         return new Position(loc.latitude, loc.longitude, 0);
     };
 
-    AbstractSurfaceShapeEditTool.prototype._computeCenterHandlePosition = function () {
+    AbstractSurfaceShapeEditTool.prototype._computeCenterHandlePosition = function() {
         return this.getCenter();
     };
 
-    AbstractSurfaceShapeEditTool.prototype._computeWidthHandlePositions = function () {
+    AbstractSurfaceShapeEditTool.prototype._computeWidthHandlePositions = function() {
         return [
             this._fromCenterWithHeading(-this.getHalfWidth(), 0),
             this._fromCenterWithHeading(this.getHalfWidth(), 0)
         ];
     };
 
-    AbstractSurfaceShapeEditTool.prototype._computeHeightHandlePositions = function () {
+    AbstractSurfaceShapeEditTool.prototype._computeHeightHandlePositions = function() {
         return [
             this._fromCenterWithHeading(0, -this.getHalfHeight()),
             this._fromCenterWithHeading(0, this.getHalfHeight())
         ];
     };
 
-    AbstractSurfaceShapeEditTool.prototype._updateHandlePositions = function () {
+    AbstractSurfaceShapeEditTool.prototype._updateHandlePositions = function() {
         this._centerHandle.position = this._computeCenterHandlePosition();
         var widthHandlePositions = this._computeWidthHandlePositions();
         var heightHandlePositions = this._computeHeightHandlePositions();
@@ -106,32 +106,29 @@ define([
         // heading handle is updated in beforeDrawFrame handler
     };
 
-    AbstractSurfaceShapeEditTool.prototype._renderableMousedOn = function (renderable, event) {
+    AbstractSurfaceShapeEditTool.prototype._renderableMousedOn = function(renderable, event) {
         this.wwd.canvas.style.cursor = 'pointer';
-        if (this._allHandles().indexOf(renderable) !== -1)
-        {
+        if (this._allHandles().indexOf(renderable) !== -1) {
             renderable.highlighted = true;
         }
         this._haveMouseOn = true;
         this.wwd.redraw();
     };
 
-    AbstractSurfaceShapeEditTool.prototype._renderableMousedOff = function (renderable, event) {
-        if (this.activeDragRenderable !== renderable
-            && AbstractEditTool.getMousedDownObject(this.wwd) !== renderable
-            && this._allHandles().indexOf(renderable) !== -1)
-        {
+    AbstractSurfaceShapeEditTool.prototype._renderableMousedOff = function(renderable, event) {
+        if (this.activeDragRenderable !== renderable &&
+            AbstractEditTool.getMousedDownObject(this.wwd) !== renderable &&
+            this._allHandles().indexOf(renderable) !== -1) {
             renderable.highlighted = false;
         }
         this._haveMouseOn = false;
-        if (this._dragStartInfo === null)
-        {
+        if (this._dragStartInfo === null) {
             this.wwd.canvas.style.cursor = 'default';
         }
         this.wwd.redraw();
     };
 
-    AbstractSurfaceShapeEditTool.prototype._axisHandleDrag = function (relAxisAngle, position, setter) {
+    AbstractSurfaceShapeEditTool.prototype._axisHandleDrag = function(relAxisAngle, position, setter) {
         var center = this.getCenter();
         var centerLoc = new Location(center.latitude, center.longitude);
         var posLoc = new Location(position.latitude, position.longitude);
@@ -143,129 +140,115 @@ define([
         setter.call(this, radius);
     };
 
-    AbstractSurfaceShapeEditTool.prototype._renderableDrag = function (renderable, recognizer, ended) {
+    AbstractSurfaceShapeEditTool.prototype._renderableDrag = function(renderable, recognizer, ended) {
         var pickedTerrain = this.wwd.pickTerrain(this.wwd.canvasCoordinates(recognizer.clientX, recognizer.clientY)).objects[0];
-        if (pickedTerrain)
-        {
-            if (renderable === this.renderables[0])
-            {
+        if (pickedTerrain) {
+            if (renderable === this.renderables[0]) {
                 var deltaLat = pickedTerrain.position.latitude - this._dragStartInfo.pickedTerrainPosition.latitude;
                 var deltaLon = pickedTerrain.position.longitude - this._dragStartInfo.pickedTerrainPosition.longitude;
                 var nextCenter = new Position(0, 0, 0).copy(this._dragStartInfo.center);
                 nextCenter.latitude += deltaLat;
                 nextCenter.longitude += deltaLon;
-                if (nextCenter.latitude <= 90 && nextCenter.latitude >= -90 && nextCenter.longitude >= -180 && nextCenter.longitude <= 180)
-                {
+                if (nextCenter.latitude <= 90 && nextCenter.latitude >= -90 && nextCenter.longitude >= -180 && nextCenter.longitude <= 180) {
                     this.setCenter(nextCenter);
                 }
-            } else if (renderable === this._centerHandle)
-            {
+            } else if (renderable === this._centerHandle) {
                 this.setCenter(pickedTerrain.position);
-            } else if (this._widthHandles.indexOf(renderable) !== -1)
-            {
+            } else if (this._widthHandles.indexOf(renderable) !== -1) {
                 this._axisHandleDrag(90, pickedTerrain.position, this.setHalfWidth);
-            } else if (this._heightHandles.indexOf(renderable) !== -1)
-            {
+            } else if (this._heightHandles.indexOf(renderable) !== -1) {
                 this._axisHandleDrag(0, pickedTerrain.position, this.setHalfHeight);
-            } else if (renderable === this._headingHandle)
-            {
+            } else if (renderable === this._headingHandle) {
                 var azimuthDegrees = Location.greatCircleAzimuth(this.getCenter(), pickedTerrain.position);
                 this.setHeading(azimuthDegrees);
-            } else
-            {
+            } else {
                 throw new Error('Unrecognized handle');
             }
             this._updateHandlePositions();
             this.emit('update', ended);
             this.wwd.redraw();
-        } else if (ended)
-        {
+        } else if (ended) {
             this.emit('update', true);
             this.wwd.redraw();
         }
     };
 
-    AbstractSurfaceShapeEditTool.prototype._renderableUpdated = function (renderable) {
-        if (renderable === this.renderables[0])
-        {
+    AbstractSurfaceShapeEditTool.prototype._renderableUpdated = function(renderable) {
+        if (renderable === this.renderables[0]) {
             this._updateHandlePositions();
         }
     };
 
-    AbstractSurfaceShapeEditTool.prototype._renderableDragBegan = function (renderable, recognizer) {
+    AbstractSurfaceShapeEditTool.prototype._renderableDragBegan = function(renderable, recognizer) {
         var pickedTerrain = this.wwd.pickTerrain(this.wwd.canvasCoordinates(recognizer.clientX, recognizer.clientY)).objects[0];
-        if (pickedTerrain)
-        {
+        if (pickedTerrain) {
             this._dragStartInfo = {
                 pickedTerrainPosition: pickedTerrain.position,
                 center: new Position(0, 0, 0).copy(this.renderables[0].center)
             };
-            if (this._allHandles().indexOf(renderable) !== -1)
-            {
+            if (this._allHandles().indexOf(renderable) !== -1) {
                 renderable.highlighted = true;
                 this.wwd.redraw();
             }
         }
     };
 
-    AbstractSurfaceShapeEditTool.prototype._renderableDragChanged = function (renderable, recognizer) {
+    AbstractSurfaceShapeEditTool.prototype._renderableDragChanged = function(renderable, recognizer) {
         this._renderableDrag(renderable, recognizer, false);
     };
 
-    AbstractSurfaceShapeEditTool.prototype._renderableDragEnded = function (renderable, recognizer) {
+    AbstractSurfaceShapeEditTool.prototype._renderableDragEnded = function(renderable, recognizer) {
         this._renderableDrag(renderable, recognizer, true);
         this._dragStartInfo = null;
-        if (!this._haveMouseOn)
-        {
+        if (!this._haveMouseOn) {
             this.wwd.canvas.style.cursor = 'default';
         }
-        if (this._allHandles().indexOf(renderable) !== -1)
-        {
+        if (this._allHandles().indexOf(renderable) !== -1) {
             renderable.highlighted = false;
             this.wwd.redraw();
         }
     };
 
-    AbstractSurfaceShapeEditTool.prototype.getCenter = function () {
+    AbstractSurfaceShapeEditTool.prototype.getCenter = function() {
         throw new UnsupportedOperationError(Logger.logMessage(Logger.LEVEL_SEVERE, "AbstractSurfaceShapeEditTool", "getCenter", "abstractInvocation"));
     };
 
-    AbstractSurfaceShapeEditTool.prototype.setCenter = function (center) {
+    AbstractSurfaceShapeEditTool.prototype.setCenter = function(center) {
         throw new UnsupportedOperationError(Logger.logMessage(Logger.LEVEL_SEVERE, "AbstractSurfaceShapeEditTool", "setCenter", "abstractInvocation"));
     };
 
-    AbstractSurfaceShapeEditTool.prototype.getHalfWidth = function () {
+    AbstractSurfaceShapeEditTool.prototype.getHalfWidth = function() {
         throw new UnsupportedOperationError(Logger.logMessage(Logger.LEVEL_SEVERE, "AbstractSurfaceShapeEditTool", "getHalfWidth", "abstractInvocation"));
     };
 
-    AbstractSurfaceShapeEditTool.prototype.setHalfWidth = function (halfWidth) {
+    AbstractSurfaceShapeEditTool.prototype.setHalfWidth = function(halfWidth) {
         throw new UnsupportedOperationError(Logger.logMessage(Logger.LEVEL_SEVERE, "AbstractSurfaceShapeEditTool", "setHalfWidth", "abstractInvocation"));
     };
 
-    AbstractSurfaceShapeEditTool.prototype.getHalfHeight = function () {
+    AbstractSurfaceShapeEditTool.prototype.getHalfHeight = function() {
         throw new UnsupportedOperationError(Logger.logMessage(Logger.LEVEL_SEVERE, "AbstractSurfaceShapeEditTool", "getHalfHeight", "abstractInvocation"));
     };
 
-    AbstractSurfaceShapeEditTool.prototype.setHalfHeight = function (halfHeight) {
+    AbstractSurfaceShapeEditTool.prototype.setHalfHeight = function(halfHeight) {
         throw new UnsupportedOperationError(Logger.logMessage(Logger.LEVEL_SEVERE, "AbstractSurfaceShapeEditTool", "setHalfHeight", "abstractInvocation"));
     };
 
-    AbstractSurfaceShapeEditTool.prototype.getHeading = function () {
+    AbstractSurfaceShapeEditTool.prototype.getHeading = function() {
         throw new UnsupportedOperationError(Logger.logMessage(Logger.LEVEL_SEVERE, "AbstractSurfaceShapeEditTool", "getHeading", "abstractInvocation"));
     };
 
-    AbstractSurfaceShapeEditTool.prototype.setHeading = function (heading) {
+    AbstractSurfaceShapeEditTool.prototype.setHeading = function(heading) {
         throw new UnsupportedOperationError(Logger.logMessage(Logger.LEVEL_SEVERE, "AbstractSurfaceShapeEditTool", "setHeading", "abstractInvocation"));
     };
 
-    AbstractSurfaceShapeEditTool.prototype.isEditingEnabled = function () {
-        return this.editLayer.renderables.reduce(function (acc, renderable) {
+    AbstractSurfaceShapeEditTool.prototype.isEditingEnabled = function() {
+        return this.editLayer.renderables.reduce(function(acc, renderable) {
             return acc || renderable.enabled;
         }, false);
     };
 
-    AbstractSurfaceShapeEditTool.prototype.setEditingEnabled = function (enabled) {
-        this.editLayer.renderables.forEach(function (renderable) {
+    AbstractSurfaceShapeEditTool.prototype.setEditingEnabled = function(enabled) {
+        this.editLayer.renderables.forEach(function(renderable) {
             renderable.enabled = enabled;
         });
     };

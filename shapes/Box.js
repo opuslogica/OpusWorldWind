@@ -3,8 +3,8 @@ define([
     'WebWorldWind/WorldWind',
     'WebWorldWind/geom/Vec3',
     'OpusWorldWind/shapes/AbstractRigidMesh'
-], function (OpusWorldWind, WorldWind, Vec3, AbstractRigidMesh) {
-    var Box = function (center, halfWidth, halfLength, halfHeight, attributes) {
+], function(OpusWorldWind, WorldWind, Vec3, AbstractRigidMesh) {
+    var Box = function(center, halfWidth, halfLength, halfHeight, attributes) {
         AbstractRigidMesh.call(this, center, attributes);
         this._halfWidth = halfWidth;
         this._halfLength = halfLength;
@@ -39,11 +39,11 @@ define([
 
     Box.prototype = Object.create(AbstractRigidMesh.prototype);
 
-    Box.prototype.computeUnitPoints = function (dc) {
+    Box.prototype.computeUnitPoints = function(dc) {
         return Box.UNIT_POINTS;
     };
 
-    Box.prototype.computeIndices = function (dc) {
+    Box.prototype.computeIndices = function(dc) {
         return Box.INDICES;
     };
 

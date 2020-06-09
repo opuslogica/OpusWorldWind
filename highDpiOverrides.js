@@ -6,19 +6,18 @@ require([
     'WebWorldWind/shapes/Placemark',
     'WebWorldWind/util/WWMath',
     'WebWorldWind/WorldWindow',
-], function (Vec2,
-             Placemark,
-             WWMath,
-             WorldWindow) {
+], function(Vec2,
+    Placemark,
+    WWMath,
+    WorldWindow) {
     'use strict';
 
-    Placemark.prototype.makeOrderedRenderable = function (dc) {
+    Placemark.prototype.makeOrderedRenderable = function(dc) {
         var w, h, s,
             offset;
 
         this.determineActiveAttributes(dc);
-        if (!this.activeAttributes)
-        {
+        if (!this.activeAttributes) {
             return null;
         }
 
@@ -32,8 +31,7 @@ require([
 
         this.eyeDistance = this.alwaysOnTop ? 0 : dc.eyePoint.distanceTo(this.placePoint);
 
-        if (this.mustDrawLeaderLine(dc))
-        {
+        if (this.mustDrawLeaderLine(dc)) {
             dc.surfacePointForMode(this.position.latitude, this.position.longitude, 0,
                 this.altitudeMode, this.groundPoint);
         }
@@ -43,8 +41,7 @@ require([
         // terrain. When a placemark is displayed near the terrain portions of its geometry are often behind the terrain,
         // yet as a screen element the placemark is expected to be visible. We adjust its depth values rather than moving
         // the placemark itself to avoid obscuring its actual position.
-        if (!dc.projectWithDepth(this.placePoint, this.depthOffset, Placemark.screenPoint))
-        {
+        if (!dc.projectWithDepth(this.placePoint, this.depthOffset, Placemark.screenPoint)) {
             return null;
         }
 
@@ -55,8 +52,7 @@ require([
         // image offset and image scale. The image offset is defined with its origin at the image's bottom-left corner and
         // axes that extend up and to the right from the origin point. When the placemark has no active texture the image
         // scale defines the image size and no other scaling is applied.
-        if (this.activeTexture)
-        {
+        if (this.activeTexture) {
             w = this.activeTexture.originalImageWidth;
             h = this.activeTexture.originalImageHeight;
             s = this.activeAttributes.imageScale * visibilityScale;
@@ -70,8 +66,7 @@ require([
                 Placemark.screenPoint[2]);
 
             this.imageTransform.setScale(w * s, h * s, 1);
-        } else
-        {
+        } else {
             s = this.activeAttributes.imageScale * visibilityScale;
             offset = this.activeAttributes.imageOffset.offsetForSize(s, s);
             // hack: scaled for high-dpi monitors
@@ -89,8 +84,7 @@ require([
 
         // If there's a label, perform these same operations for the label texture.
 
-        if (this.mustDrawLabel())
-        {
+        if (this.mustDrawLabel()) {
 
             this.labelTexture = dc.createTextTexture(this.label, this.activeAttributes.labelAttributes);
 
@@ -113,10 +107,10 @@ require([
     };
 
 
-    WorldWindow.prototype.canvasCoordinates = function (x, y) {
+    WorldWindow.prototype.canvasCoordinates = function(x, y) {
         var bbox = this.canvas.getBoundingClientRect(),
-            xc = x - (bbox.left + this.canvas.clientLeft),// * (this.canvas.width / bbox.width),
-            yc = y - (bbox.top + this.canvas.clientTop);// * (this.canvas.height / bbox.height);
+            xc = x - (bbox.left + this.canvas.clientLeft), // * (this.canvas.width / bbox.width),
+            yc = y - (bbox.top + this.canvas.clientTop); // * (this.canvas.height / bbox.height);
 
         // hack: scaled for high-dpi monitors
         return (new Vec2(xc, yc)).multiply(this.pixelScale);

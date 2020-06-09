@@ -21,7 +21,7 @@ define([
         this.destContext = this.destCanvas.getContext("2d");
 
         this.urlBuilder = {
-            urlForTile: function (tile, imageFormat) {
+            urlForTile: function(tile, imageFormat) {
                 var server = servers[Math.floor(Math.random() * servers.length)];
                 return "https://" + server + ".tile.openstreetmap.org/" + (tile.level.levelNumber + 1) + "/" + tile.column + "/" + tile.row + ".png";
             }

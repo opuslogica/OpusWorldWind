@@ -14,26 +14,26 @@ define([
 
     Object.defineProperties(PointCloudAttributes.prototype, {
         pointSize: {
-            get: function () {
+            get: function() {
                 return this._pointSize;
             },
-            set: function (pointSize) {
+            set: function(pointSize) {
                 this._pointSize = pointSize;
                 this.stateKeyInvalid = true;
             }
         },
         offsetDepth: {
-            get: function () {
+            get: function() {
                 return this._offsetDepth;
             },
-            set: function (offsetDepth) {
+            set: function(offsetDepth) {
                 this._offsetDepth = offsetDepth;
                 this.stateKeyInvalid = true;
             }
         }
     });
 
-    PointCloudAttributes.prototype.computeStateKey = function () {
+    PointCloudAttributes.prototype.computeStateKey = function() {
         return ShapeAttributes.prototype.computeStateKey.call(this) +
             ' ps ' + this._pointSize;
     };

@@ -7,8 +7,8 @@ define([
     'WebWorldWind/shapes/GeographicText',
     'OpusWorldWind/placemarks/PedestalPlacemark',
     'OpusWorldWind/placemarks/SquarePlacemark'
-], function (WorldWind, Color, Font, Vec2, Offset, GeographicText, PedestalPlacemark, SquarePlacemark) {
-    var TextBox = function (wwd, position, text) {
+], function(WorldWind, Color, Font, Vec2, Offset, GeographicText, PedestalPlacemark, SquarePlacemark) {
+    var TextBox = function(wwd, position, text) {
         this._wwd = wwd;
 
         this._position = position;
@@ -27,12 +27,12 @@ define([
     };
 
     var props = {};
-    ['_position', '_borderColor', '_borderWidth', '_backgroundColor', '_textColor', '_textFont', '_text'].forEach(function (attr) {
+    ['_position', '_borderColor', '_borderWidth', '_backgroundColor', '_textColor', '_textFont', '_text'].forEach(function(attr) {
         props[attr.substring(1)] = {
-            get: function () {
+            get: function() {
                 return this[attr];
             },
-            set: function (v) {
+            set: function(v) {
                 this[attr] = v;
                 this._updateAttributes();
             }
@@ -40,7 +40,7 @@ define([
     });
     Object.defineProperties(TextBox.prototype, props);
 
-    TextBox.prototype._updateAttributes = function () {
+    TextBox.prototype._updateAttributes = function() {
         var backgroundOffsetY = -2;
         var backgroundHorizPadding = 10;
         var backgroundVertPadding = 4;
@@ -82,13 +82,13 @@ define([
         this._geogText.attributes.offset = new Offset(WorldWind.OFFSET_PIXELS, textOffs[0], WorldWind.OFFSET_PIXELS, textOffs[1]);
     };
 
-    TextBox.prototype.addToLayer = function (renderableLayer) {
+    TextBox.prototype.addToLayer = function(renderableLayer) {
         renderableLayer.addRenderable(this._pedestal);
         renderableLayer.addRenderable(this._background);
         renderableLayer.addRenderable(this._geogText);
     };
 
-    TextBox.prototype.removeFromLayer = function (renderableLayer) {
+    TextBox.prototype.removeFromLayer = function(renderableLayer) {
         renderableLayer.removeRenderable(this._pedestal);
         renderableLayer.removeRenderable(this._background);
         renderableLayer.removeRenderable(this._geogText);
