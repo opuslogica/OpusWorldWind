@@ -1,9 +1,9 @@
 define([
     'WebWorldWind/WorldWind',
     '../edittools/AbstractEditTool'
-], function (WorldWind, AbstractEditTool) {
+], function(WorldWind, AbstractEditTool) {
     // An edit tool that just provides a cursor on renderable mouseover.
-    var CursorEditTool = function (wwd, renderables) {
+    var CursorEditTool = function(wwd, renderables) {
         AbstractEditTool.call(this, wwd, renderables);
 
         this.addEventListener('renderableMousedOn', this._renderableMousedOn.bind(this));
@@ -11,11 +11,11 @@ define([
     };
     CursorEditTool.prototype = Object.create(AbstractEditTool.prototype);
 
-    CursorEditTool.prototype._renderableMousedOn = function (renderable, event) {
+    CursorEditTool.prototype._renderableMousedOn = function(renderable, event) {
         this.wwd.canvas.style.cursor = 'pointer';
     };
 
-    CursorEditTool.prototype._renderableMousedOff = function (renderable, event) {
+    CursorEditTool.prototype._renderableMousedOff = function(renderable, event) {
         this.wwd.canvas.style.cursor = 'default';
     };
 

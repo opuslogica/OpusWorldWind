@@ -6,8 +6,8 @@ define([
     '../edittools/AbstractEditTool',
     '../placemarks/PedestalPlacemark',
     '../placemarks/SquarePlacemark',
-], function (WorldWind, Location, Position, GeographicText, AbstractEditTool, PedestalPlacemark, SquarePlacemark) {
-    var RangeRingEditTool = function (wwd, arc, label) {
+], function(WorldWind, Location, Position, GeographicText, AbstractEditTool, PedestalPlacemark, SquarePlacemark) {
+    var RangeRingEditTool = function(wwd, arc, label) {
         AbstractEditTool.call(this, wwd, arc);
 
         this._annotationRenderables = [];
@@ -21,28 +21,28 @@ define([
 
     Object.defineProperties(RangeRingEditTool.prototype, {
         label: {
-            get: function () {
+            get: function() {
                 return this._label;
             },
-            set: function (value) {
+            set: function(value) {
                 this._label = value;
             }
         }
     });
 
-    RangeRingEditTool.prototype._clearAnnotation = function (visible) {
+    RangeRingEditTool.prototype._clearAnnotation = function(visible) {
         this._annotationRenderables.forEach(this.removeEditRenderable.bind(this));
         this._annotationRenderables = [];
     };
 
-    RangeRingEditTool.prototype._renderableUpdated = function (renderable) {
+    RangeRingEditTool.prototype._renderableUpdated = function(renderable) {
         if (renderable === this.renderables[0]) {
             this._clearAnnotation();
             this.wwd.redraw();
         }
     };
 
-    RangeRingEditTool.prototype._renderableMousedOn = function (renderable, event) {
+    RangeRingEditTool.prototype._renderableMousedOn = function(renderable, event) {
         if (renderable === this.renderables[0]) {
             this.wwd.canvas.style.cursor = 'pointer';
             this._clearAnnotation();
@@ -89,7 +89,7 @@ define([
         }
     };
 
-    RangeRingEditTool.prototype._renderableMousedOff = function (renderable, event) {
+    RangeRingEditTool.prototype._renderableMousedOff = function(renderable, event) {
         if (renderable === this.renderables[0]) {
             this.wwd.canvas.style.cursor = 'default';
             this._clearAnnotation();

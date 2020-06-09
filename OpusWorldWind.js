@@ -52,7 +52,7 @@ define([
     './shapes/Wedge',
     './layers/WmsLayer',
     './layers/WmsParamLayer'
-], function (
+], function(
     overrides,
     highDpiOverrides,
     AbstractAirspacePathEditTool,
@@ -179,4 +179,3 @@ define([
 
     return OpusWorldWind;
 });
-

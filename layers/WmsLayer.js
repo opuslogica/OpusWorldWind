@@ -4,8 +4,8 @@ define([
     'WebWorldWind/geom/Sector',
     'WebWorldWind/geom/Location',
     'WebWorldWind/util/WmsUrlBuilder'
-], function (WorldWind, TiledImageLayer, Sector, Location, WmsUrlBuilder) {
-    var WmsLayer = function (wmsHostURL, info) {
+], function(WorldWind, TiledImageLayer, Sector, Location, WmsUrlBuilder) {
+    var WmsLayer = function(wmsHostURL, info) {
         TiledImageLayer.call(this, Sector.FULL_SPHERE, new Location(45, 45), 16, "image/png", info.key, 256, 256);
 
         this.displayName = info.raptorName;

@@ -6,8 +6,8 @@ define([
     'WebWorldWind/geom/Location',
     'WebWorldWind/geom/Position',
     '../shapes/TriPath'
-], function (WorldWind, ArgumentError, Logger, Angle, Location, Position, TriPath) {
-    var SurfaceArc = function (center, radius, angle, heading, attributes) {
+], function(WorldWind, ArgumentError, Logger, Angle, Location, Position, TriPath) {
+    var SurfaceArc = function(center, radius, angle, heading, attributes) {
         if (center === undefined) {
             throw new ArgumentError(
                 Logger.logMessage(Logger.LEVEL_SEVERE, 'SurfaceArc', 'constructor', 'Center is undefined.'));
@@ -39,46 +39,46 @@ define([
 
     Object.defineProperties(SurfaceArc.prototype, {
         center: {
-            get: function () {
+            get: function() {
                 return this._center;
             },
-            set: function (value) {
+            set: function(value) {
                 this._dirty = true;
                 this._center = value;
             }
         },
         radius: {
-            get: function () {
+            get: function() {
                 return this._radius;
             },
-            set: function (value) {
+            set: function(value) {
                 this._dirty = true;
                 this._radius = value;
             }
         },
         angle: {
-            get: function () {
+            get: function() {
                 return this._angle;
             },
-            set: function (value) {
+            set: function(value) {
                 this._dirty = true;
                 this._angle = value;
             }
         },
         heading: {
-            get: function () {
+            get: function() {
                 return this._heading;
             },
-            set: function (value) {
+            set: function(value) {
                 this._dirty = true;
                 this._heading = value;
             }
         },
         intervals: {
-            get: function () {
+            get: function() {
                 return this._intervals;
             },
-            set: function (value) {
+            set: function(value) {
                 this._dirty = true;
                 this._intervals = value;
             }
@@ -88,7 +88,7 @@ define([
     SurfaceArc.DEFAULT_NUM_INTERVALS = 64;
     SurfaceArc.MIN_NUM_INTERVALS = 8;
 
-    SurfaceArc.prototype.doMakeOrderedRenderable = function (dc) {
+    SurfaceArc.prototype.doMakeOrderedRenderable = function(dc) {
         if (this._dirty) {
             this._positions = this.computePositions(dc);
             this._altitudeMode = WorldWind.CLAMP_TO_GROUND;
@@ -99,7 +99,7 @@ define([
         return TriPath.prototype.doMakeOrderedRenderable.call(this, dc);
     };
 
-    SurfaceArc.prototype.computePositions = function (dc) {
+    SurfaceArc.prototype.computePositions = function(dc) {
         if (this._radius === 0) {
             return null;
         }
@@ -121,7 +121,7 @@ define([
         return positions;
     };
 
-    SurfaceArc.staticStateKey = function (shape) {
+    SurfaceArc.staticStateKey = function(shape) {
         var shapeStateKey = SurfaceShape.staticStateKey(shape);
         return shapeStateKey +
             ' ce ' + shape.center.toString() +
@@ -131,7 +131,7 @@ define([
             ' in ' + shape.intervals.toString();
     };
 
-    SurfaceArc.prototype.computeStateKey = function () {
+    SurfaceArc.prototype.computeStateKey = function() {
         return SurfaceArc.staticStateKey(this);
     };
 

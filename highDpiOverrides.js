@@ -6,13 +6,13 @@ require([
     'WebWorldWind/shapes/Placemark',
     'WebWorldWind/util/WWMath',
     'WebWorldWind/WorldWindow',
-], function (Vec2,
+], function(Vec2,
     Placemark,
     WWMath,
     WorldWindow) {
     'use strict';
 
-    Placemark.prototype.makeOrderedRenderable = function (dc) {
+    Placemark.prototype.makeOrderedRenderable = function(dc) {
         var w, h, s,
             offset;
 
@@ -107,10 +107,10 @@ require([
     };
 
 
-    WorldWindow.prototype.canvasCoordinates = function (x, y) {
+    WorldWindow.prototype.canvasCoordinates = function(x, y) {
         var bbox = this.canvas.getBoundingClientRect(),
-            xc = x - (bbox.left + this.canvas.clientLeft),// * (this.canvas.width / bbox.width),
-            yc = y - (bbox.top + this.canvas.clientTop);// * (this.canvas.height / bbox.height);
+            xc = x - (bbox.left + this.canvas.clientLeft), // * (this.canvas.width / bbox.width),
+            yc = y - (bbox.top + this.canvas.clientTop); // * (this.canvas.height / bbox.height);
 
         // hack: scaled for high-dpi monitors
         return (new Vec2(xc, yc)).multiply(this.pixelScale);

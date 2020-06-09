@@ -3,17 +3,15 @@ define([
     'WebWorldWind/geom/Vec2',
     'WebWorldWind/geom/Vec3',
     '../edittools/AbstractEditTool',
-], function (WorldWind, Vec2, Vec3, AbstractEditTool) {
-    var PlacemarkEditTool = function (wwd, placemarks) {
+], function(WorldWind, Vec2, Vec3, AbstractEditTool) {
+    var PlacemarkEditTool = function(wwd, placemarks) {
         AbstractEditTool.call(this, wwd, placemarks);
 
         this._highlightOnMouseOver = false;
 
-        this._prevScales = placemarks.map(function () {
-        });
-        this._prevHighlightScales = placemarks.map(function () {
-        });
-        this._renderableDragScreenOffs = placemarks.map(function () {
+        this._prevScales = placemarks.map(function() {});
+        this._prevHighlightScales = placemarks.map(function() {});
+        this._renderableDragScreenOffs = placemarks.map(function() {
             return new Vec2(0, 0);
         });
 
@@ -28,18 +26,18 @@ define([
 
     Object.defineProperties(PlacemarkEditTool.prototype, {
         highlightOnMouseOver: {
-            get: function () {
+            get: function() {
                 return this._highlightOnMouseOver;
             },
-            set: function (value) {
+            set: function(value) {
                 this._highlightOnMouseOver = value;
             }
         }
     });
 
-    PlacemarkEditTool.prototype._renderableMousedOn = function (renderable, event) {
+    PlacemarkEditTool.prototype._renderableMousedOn = function(renderable, event) {
         var that = this;
-        this.renderables.forEach(function (renderable, index) {
+        this.renderables.forEach(function(renderable, index) {
             that._prevScales[index] = renderable.attributes.imageScale;
             renderable.attributes.imageScale *= 1.2;
             if (that._highlightOnMouseOver) {
@@ -55,9 +53,9 @@ define([
         this.wwd.redraw();
     };
 
-    PlacemarkEditTool.prototype._renderableMousedOff = function (renderable, event) {
+    PlacemarkEditTool.prototype._renderableMousedOff = function(renderable, event) {
         var that = this;
-        this.renderables.forEach(function (renderable, index) {
+        this.renderables.forEach(function(renderable, index) {
             renderable.attributes.imageScale = that._prevScales[index];
             if (that._highlightOnMouseOver) {
                 renderable.highlighted = false;
@@ -73,9 +71,9 @@ define([
         this.wwd.redraw();
     };
 
-    PlacemarkEditTool.prototype._renderableDragBegan = function (renderable, recognizer) {
+    PlacemarkEditTool.prototype._renderableDragBegan = function(renderable, recognizer) {
         var that = this;
-        this.renderables.forEach(function (renderable, index) {
+        this.renderables.forEach(function(renderable, index) {
             var dragScreenCoord = that.wwd.canvasCoordinates(recognizer.clientX, recognizer.clientY);
             var position = renderable.position;
             var point = that.wwd.globe.computePointFromPosition(position.latitude, position.longitude, position.altitude, new Vec3(0, 0, 0));
@@ -88,9 +86,9 @@ define([
         });
     };
 
-    PlacemarkEditTool.prototype._renderableDragChanged = function (renderable, recognizer) {
+    PlacemarkEditTool.prototype._renderableDragChanged = function(renderable, recognizer) {
         var that = this;
-        this.renderables.forEach(function (renderable, index) {
+        this.renderables.forEach(function(renderable, index) {
             var dragScreenCoord = that.wwd.canvasCoordinates(recognizer.clientX, recognizer.clientY);
             var offs = that._renderableDragScreenOffs[index];
             dragScreenCoord[0] += offs[0];
@@ -104,7 +102,7 @@ define([
         this.wwd.redraw();
     };
 
-    PlacemarkEditTool.prototype._renderableDragEnded = function (renderable, recognizer) {
+    PlacemarkEditTool.prototype._renderableDragEnded = function(renderable, recognizer) {
         this.emit('update', true);
         this.wwd.redraw();
     };

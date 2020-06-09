@@ -1,8 +1,8 @@
 define([
     'WebWorldWind/WorldWind',
     'WebWorldWind/shapes/ShapeAttributes'
-], function (WorldWind, ShapeAttributes) {
-    var PointCloudAttributes = function (attributes) {
+], function(WorldWind, ShapeAttributes) {
+    var PointCloudAttributes = function(attributes) {
         ShapeAttributes.call(this, attributes);
         this._pointSize = attributes ? attributes.pointSize : PointCloudAttributes.DEFAULT_POINT_SIZE;
         this._offsetDepth = attributes ? attributes.offsetDepth : true;
@@ -14,26 +14,26 @@ define([
 
     Object.defineProperties(PointCloudAttributes.prototype, {
         pointSize: {
-            get: function () {
+            get: function() {
                 return this._pointSize;
             },
-            set: function (pointSize) {
+            set: function(pointSize) {
                 this._pointSize = pointSize;
                 this.stateKeyInvalid = true;
             }
         },
         offsetDepth: {
-            get: function () {
+            get: function() {
                 return this._offsetDepth;
             },
-            set: function (offsetDepth) {
+            set: function(offsetDepth) {
                 this._offsetDepth = offsetDepth;
                 this.stateKeyInvalid = true;
             }
         }
     });
 
-    PointCloudAttributes.prototype.computeStateKey = function () {
+    PointCloudAttributes.prototype.computeStateKey = function() {
         return ShapeAttributes.prototype.computeStateKey.call(this) +
             ' ps ' + this._pointSize;
     };

@@ -6,11 +6,11 @@ define([
     'WebWorldWind/pick/PickedObject',
     '../programs/TriPathProgram',
     '../misc/ExtUtils'
-], function (WorldWind, Path, Vec3, Matrix, PickedObject, TriPathProgram, ExtUtils) {
+], function(WorldWind, Path, Vec3, Matrix, PickedObject, TriPathProgram, ExtUtils) {
     /**
      * A variant of Path that uses TRIANGLE_STRIP to render lines instead of LINE_STRIP and lineWidth (lineWidth is unsupported on modern browsers).
      */
-    var TriPath = function (positions, attributes) {
+    var TriPath = function(positions, attributes) {
         Path.call(this, positions, attributes);
 
         this._pickBoundaryWidth = 10;
@@ -23,17 +23,17 @@ define([
          * The extra width added to the outlineWidth when rendering in picking mode.
          */
         pickBoundaryWidth: {
-            get: function () {
+            get: function() {
                 return this._pickBoundaryWidth;
             },
-            set: function (pickBoundaryWidth) {
+            set: function(pickBoundaryWidth) {
                 this._pickBoundaryWidth = pickBoundaryWidth;
                 this.reset();
             }
         }
     });
 
-    TriPath.prototype.computeRenderedPath = function (dc, tessellatedPositions) {
+    TriPath.prototype.computeRenderedPath = function(dc, tessellatedPositions) {
         var altitudeMode;
         if (this._followTerrain && this.altitudeMode !== WorldWind.CLAMP_TO_GROUND) {
             altitudeMode = WorldWind.RELATIVE_TO_GROUND;
@@ -42,10 +42,13 @@ define([
         }
         var eyeDistSquared = Number.MAX_VALUE;
         var tessellatedPoints = new Float32Array(tessellatedPositions.length * 3 * 2 * 2);
-        var pt = new Vec3(0, 0, 0), lastPt = new Vec3(0, 0, 0), normal = new Vec3(0, 0, 0), offsDir = new Vec3(0, 0, 0);
-        var mat = Matrix.fromIdentity();
-        {
-            var p1 = tessellatedPositions[0], p2 = tessellatedPositions[1];
+        var pt = new Vec3(0, 0, 0),
+            lastPt = new Vec3(0, 0, 0),
+            normal = new Vec3(0, 0, 0),
+            offsDir = new Vec3(0, 0, 0);
+        var mat = Matrix.fromIdentity(); {
+            var p1 = tessellatedPositions[0],
+                p2 = tessellatedPositions[1];
             dc.surfacePointForMode(p1.latitude, p1.longitude, p1.altitude, altitudeMode, lastPt);
             dc.surfacePointForMode(p2.latitude, p2.longitude, p2.altitude, altitudeMode, offsDir);
             offsDir.subtract(lastPt).normalize();
@@ -82,10 +85,12 @@ define([
         return tessellatedPoints;
     };
 
-    TriPath.prototype.doRenderOrdered = function (dc) {
+    TriPath.prototype.doRenderOrdered = function(dc) {
         try {
             if (this.activeAttributes.drawOutline) {
-                var gl = dc.currentGlContext, program = dc.currentProgram, currentData = this.currentData;
+                var gl = dc.currentGlContext,
+                    program = dc.currentProgram,
+                    currentData = this.currentData;
 
                 this.applyMvpMatrixForOutline(dc);
 
@@ -148,14 +153,14 @@ define([
         }
     };
 
-    TriPath.prototype.beginDrawing = function (dc) {
+    TriPath.prototype.beginDrawing = function(dc) {
         var gl = dc.currentGlContext;
         dc.findAndBindProgram(TriPathProgram);
         gl.enableVertexAttribArray(dc.currentProgram.vertexPointLocation);
         gl.enableVertexAttribArray(dc.currentProgram.offsDirLocation);
     };
 
-    TriPath.prototype.endDrawing = function (dc) {
+    TriPath.prototype.endDrawing = function(dc) {
         var gl = dc.currentGlContext;
         gl.disableVertexAttribArray(dc.currentProgram.vertexPointLocation);
         gl.disableVertexAttribArray(dc.currentProgram.offsDirLocation);

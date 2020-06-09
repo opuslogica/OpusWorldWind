@@ -3,8 +3,8 @@ define([
     'WebWorldWind/shapes/SurfaceImage',
     'WebWorldWind/util/Logger',
     'WebWorldWind/util/WWMath'
-], function (WorldWind, SurfaceImage, Logger, WWMath) {
-    var MercatorSurfaceImage = function (sector, imageSource) {
+], function(WorldWind, SurfaceImage, Logger, WWMath) {
+    var MercatorSurfaceImage = function(sector, imageSource) {
         SurfaceImage.call(this, sector, imageSource);
 
         this.crossOrigin = 'anonymous';
@@ -12,7 +12,7 @@ define([
 
     MercatorSurfaceImage.prototype = Object.create(SurfaceImage.prototype);
 
-    MercatorSurfaceImage.prototype._unprojectImage = function (dc, img) {
+    MercatorSurfaceImage.prototype._unprojectImage = function(dc, img) {
         var srcCanvas = dc.canvas2D;
         var srcContext = dc.ctx2D;
         var destCanvas = document.createElement('canvas');
@@ -52,11 +52,11 @@ define([
         return destCanvas;
     };
 
-    MercatorSurfaceImage.prototype._imageSourceKey = function () {
+    MercatorSurfaceImage.prototype._imageSourceKey = function() {
         return 'MercatorSurfaceImage:' + (this.imageSource instanceof WorldWind.ImageSource ? this.imageSource.key : this.imageSource);
     };
 
-    MercatorSurfaceImage.prototype._retrieveTexture = function (dc) {
+    MercatorSurfaceImage.prototype._retrieveTexture = function(dc) {
         var that = this;
         var imageSource = this.imageSource;
         var imageSourceKey = this._imageSourceKey();
@@ -80,7 +80,7 @@ define([
         }
 
         var img = new Image();
-        img.onload = function () {
+        img.onload = function() {
             var unprojImg = that._unprojectImage(dc, img);
             var t = new WorldWind.Texture(gl, unprojImg, gl.CLAMP_TO_EDGE);
 
@@ -94,7 +94,7 @@ define([
             window.dispatchEvent(e);
         };
 
-        img.onerror = function () {
+        img.onerror = function() {
             delete cache.currentRetrievals[imageSourceKey];
             cache.absentResourceList.markResourceAbsent(imageSourceKey);
             Logger.log(Logger.LEVEL_WARNING, "Image retrieval failed: " + imageSource);
@@ -107,7 +107,7 @@ define([
         return null;
     };
 
-    MercatorSurfaceImage.prototype.bind = function (dc) {
+    MercatorSurfaceImage.prototype.bind = function(dc) {
         var imageSourceKey = this._imageSourceKey();
         var texture = dc.gpuResourceCache.resourceForKey(imageSourceKey);
         if (texture && !this.imageSourceWasUpdated) {

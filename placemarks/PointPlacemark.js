@@ -5,8 +5,8 @@ define([
     'WebWorldWind/shaders/GpuProgram',
     'WebWorldWind/geom/Matrix',
     'WebWorldWind/pick/PickedObject'
-], function (PointPlacemarkAttributes, WorldWind, AbstractShape, GpuProgram, Matrix, PickedObject) {
-    var PointProgram = function (gl) {
+], function(PointPlacemarkAttributes, WorldWind, AbstractShape, GpuProgram, Matrix, PickedObject) {
+    var PointProgram = function(gl) {
         var vertexShaderSource =
             'uniform float pointSize;' +
             'uniform mat4 mvpMatrix;' +
@@ -38,23 +38,23 @@ define([
 
     PointProgram.prototype = Object.create(GpuProgram.prototype);
 
-    PointProgram.prototype.loadPointSize = function (gl, pointSize) {
+    PointProgram.prototype.loadPointSize = function(gl, pointSize) {
         gl.uniform1f(this.pointSizeLocation, pointSize);
     };
 
-    PointProgram.prototype.loadModelviewProjection = function (gl, matrix) {
+    PointProgram.prototype.loadModelviewProjection = function(gl, matrix) {
         this.loadUniformMatrix(gl, matrix, this.mvpMatrixLocation);
     };
 
-    PointProgram.prototype.loadColor = function (gl, color) {
+    PointProgram.prototype.loadColor = function(gl, color) {
         this.loadUniformColor(gl, color, this.colorLocation);
     };
 
-    PointProgram.prototype.loadColorComponents = function (gl, red, green, blue, alpha) {
+    PointProgram.prototype.loadColorComponents = function(gl, red, green, blue, alpha) {
         this.loadUniformColorComponents(gl, red, green, blue, alpha, this.colorLocation);
     };
 
-    var PointPlacemark = function (position, attributes) {
+    var PointPlacemark = function(position, attributes) {
         attributes = attributes || new PointPlacemarkAttributes(null);
 
         if (!position) {
@@ -72,17 +72,17 @@ define([
 
     Object.defineProperties(PointPlacemark.prototype, {
         position: {
-            get: function () {
+            get: function() {
                 return this._position;
             },
-            set: function (position) {
+            set: function(position) {
                 this._position = position;
                 this.reset();
             }
         }
     });
 
-    PointPlacemark.prototype.doMakeOrderedRenderable = function (dc) {
+    PointPlacemark.prototype.doMakeOrderedRenderable = function(dc) {
         var currentData = this.currentData;
         var surfacePoint = new WorldWind.Vec3();
         var screenPoint = new WorldWind.Vec3();
@@ -95,13 +95,13 @@ define([
         return this;
     };
 
-    PointPlacemark.prototype.beginDrawing = function (dc) {
+    PointPlacemark.prototype.beginDrawing = function(dc) {
         var gl = dc.currentGlContext;
         dc.findAndBindProgram(PointProgram);
         gl.enableVertexAttribArray(dc.currentProgram.vertexPointLocation);
     };
 
-    PointPlacemark.prototype.doRenderOrdered = function (dc) {
+    PointPlacemark.prototype.doRenderOrdered = function(dc) {
         var currentData = this.currentData;
         var gl = dc.currentGlContext;
         var program = dc.currentProgram;
@@ -142,7 +142,7 @@ define([
         }
     };
 
-    PointPlacemark.prototype.endDrawing = function (dc) {
+    PointPlacemark.prototype.endDrawing = function(dc) {
         gl.disableVertexAttribArray(dc.currentProgram.vertexPointLocation);
     };
 

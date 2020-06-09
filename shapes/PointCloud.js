@@ -7,7 +7,7 @@ define([
     'WebWorldWind/shapes/AbstractShape',
     'WebWorldWind/pick/PickedObject',
     './PointCloudAttributes'
-], function (WorldWind, ArgumentError, GpuProgram, Vec3, BoundingBox, AbstractShape, PickedObject, PointCloudAttributes) {
+], function(WorldWind, ArgumentError, GpuProgram, Vec3, BoundingBox, AbstractShape, PickedObject, PointCloudAttributes) {
     console.log('OPUS', PointCloudAttributes);
 
     var vertexShaderSource =
@@ -45,8 +45,8 @@ define([
         }
     `;
 
-    var programType = function (fragmentShaderSource, constructorFooter) {
-        var Program = function (gl) {
+    var programType = function(fragmentShaderSource, constructorFooter) {
+        var Program = function(gl) {
             GpuProgram.call(this, gl, vertexShaderSource, fragmentShaderSource);
 
             this.pointLocation = this.attributeLocation(gl, 'point');
@@ -58,39 +58,39 @@ define([
 
         Program.prototype = Object.create(GpuProgram.prototype);
 
-        Program.prototype.loadPointSize = function (gl, pointSize) {
+        Program.prototype.loadPointSize = function(gl, pointSize) {
             gl.uniform1f(this.pointSizeLocation, pointSize);
         };
 
-        Program.prototype.loadModelviewProjection = function (gl, matrix) {
+        Program.prototype.loadModelviewProjection = function(gl, matrix) {
             this.loadUniformMatrix(gl, matrix, this.mvpMatrixLocation);
         };
 
         return Program;
     };
 
-    var PointCloudCircleProgram = programType(circleFragmentShaderSource, function (gl) {
+    var PointCloudCircleProgram = programType(circleFragmentShaderSource, function(gl) {
         this.colorLocation = this.uniformLocation(gl, 'color');
     });
 
-    PointCloudCircleProgram.prototype.loadColor = function (gl, color) {
+    PointCloudCircleProgram.prototype.loadColor = function(gl, color) {
         this.loadUniformColor(gl, color, this.colorLocation);
     };
 
     PointCloudCircleProgram.key = 'WorldWindGpuPointCloudCircleProgram';
 
-    var PointCloudGlyphProgram = programType(glyphFragmentShaderSource, function (gl) {
+    var PointCloudGlyphProgram = programType(glyphFragmentShaderSource, function(gl) {
         this.textureUnitLocation = this.uniformLocation(gl, 'tex');
     });
 
-    PointCloudGlyphProgram.prototype.loadTextureUnit = function (gl, unit) {
+    PointCloudGlyphProgram.prototype.loadTextureUnit = function(gl, unit) {
         gl.uniform1i(this.textureUnitLocation, unit - gl.TEXTURE0);
     };
 
     PointCloudGlyphProgram.key = 'WorldWindGpuPointCloudGlyphProgram';
 
     // data: [latitude1, longitude1, altitude1, latitude2, longitude2, altitude2, ...]
-    var PointCloud = function (data, attributes) {
+    var PointCloud = function(data, attributes) {
         attributes = attributes || new PointCloudAttributes(null);
 
         if (!data) {
@@ -111,10 +111,10 @@ define([
 
     Object.defineProperties(PointCloud.prototype, {
         data: {
-            get: function () {
+            get: function() {
                 return this._data;
             },
-            set: function (data) {
+            set: function(data) {
                 this._data = data;
                 this.reset();
                 if (this.currentData) {
@@ -126,7 +126,7 @@ define([
 
     // Adds positions more efficiently than updating the data property directly.
     // data: [latitude1, longitude1, altitude1, latitude2, longitude2, altitude2, ...]
-    PointCloud.prototype.addPositions = function (dc, data) {
+    PointCloud.prototype.addPositions = function(dc, data) {
         if (data.length % 3 !== 0) {
             throw new ArgumentError(WorldWind.Logger.logMessage(WorldWind.Logger.LEVEL_SEVERE, 'PointCloud', 'addPositions', 'invalidData'));
         }
@@ -156,7 +156,7 @@ define([
         currentData.refreshVertexBuffer = true;
     };
 
-    PointCloud.prototype.doMakeOrderedRenderable = function (dc) {
+    PointCloud.prototype.doMakeOrderedRenderable = function(dc) {
         var currentData = this.currentData;
         if (!currentData.isExpired && currentData.points) {
             // points already generated, re-use existing data
@@ -180,7 +180,7 @@ define([
         return this;
     };
 
-    PointCloud.prototype.computeExtent = function () {
+    PointCloud.prototype.computeExtent = function() {
         var currentData = this.currentData;
         if (currentData.points.length === 0) {
             delete currentData.extent;
@@ -194,7 +194,7 @@ define([
         }
     };
 
-    PointCloud.prototype.beginDrawing = function (dc) {
+    PointCloud.prototype.beginDrawing = function(dc) {
         var gl = dc.currentGlContext;
         if (this.activeAttributes.imageSource) {
             dc.findAndBindProgram(PointCloudGlyphProgram);
@@ -204,7 +204,7 @@ define([
         gl.enableVertexAttribArray(dc.currentProgram.pointLocation);
     };
 
-    PointCloud.prototype.doRenderOrdered = function (dc) {
+    PointCloud.prototype.doRenderOrdered = function(dc) {
         var gl = dc.currentGlContext;
         var currentData = this.currentData;
 
@@ -269,7 +269,7 @@ define([
         }
     };
 
-    PointCloud.prototype.endDrawing = function (dc) {
+    PointCloud.prototype.endDrawing = function(dc) {
         var gl = dc.currentGlContext;
         gl.disableVertexAttribArray(dc.currentProgram.pointLocation);
     };

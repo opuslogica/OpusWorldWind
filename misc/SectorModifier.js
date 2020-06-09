@@ -4,7 +4,7 @@ define([
     'WebWorldWind/geom/Location',
     'WebWorldWind/geom/Vec3',
     '../misc/SectorRenderable'
-], function (WorldWind, RenderableLayer, Location, Vec3, SectorRenderable) {
+], function(WorldWind, RenderableLayer, Location, Vec3, SectorRenderable) {
     /**
      * When constructed, will handle user inputs to modify a sector
      * and will display the sector on the globe.
@@ -12,7 +12,7 @@ define([
      * @param {WorldWind.WorldWindow} wwd
      * @param {WorldWind.Sector} sector
      */
-    var SectorModifier = function (wwd, sector) {
+    var SectorModifier = function(wwd, sector) {
         this._wwd = wwd;
         this._gestureHandler = {
             shouldHandle: this._shouldHandle.bind(this),
@@ -33,11 +33,11 @@ define([
         this._updateRenderables();
     };
 
-    SectorModifier.prototype._shouldHandle = function (object, evt) {
+    SectorModifier.prototype._shouldHandle = function(object, evt) {
         return true;
     };
 
-    SectorModifier.prototype._positionToScreenPoint = function (latitude, longitude, result) {
+    SectorModifier.prototype._positionToScreenPoint = function(latitude, longitude, result) {
         var dc = this._wwd.drawContext;
         var pt = new Vec3(0, 0, 0);
         var terrains = [this._wwd.terrainCenter, this._wwd.terrainRight, this._wwd.terrainCenter, dc.terrain];
@@ -54,7 +54,7 @@ define([
         return null;
     };
 
-    SectorModifier.prototype._updateRenderables = function () {
+    SectorModifier.prototype._updateRenderables = function() {
         var shouldSplit = this._sector.minLongitude < -180;
         var minLat = this._sector.minLatitude;
         var maxLat = this._sector.maxLatitude;
@@ -89,7 +89,7 @@ define([
         }
     };
 
-    SectorModifier.prototype._updateSector = function (dragLocation) {
+    SectorModifier.prototype._updateSector = function(dragLocation) {
         var lat1 = this._dragStartLocation.latitude;
         var lat2 = dragLocation.latitude;
         var lon1 = this._dragStartLocation.longitude;
@@ -108,7 +108,7 @@ define([
         }
     };
 
-    SectorModifier.prototype._dragBegan = function (object, evt) {
+    SectorModifier.prototype._dragBegan = function(object, evt) {
         if (object.position !== null) {
             this._dragStartLocation = object.position;
             this._updateSector(object.position);
@@ -117,7 +117,7 @@ define([
         }
     };
 
-    SectorModifier.prototype._dragChanged = function (object, evt) {
+    SectorModifier.prototype._dragChanged = function(object, evt) {
         if (this._dragStartLocation !== null) {
             var pickedTerrain = this._wwd.pickTerrain(this._wwd.canvasCoordinates(evt.clientX, evt.clientY)).objects[0];
             if (pickedTerrain) {
@@ -128,28 +128,28 @@ define([
         }
     };
 
-    SectorModifier.prototype._dragEnded = function (object, evt) {
+    SectorModifier.prototype._dragEnded = function(object, evt) {
         var that = this;
         if (this._dragStartLocation !== null) {
             this._dragChanged(object, evt);
-            this._sectorListeners.forEach(function (listener) {
+            this._sectorListeners.forEach(function(listener) {
                 listener(that._sector);
             });
         }
     };
 
-    SectorModifier.prototype.onSectorChanged = function (listener) {
+    SectorModifier.prototype.onSectorChanged = function(listener) {
         this._sectorListeners.push(listener);
     };
 
-    SectorModifier.prototype.offSectorChanged = function (listener) {
+    SectorModifier.prototype.offSectorChanged = function(listener) {
         var index = this._sectorListeners.indexOf(listener);
         if (index >= 0) {
             this._sectorListeners.splice(index, 1);
         }
     };
 
-    SectorModifier.prototype.finished = function () {
+    SectorModifier.prototype.finished = function() {
         this._wwd.removeLayer(this._layer);
         OpusWorldWind.AbstractEditTool.removeCustomGestureHandler(this._wwd, this._gestureHandler);
     };

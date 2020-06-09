@@ -9,10 +9,10 @@ define([
     'WebWorldWind/geom/Line',
     'WebWorldWind/geom/Position',
     '../misc/Intersection'
-], function (WorldWind, Globe, Globe2D, Angle, Vec3, Matrix, Plane, Line, Position, Intersection) {
+], function(WorldWind, Globe, Globe2D, Angle, Vec3, Matrix, Plane, Line, Position, Intersection) {
     var ExtUtils = {
         scratchMatrix: Matrix.fromIdentity(),
-        convertWorldWindPositionAltitudeMode: function (wwd, position, fromAltitudeMode, toAltitudeMode) {
+        convertWorldWindPositionAltitudeMode: function(wwd, position, fromAltitudeMode, toAltitudeMode) {
             if (fromAltitudeMode === toAltitudeMode || toAltitudeMode === WorldWind.CLAMP_TO_GROUND) {
                 return new Position(position.latitude, position.longitude, position.altitude);
             } else {
@@ -45,9 +45,9 @@ define([
                 return result;
             }
         },
-        intersectPlaneWithLine: function (plane, line, result) {
+        intersectPlaneWithLine: function(plane, line, result) {
             // from World-Wind-Java
-            var t = (function () {
+            var t = (function() {
                 var ldotv = plane.normal.dot(line.direction);
                 if (ldotv === 0) {
                     var ldots = plane.normal.dot(line.origin) + plane.distance;
@@ -69,11 +69,11 @@ define([
             }
         },
         // finds the point on the line that has the minimum distance to point pt
-        projectPointOntoLine: function (pt, line, result) {
+        projectPointOntoLine: function(pt, line, result) {
             var op = new Vec3(0, 0, 0).copy(pt).subtract(line.origin);
             return line.pointAt(op.dot(line.direction) / line.direction.magnitude(), result);
         },
-        intersectGlobe: function (wwd, line, altitude) {
+        intersectGlobe: function(wwd, line, altitude) {
             // from World-Wind-Java
             if (line === null) {
                 return null;
@@ -97,8 +97,12 @@ define([
                 var m2 = m * m;
                 var n2 = n * n;
                 var r2 = equRadius * equRadius;
-                var vx = line.direction[0], vy = line.direction[1], vz = line.direction[2];
-                var sx = line.origin[0], sy = line.origin[1], sz = line.origin[2];
+                var vx = line.direction[0],
+                    vy = line.direction[1],
+                    vz = line.direction[2];
+                var sx = line.origin[0],
+                    sy = line.origin[1],
+                    sz = line.origin[2];
                 var a = vx * vx + m2 * vy * vy + n2 * vz * vz;
                 var b = 2 * (sx * vx + m2 * sy * vy + n2 * sz * vz);
                 var c = sx * sx + m2 * sy * sy + n2 * sz * sz - r2;
@@ -121,9 +125,9 @@ define([
                 }
             }
         },
-        nearestIntersectionPoint: function (intersections, line) {
+        nearestIntersectionPoint: function(intersections, line) {
             // from World-Wind-Java
-            var isPointBehindLineOrigin = function (line, point) {
+            var isPointBehindLineOrigin = function(line, point) {
                 return new Vec3(0, 0, 0).copy(point).subtract(line.origin).dot(line.direction) < 0;
             };
             if (line === null || intersections === null || intersections.length === 0) {
@@ -144,7 +148,7 @@ define([
                 return result;
             }
         },
-        rayFromScreenPoint: function (dc, screenPoint, result) {
+        rayFromScreenPoint: function(dc, screenPoint, result) {
             this.scratchMatrix.setToIdentity();
             var modelviewProjectionInv = this.scratchMatrix;
             modelviewProjectionInv.invertMatrix(dc.modelviewProjection);
@@ -160,7 +164,7 @@ define([
             return result;
         },
         // computes a direction vector for a ray facing right across the screen
-        computeScreenRightDirection: function (dc, result) {
+        computeScreenRightDirection: function(dc, result) {
             this.scratchMatrix.setToIdentity();
             var modelviewProjectionInv = this.scratchMatrix;
             modelviewProjectionInv.invertMatrix(dc.modelviewProjection);
@@ -179,7 +183,7 @@ define([
             return result;
         },
         // compute a plane facing the viewer for translating altitude at a position
-        computeAltitudePlane: function (wwd, pos, altitudeMode) {
+        computeAltitudePlane: function(wwd, pos, altitudeMode) {
             var right = ExtUtils.computeScreenRightDirection(wwd.drawContext, new Vec3(0, 0, 0));
             var pa = wwd.drawContext.surfacePointForMode(pos.latitude, pos.longitude, pos.altitude, altitudeMode, new Vec3(0, 0, 0));
             var pb = new Vec3(0, 0, 0).copy(pa).add(right);
@@ -187,13 +191,15 @@ define([
             return Plane.fromPoints(pa, pb, pc);
         },
         // adds a position to a path such that the index of the new position is on the closest path segment
-        addPositionToPath: function (wwd, pos, path, loop, altitudeMode) {
+        addPositionToPath: function(wwd, pos, path, loop, altitudeMode) {
             var pt = wwd.drawContext.surfacePointForMode(pos.latitude, pos.longitude, pos.altitude, altitudeMode, new Vec3(0, 0, 0));
-            var closestSegIndex = 0, closestSegDistSq = Number.MAX_VALUE;
+            var closestSegIndex = 0,
+                closestSegDistSq = Number.MAX_VALUE;
             var seg = new Line(new Vec3(0, 0, 0), new Vec3(0, 0, 0));
             var projPt = new Vec3(0, 0, 0);
-            var checkSegment = function (i1, i2) {
-                var p1 = path[i1], p2 = path[i2];
+            var checkSegment = function(i1, i2) {
+                var p1 = path[i1],
+                    p2 = path[i2];
                 wwd.drawContext.surfacePointForMode(p1.latitude, p1.longitude, 0, altitudeMode, seg.origin);
                 wwd.drawContext.surfacePointForMode(p2.latitude, p2.longitude, 0, altitudeMode, seg.direction);
                 seg.direction.subtract(seg.origin).normalize();
@@ -213,7 +219,7 @@ define([
             path.splice(closestSegIndex + 1, 0, pos);
             return path;
         },
-        extractKMLRotationAngles: function (matrix, result) {
+        extractKMLRotationAngles: function(matrix, result) {
             // from World-Wind-Java Matrix
             var xRadians = Math.asin(-matrix[6]);
             if (isNaN(xRadians)) {
@@ -244,7 +250,7 @@ define([
             return result;
         },
         // if longitude is not within -180 and 180, wrap it
-        fixLongitude: function (longitude) {
+        fixLongitude: function(longitude) {
             if (longitude > 180) {
                 return -180 + (longitude - 180);
             } else if (longitude < -180) {
@@ -253,12 +259,12 @@ define([
                 return longitude;
             }
         },
-        isValidCoordinates: function (latitude, longitude) {
+        isValidCoordinates: function(latitude, longitude) {
             return latitude >= -90 && latitude < 90 && longitude >= -180 && longitude <= 180;
         },
-        beforeDrawFrame: function (wwd, cb) {
+        beforeDrawFrame: function(wwd, cb) {
             var origDrawFrame = wwd.drawFrame;
-            wwd.drawFrame = function () {
+            wwd.drawFrame = function() {
                 cb();
                 origDrawFrame.call(this);
             };

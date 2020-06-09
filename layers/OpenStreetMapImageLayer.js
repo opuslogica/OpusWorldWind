@@ -4,9 +4,9 @@ define([
     'WebWorldWind/geom/Sector',
     'WebWorldWind/util/Color',
     'WebWorldWind/layer/MercatorTiledImageLayer'
-], function (WorldWind, Location, Sector, Color, MercatorTiledImageLayer) {
+], function(WorldWind, Location, Sector, Color, MercatorTiledImageLayer) {
     var servers = ['a', 'b', 'c'];
-    var OpenStreetMapImageLayer = function (displayName) {
+    var OpenStreetMapImageLayer = function(displayName) {
         this.imageSize = 256;
         displayName = displayName || "Open Street Map";
 
@@ -21,7 +21,7 @@ define([
         this.destContext = this.destCanvas.getContext("2d");
 
         this.urlBuilder = {
-            urlForTile: function (tile, imageFormat) {
+            urlForTile: function(tile, imageFormat) {
                 var server = servers[Math.floor(Math.random() * servers.length)];
                 return "https://" + server + ".tile.openstreetmap.org/" + (tile.level.levelNumber + 1) + "/" + tile.column + "/" + tile.row + ".png";
             }
@@ -29,7 +29,7 @@ define([
     };
     OpenStreetMapImageLayer.prototype = Object.create(MercatorTiledImageLayer.prototype);
 
-    OpenStreetMapImageLayer.prototype.createTopLevelTiles = function (dc) {
+    OpenStreetMapImageLayer.prototype.createTopLevelTiles = function(dc) {
         this.topLevelTiles = [];
 
         this.topLevelTiles.push(this.createTile(null, this.levels.firstLevel(), 0, 0));
@@ -38,7 +38,7 @@ define([
         this.topLevelTiles.push(this.createTile(null, this.levels.firstLevel(), 1, 1));
     };
 
-    OpenStreetMapImageLayer.prototype.mapSizeForLevel = function (levelNumber) {
+    OpenStreetMapImageLayer.prototype.mapSizeForLevel = function(levelNumber) {
         return 256 << (levelNumber + 1);
     };
 

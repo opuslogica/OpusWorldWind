@@ -9,8 +9,8 @@ define([
     '../placemarks/SquarePlacemark',
     '../misc/ExtUtils',
     '../placemarks/ScreenShapePlacemarkAttributes'
-], function (WorldWind, Logger, UnsupportedOperationError, ShapeAttributes, Position, AbstractEditTool, AbstractSurfaceShapeEditTool, SquarePlacemark, ExtUtils, ScreenShapePlacemarkAttributes) {
-    var AbstractPathEditTool = function (wwd, path) {
+], function(WorldWind, Logger, UnsupportedOperationError, ShapeAttributes, Position, AbstractEditTool, AbstractSurfaceShapeEditTool, SquarePlacemark, ExtUtils, ScreenShapePlacemarkAttributes) {
+    var AbstractPathEditTool = function(wwd, path) {
         AbstractEditTool.call(this, wwd, path);
         this._handles = null;
         this.updateHandles();
@@ -24,13 +24,13 @@ define([
 
     Object.defineProperties(AbstractPathEditTool.prototype, {
         handles: {
-            get: function () {
+            get: function() {
                 return this._handles;
             }
         }
     });
 
-    AbstractPathEditTool.prototype.setEditingEnabled = function (enabled) {
+    AbstractPathEditTool.prototype.setEditingEnabled = function(enabled) {
         if (enabled) {
             if (this._handles === null) {
                 this._handles = [];
@@ -46,14 +46,14 @@ define([
         }
     };
 
-    AbstractPathEditTool.prototype._styleHandle = function (handle) {
+    AbstractPathEditTool.prototype._styleHandle = function(handle) {
         handle.attributes.interiorColor = AbstractSurfaceShapeEditTool.NORMAL_HANDLE_COLOR;
         handle.attributes.drawOutline = false;
         handle.highlightAttributes = new ScreenShapePlacemarkAttributes(handle.attributes);
         handle.highlightAttributes.interiorColor = AbstractSurfaceShapeEditTool.HIGHLIGHTED_HANDLE_COLOR;
     };
 
-    AbstractPathEditTool.prototype.updateHandles = function () {
+    AbstractPathEditTool.prototype.updateHandles = function() {
         if (this._handles !== null) {
             var positions = this.getPositions();
             if (this._handles.length !== positions.length) {
@@ -62,8 +62,7 @@ define([
                 }
                 this._handles = [];
                 for (var i = 0; i !== positions.length; ++i) {
-                    var pos = positions[i];
-                    {
+                    var pos = positions[i]; {
                         var handle = new SquarePlacemark(new Position(pos.latitude, pos.longitude, this.getAltitude(0)));
                         handle.altitudeMode = this.renderables[0].altitudeMode;
                         handle._positionIndex = i;
@@ -89,21 +88,21 @@ define([
         }
     };
 
-    AbstractPathEditTool.prototype.isTopHandle = function (handle) {
+    AbstractPathEditTool.prototype.isTopHandle = function(handle) {
         return handle._isTopHandle !== undefined;
     };
 
-    AbstractPathEditTool.prototype.handlePositionIndex = function (handle) {
+    AbstractPathEditTool.prototype.handlePositionIndex = function(handle) {
         return handle._positionIndex !== undefined ? handle._positionIndex : null;
     };
 
-    AbstractPathEditTool.prototype._renderableUpdated = function (renderable) {
+    AbstractPathEditTool.prototype._renderableUpdated = function(renderable) {
         if (renderable === this.renderables[0]) {
             this.updateHandles();
         }
     };
 
-    AbstractPathEditTool.prototype._renderableMousedOn = function (renderable, event) {
+    AbstractPathEditTool.prototype._renderableMousedOn = function(renderable, event) {
         this.wwd.canvas.style.cursor = 'pointer';
         if (this._handles !== null) {
             if (this._handles.indexOf(renderable) !== -1) {
@@ -113,7 +112,7 @@ define([
         this.wwd.redraw();
     };
 
-    AbstractPathEditTool.prototype._renderableMousedOff = function (renderable, event) {
+    AbstractPathEditTool.prototype._renderableMousedOff = function(renderable, event) {
         this.wwd.canvas.style.cursor = 'default';
         if (this._handles !== null) {
             if (this._handles.indexOf(renderable) !== -1) {
@@ -123,16 +122,16 @@ define([
         this.wwd.redraw();
     };
 
-    AbstractPathEditTool.prototype.hasTwoAltitudes = function () {
+    AbstractPathEditTool.prototype.hasTwoAltitudes = function() {
         throw new UnsupportedOperationError(Logger.logMessage(Logger.LEVEL_SEVERE, "AbstractPathEditTool", "hasTwoAltitudes", "abstractInvocation"));
     };
 
-    AbstractPathEditTool.prototype.getAltitude = function (index) {
+    AbstractPathEditTool.prototype.getAltitude = function(index) {
         throw new UnsupportedOperationError(Logger.logMessage(Logger.LEVEL_SEVERE, "AbstractPathEditTool", "getAltitude", "abstractInvocation"));
     };
 
     // Note: altitude is ignored on these positions and is replaced by the value given by getAltitude
-    AbstractPathEditTool.prototype.getPositions = function () {
+    AbstractPathEditTool.prototype.getPositions = function() {
         throw new UnsupportedOperationError(Logger.logMessage(Logger.LEVEL_SEVERE, "AbstractPathEditTool", "getPositions", "abstractInvocation"));
     };
 

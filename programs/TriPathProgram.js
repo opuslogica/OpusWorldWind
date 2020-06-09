@@ -1,9 +1,9 @@
 define([
     'WebWorldWind/WorldWind',
     'WebWorldWind/shaders/GpuProgram'
-], function (WorldWind, GpuProgram) {
+], function(WorldWind, GpuProgram) {
     // Derived from BasicTextureProgram
-    var TriPathProgram = function (gl) {
+    var TriPathProgram = function(gl) {
         var vertexShaderSource =
             'attribute vec4 vertexPoint;\n' +
             'attribute vec4 vertexTexCoord;\n' +
@@ -29,30 +29,30 @@ define([
             'if (applyLighting) {normal = mvInverseMatrix * normalVector;}\n' +
             '}',
             fragmentShaderSource =
-                'precision mediump float;\n' +
-                'uniform float opacity;\n' +
-                'uniform vec4 color;\n' +
-                'uniform bool enableTexture;\n' +
-                'uniform bool modulateColor;\n' +
-                'uniform sampler2D textureSampler;\n' +
-                'uniform bool applyLighting;\n' +
-                'varying vec2 texCoord;\n' +
-                'varying vec4 normal;\n' +
-                'void main() {\n' +
-                'vec4 textureColor = texture2D(textureSampler, texCoord);\n' +
-                'float ambient = 0.15; vec4 lightDirection = vec4(0, 0, 1, 0);\n' +
-                'if (enableTexture && !modulateColor)\n' +
-                '    gl_FragColor = textureColor * color * opacity;\n' +
-                'else if (enableTexture && modulateColor)\n' +
-                '    gl_FragColor = color * floor(textureColor.a + 0.5);\n' +
-                'else\n' +
-                '    gl_FragColor = color * opacity;\n' +
-                'if (gl_FragColor.a == 0.0) {discard;}\n' +
-                'if (applyLighting) {\n' +
-                '    vec4 n = normal * (gl_FrontFacing ? 1.0 : -1.0);\n' +
-                '    gl_FragColor.rgb *= clamp(ambient + dot(lightDirection, n), 0.0, 1.0);\n' +
-                '}\n' +
-                '}';
+            'precision mediump float;\n' +
+            'uniform float opacity;\n' +
+            'uniform vec4 color;\n' +
+            'uniform bool enableTexture;\n' +
+            'uniform bool modulateColor;\n' +
+            'uniform sampler2D textureSampler;\n' +
+            'uniform bool applyLighting;\n' +
+            'varying vec2 texCoord;\n' +
+            'varying vec4 normal;\n' +
+            'void main() {\n' +
+            'vec4 textureColor = texture2D(textureSampler, texCoord);\n' +
+            'float ambient = 0.15; vec4 lightDirection = vec4(0, 0, 1, 0);\n' +
+            'if (enableTexture && !modulateColor)\n' +
+            '    gl_FragColor = textureColor * color * opacity;\n' +
+            'else if (enableTexture && modulateColor)\n' +
+            '    gl_FragColor = color * floor(textureColor.a + 0.5);\n' +
+            'else\n' +
+            '    gl_FragColor = color * opacity;\n' +
+            'if (gl_FragColor.a == 0.0) {discard;}\n' +
+            'if (applyLighting) {\n' +
+            '    vec4 n = normal * (gl_FrontFacing ? 1.0 : -1.0);\n' +
+            '    gl_FragColor.rgb *= clamp(ambient + dot(lightDirection, n), 0.0, 1.0);\n' +
+            '}\n' +
+            '}';
 
         GpuProgram.call(this, gl, vertexShaderSource, fragmentShaderSource, ['vertexPoint', 'vertexTexCoord', 'normalVector', 'offsDir']);
 
@@ -80,59 +80,59 @@ define([
 
     TriPathProgram.prototype = Object.create(GpuProgram.prototype);
 
-    TriPathProgram.prototype.loadPixelSizeOffset = function (gl, pixelSizeOffset) {
+    TriPathProgram.prototype.loadPixelSizeOffset = function(gl, pixelSizeOffset) {
         gl.uniform1f(this.pixelSizeOffsetLocation, pixelSizeOffset);
     };
 
-    TriPathProgram.prototype.loadPixelSizeScale = function (gl, pixelSizeScale) {
+    TriPathProgram.prototype.loadPixelSizeScale = function(gl, pixelSizeScale) {
         gl.uniform1f(this.pixelSizeScaleLocation, pixelSizeScale);
     };
 
-    TriPathProgram.prototype.loadLineWidth = function (gl, lineWidth) {
+    TriPathProgram.prototype.loadLineWidth = function(gl, lineWidth) {
         gl.uniform1f(this.lineWidthLocation, lineWidth);
     };
 
-    TriPathProgram.prototype.loadEyePoint = function (gl, eyePoint) {
+    TriPathProgram.prototype.loadEyePoint = function(gl, eyePoint) {
         gl.uniform4f(this.eyePointLocation, eyePoint[0], eyePoint[1], eyePoint[2], 0);
     };
 
-    TriPathProgram.prototype.loadReferencePoint = function (gl, referencePoint) {
+    TriPathProgram.prototype.loadReferencePoint = function(gl, referencePoint) {
         gl.uniform4f(this.referencePointLocation, referencePoint[0], referencePoint[1], referencePoint[2], 0);
     };
 
-    TriPathProgram.prototype.loadModelviewInverse = function (gl, matrix) {
+    TriPathProgram.prototype.loadModelviewInverse = function(gl, matrix) {
         this.loadUniformMatrix(gl, matrix, this.mvInverseMatrixLocation);
     };
 
-    TriPathProgram.prototype.loadModelviewProjection = function (gl, matrix) {
+    TriPathProgram.prototype.loadModelviewProjection = function(gl, matrix) {
         this.loadUniformMatrix(gl, matrix, this.mvpMatrixLocation);
     };
 
-    TriPathProgram.prototype.loadColor = function (gl, color) {
+    TriPathProgram.prototype.loadColor = function(gl, color) {
         this.loadUniformColor(gl, color, this.colorLocation);
     };
 
-    TriPathProgram.prototype.loadTextureEnabled = function (gl, enable) {
+    TriPathProgram.prototype.loadTextureEnabled = function(gl, enable) {
         gl.uniform1i(this.textureEnabledLocation, enable ? 1 : 0);
     };
 
-    TriPathProgram.prototype.loadModulateColor = function (gl, enable) {
+    TriPathProgram.prototype.loadModulateColor = function(gl, enable) {
         gl.uniform1i(this.modulateColorLocation, enable ? 1 : 0);
     };
 
-    TriPathProgram.prototype.loadTextureUnit = function (gl, unit) {
+    TriPathProgram.prototype.loadTextureUnit = function(gl, unit) {
         gl.uniform1i(this.textureUnitLocation, unit - gl.TEXTURE0);
     };
 
-    TriPathProgram.prototype.loadTextureMatrix = function (gl, matrix) {
+    TriPathProgram.prototype.loadTextureMatrix = function(gl, matrix) {
         this.loadUniformMatrix(gl, matrix, this.textureMatrixLocation);
     };
 
-    TriPathProgram.prototype.loadOpacity = function (gl, opacity) {
+    TriPathProgram.prototype.loadOpacity = function(gl, opacity) {
         gl.uniform1f(this.opacityLocation, opacity);
     };
 
-    TriPathProgram.prototype.loadApplyLighting = function (gl, applyLighting) {
+    TriPathProgram.prototype.loadApplyLighting = function(gl, applyLighting) {
         gl.uniform1i(this.applyLightingLocation, applyLighting);
     };
 

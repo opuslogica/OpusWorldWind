@@ -17,10 +17,10 @@ require([
     'WebWorldWind/shapes/Path',
     'WebWorldWind/shapes/GeographicText',
     'WebWorldWind/pick/PickedObject'
-], function (WorldWind, GpuResourceCache, ImageSource, Logger, Texture, TiledImageLayer, SurfaceShape, SurfaceShapeTile, SurfaceCircle, SurfaceEllipse, SurfaceRectangle, Path, GeographicText, PickedObject) {
+], function(WorldWind, GpuResourceCache, ImageSource, Logger, Texture, TiledImageLayer, SurfaceShape, SurfaceShapeTile, SurfaceCircle, SurfaceEllipse, SurfaceRectangle, Path, GeographicText, PickedObject) {
     // patch image retrieving functions to support authenticated cross-origin requests
 
-    ImageSource.fromUrl = function (url, imageWidth, imageHeight) {
+    ImageSource.fromUrl = function(url, imageWidth, imageHeight) {
         var result = Object.create(ImageSource.prototype);
         result.imageUrl = url;
         result.imageWidth = imageWidth * window.devicePixelRatio;
@@ -34,7 +34,7 @@ require([
         }
         return result;
     };
-    GpuResourceCache.prototype.retrieveTexture = function (gl, imageSource, wrapMode) {
+    GpuResourceCache.prototype.retrieveTexture = function(gl, imageSource, wrapMode) {
         if (!imageSource) {
             return null;
         }
@@ -56,7 +56,7 @@ require([
         var cache = this,
             image = new Image();
 
-        image.onload = function () {
+        image.onload = function() {
             Logger.log(Logger.LEVEL_INFO, "Image retrieval succeeded: " + imageSource.key);
 
             var texture = new Texture(gl, image, wrapMode);
@@ -72,7 +72,7 @@ require([
             window.dispatchEvent(e);
         };
 
-        image.onerror = function () {
+        image.onerror = function() {
             delete cache.currentRetrievals[imageSource.key];
             cache.absentResourceList.markResourceAbsent(imageSource.key);
             Logger.log(Logger.LEVEL_WARNING, "Image retrieval failed: " + imageSource.key);
@@ -90,7 +90,7 @@ require([
 
         return null;
     };
-    TiledImageLayer.prototype.retrieveTileImage = function (dc, tile, suppressRedraw) {
+    TiledImageLayer.prototype.retrieveTileImage = function(dc, tile, suppressRedraw) {
         if (this.currentRetrievals.indexOf(tile.imagePath) < 0) {
             if (this.absentResourceList.isResourceAbsent(tile.imagePath)) {
                 return;
@@ -108,7 +108,7 @@ require([
                 return;
             }
 
-            image.onload = function () {
+            image.onload = function() {
                 Logger.log(Logger.LEVEL_INFO, "Image retrieval succeeded: " + url);
                 var texture = layer.createTexture(dc, tile, image);
                 layer.removeFromCurrentRetrievals(imagePath);
@@ -128,7 +128,7 @@ require([
                 }
             };
 
-            image.onerror = function () {
+            image.onerror = function() {
                 layer.removeFromCurrentRetrievals(imagePath);
                 layer.absentResourceList.markResourceAbsent(imagePath);
                 Logger.log(Logger.LEVEL_WARNING, "Image retrieval failed: " + url);
@@ -145,7 +145,7 @@ require([
         var classPropertyDescriptorOverrides = [
             [SurfaceCircle, {
                 radius: {
-                    set: function (orig, value) {
+                    set: function(orig, value) {
                         orig.call(this, value);
                         this.isPrepared = false;
                         this._boundaries = null;
@@ -156,7 +156,7 @@ require([
             }],
             [SurfaceEllipse, {
                 center: {
-                    set: function (orig, value) {
+                    set: function(orig, value) {
                         orig.call(this, value);
                         this.stateKeyInvalid = true;
                         this.isPrepared = false;
@@ -164,7 +164,7 @@ require([
                     }
                 },
                 majorRadius: {
-                    set: function (orig, value) {
+                    set: function(orig, value) {
                         orig.call(this, value);
                         this.stateKeyInvalid = true;
                         this.isPrepared = false;
@@ -172,7 +172,7 @@ require([
                     }
                 },
                 minorRadius: {
-                    set: function (orig, value) {
+                    set: function(orig, value) {
                         orig.call(this, value);
                         this.stateKeyInvalid = true;
                         this.isPrepared = false;
@@ -180,7 +180,7 @@ require([
                     }
                 },
                 heading: {
-                    set: function (orig, value) {
+                    set: function(orig, value) {
                         orig.call(this, value);
                         this.stateKeyInvalid = true;
                         this.isPrepared = false;
@@ -188,7 +188,7 @@ require([
                     }
                 },
                 intervals: {
-                    set: function (orig, value) {
+                    set: function(orig, value) {
                         orig.call(this, value);
                         this.stateKeyInvalid = true;
                         this.isPrepared = false;
@@ -198,7 +198,7 @@ require([
             }],
             [SurfaceRectangle, {
                 center: {
-                    set: function (orig, value) {
+                    set: function(orig, value) {
                         orig.call(this, value);
                         this.stateKeyInvalid = true;
                         this.isPrepared = false;
@@ -206,7 +206,7 @@ require([
                     }
                 },
                 width: {
-                    set: function (orig, value) {
+                    set: function(orig, value) {
                         orig.call(this, value);
                         this.stateKeyInvalid = true;
                         this.isPrepared = false;
@@ -214,7 +214,7 @@ require([
                     }
                 },
                 height: {
-                    set: function (orig, value) {
+                    set: function(orig, value) {
                         orig.call(this, value);
                         this.stateKeyInvalid = true;
                         this.isPrepared = false;
@@ -222,7 +222,7 @@ require([
                     }
                 },
                 heading: {
-                    set: function (orig, value) {
+                    set: function(orig, value) {
                         orig.call(this, value);
                         this.stateKeyInvalid = true;
                         this.isPrepared = false;
@@ -231,12 +231,12 @@ require([
                 }
             }]
         ];
-        classPropertyDescriptorOverrides.forEach(function (p) {
+        classPropertyDescriptorOverrides.forEach(function(p) {
             var clazz = p[0];
             var propertyDescOverrides = p[1];
             var newPrototype = {};
             Object.setPrototypeOf(newPrototype, Object.getPrototypeOf(clazz.prototype));
-            Object.getOwnPropertyNames(clazz.prototype).forEach(function (propName) {
+            Object.getOwnPropertyNames(clazz.prototype).forEach(function(propName) {
                 var descriptor = Object.getOwnPropertyDescriptor(clazz.prototype, propName);
                 for (var k in propertyDescOverrides) {
                     if (descriptor[k] !== undefined) {
@@ -244,7 +244,7 @@ require([
                         descriptor[k] = propertyDescOverrides[k];
                         if (typeof descriptor[k] === 'function') {
                             var fn = descriptor[k];
-                            descriptor[k] = function () {
+                            descriptor[k] = function() {
                                 return fn.apply(this, [orig].concat(arguments));
                             };
                         }
@@ -256,7 +256,7 @@ require([
 
     // disable picking on GeographicText (it currently does not work correctly if there are multiple GeographicTexts)
     var prevGtRender = GeographicText.prototype.render;
-    GeographicText.prototype.render = function (dc) {
+    GeographicText.prototype.render = function(dc) {
         if (dc.pickingMode) {
             return;
         } else {
@@ -269,10 +269,10 @@ require([
 
     Object.defineProperties(SurfaceShape.prototype, {
         showHatchPattern: {
-            get: function () {
+            get: function() {
                 return this._showHatchPattern;
             },
-            set: function (showHatchPattern) {
+            set: function(showHatchPattern) {
                 this._showHatchPattern = showHatchPattern;
                 this.stateKeyInvalid = true;
             }
@@ -280,13 +280,13 @@ require([
     });
 
     var prevSsStaticShapeKey = SurfaceShape.staticStateKey;
-    SurfaceShape.staticStateKey = function (shape) {
+    SurfaceShape.staticStateKey = function(shape) {
         var stateKey = prevSsStaticShapeKey.call(this, shape);
         return stateKey +
             ' hp ' + shape.showHatchPattern;
     };
 
-    SurfaceShape.prototype.renderToTexture = function (dc, ctx2D, xScale, yScale, dx, dy) {
+    SurfaceShape.prototype.renderToTexture = function(dc, ctx2D, xScale, yScale, dx, dy) {
         var patternCanvas = SurfaceShapeTile.patternCanvas;
         var patternCtx2D = SurfaceShapeTile.patternCtx2D;
         var attributes = (this._highlighted ? (this._highlightAttributes || this._attributes) : this._attributes);
@@ -360,14 +360,14 @@ require([
     };
 
     var prevSstUpdateTexture = SurfaceShapeTile.prototype.updateTexture;
-    SurfaceShapeTile.prototype.updateTexture = function (dc) {
+    SurfaceShapeTile.prototype.updateTexture = function(dc) {
         SurfaceShapeTile.patternCanvas.width = this.tileWidth / 8;
         SurfaceShapeTile.patternCanvas.height = this.tileHeight / 8;
         prevSstUpdateTexture.call(this, dc);
     };
 
     var prevSstCreateCtx2D = SurfaceShapeTile.prototype.createCtx2D;
-    SurfaceShapeTile.prototype.createCtx2D = function () {
+    SurfaceShapeTile.prototype.createCtx2D = function() {
         if (SurfaceShapeTile.patternCanvas === null) {
             SurfaceShapeTile.patternCanvas = document.createElement('canvas');
             SurfaceShapeTile.patternCtx2D = SurfaceShapeTile.patternCanvas.getContext('2d');

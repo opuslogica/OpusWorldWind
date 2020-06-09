@@ -1,24 +1,24 @@
 define([
     'WebWorldWind/layer/WmsLayer',
     'WebWorldWind/util/WmsUrlBuilder'
-], function (
+], function(
     WmsLayer,
     WmsUrlBuilder
 ) {
     'use strict';
 
     // override WmsUrlBuilder to allow arbitrary params to be added to the url
-    var WmsParamUrlBuilder = function (service, layerNames, styleNames, version, timeString, extraParams) {
+    var WmsParamUrlBuilder = function(service, layerNames, styleNames, version, timeString, extraParams) {
         WmsUrlBuilder.apply(this, arguments);
         this.extraParams = extraParams;
     };
     WmsParamUrlBuilder.prototype = Object.create(WmsUrlBuilder.prototype);
 
-    WmsParamUrlBuilder.prototype.urlForTile = function (tile, imageFormat) {
+    WmsParamUrlBuilder.prototype.urlForTile = function(tile, imageFormat) {
         var sb = WmsUrlBuilder.prototype.urlForTile.call(this, tile, imageFormat);
         if (this.extraParams) {
             var that = this;
-            Object.keys(this.extraParams).forEach(function (key) {
+            Object.keys(this.extraParams).forEach(function(key) {
                 sb += "&" + key + "=" + that.extraParams[key];
             });
         }
@@ -32,7 +32,7 @@ define([
      * @param timeString
      * @constructor
      */
-    var WmsParamLayer = function (config, timeString) {
+    var WmsParamLayer = function(config, timeString) {
         WmsLayer.apply(this, arguments);
 
         // override the default urlBuilder

@@ -15,7 +15,7 @@ define([
     '../shapes/Pyramid',
     '../shapes/Ellipsoid',
     '../misc/ExtUtils'
-], function (WorldWind, Path, ShapeAttributes, Color, Position, Angle, Vec3, Vec2, Line, Plane, Matrix, AbstractEditTool, AbstractRigidMesh, Pyramid, Ellipsoid, ExtUtils) {
+], function(WorldWind, Path, ShapeAttributes, Color, Position, Angle, Vec3, Vec2, Line, Plane, Matrix, AbstractEditTool, AbstractRigidMesh, Pyramid, Ellipsoid, ExtUtils) {
     var EditingMode = {
         NONE: 'NONE',
         MOVE: 'MOVE',
@@ -24,7 +24,7 @@ define([
         SKEW: 'SKEW'
     };
 
-    var RigidMeshEditTool = function (wwd, shape) {
+    var RigidMeshEditTool = function(wwd, shape) {
         AbstractEditTool.call(this, wwd, shape);
 
         var that = this;
@@ -108,7 +108,7 @@ define([
                 }
             }
         };
-        Object.values(this._rs.move.handles).forEach(function (handle) {
+        Object.values(this._rs.move.handles).forEach(function(handle) {
             handle.attributes.interiorColor = RigidMeshEditTool.MOVE_HANDLE_COLOR;
         });
         this._rs.move.handles.widthFirst.roll = 90;
@@ -116,26 +116,26 @@ define([
         this._rs.move.handles.lengthFirst.pitch = -90;
         this._rs.move.handles.lengthSecond.pitch = 90;
         this._rs.move.handles.heightFirst.roll = -180;
-        Object.values(this._rs.move.connectors).forEach(function (connector) {
+        Object.values(this._rs.move.connectors).forEach(function(connector) {
             connector.attributes.outlineColor = RigidMeshEditTool.MOVE_HANDLE_COLOR;
         });
-        Object.values(this._rs.scale.handles).forEach(function (handle) {
+        Object.values(this._rs.scale.handles).forEach(function(handle) {
             handle.attributes.interiorColor = RigidMeshEditTool.SCALE_HANDLE_COLOR;
         });
-        Object.values(this._rs.scale.connectors).forEach(function (handle) {
+        Object.values(this._rs.scale.connectors).forEach(function(handle) {
             handle.attributes.outlineColor = RigidMeshEditTool.SCALE_HANDLE_COLOR;
         });
         this._rs.rotate.handles.aroundX.attributes.interiorColor = RigidMeshEditTool.AROUND_MAJOR_HANDLE_COLOR;
         this._rs.rotate.handles.aroundY.attributes.interiorColor = RigidMeshEditTool.AROUND_MINOR_HANDLE_COLOR;
         this._rs.rotate.handles.aroundZ.attributes.interiorColor = RigidMeshEditTool.AROUND_VERTICAL_HANDLE_COLOR;
-        Object.values(this._rs.skew.handles).forEach(function (handle) {
+        Object.values(this._rs.skew.handles).forEach(function(handle) {
             handle.attributes.interiorColor = RigidMeshEditTool.SKEW_HANDLE_COLOR;
         });
-        Object.values(this._rs.skew.connectors).forEach(function (handle) {
+        Object.values(this._rs.skew.connectors).forEach(function(handle) {
             handle.attributes.outlineColor = RigidMeshEditTool.SKEW_HANDLE_COLOR;
         });
-        Object.values(this._rs).forEach(function (o) {
-            Object.values(o.handles).concat(Object.values(o.connectors)).forEach(function (r) {
+        Object.values(this._rs).forEach(function(o) {
+            Object.values(o.handles).concat(Object.values(o.connectors)).forEach(function(r) {
                 var interiorColor = r.attributes.interiorColor.clone();
                 interiorColor.alpha = RigidMeshEditTool.HANDLE_OPACITY_INACTIVE;
                 r.highlightAttributes = new ShapeAttributes(r.attributes);
@@ -143,7 +143,7 @@ define([
                 r.attributes.interiorColor = interiorColor;
                 that.addEditRenderable(r);
             });
-            Object.values(o.connectors).forEach(function (path) {
+            Object.values(o.connectors).forEach(function(path) {
                 if (!(path instanceof Path)) {
                     throw new Error('expected connector to be a path');
                 }
@@ -153,7 +153,7 @@ define([
                 path.pathType = WorldWind.LINEAR;
             });
         });
-        this.editLayer.renderables.forEach(function (renderable) {
+        this.editLayer.renderables.forEach(function(renderable) {
             renderable.enabled = false;
         });
         this.addEventListener('beforeDrawFrame', this._beforeDrawFrame.bind(this));
@@ -180,7 +180,7 @@ define([
 
     RigidMeshEditTool.prototype = Object.create(AbstractEditTool.prototype);
 
-    RigidMeshEditTool.prototype._pointFromCenterWithSurfaceRotation = function (xLength, yLength, zLength, info) {
+    RigidMeshEditTool.prototype._pointFromCenterWithSurfaceRotation = function(xLength, yLength, zLength, info) {
         info = info || this.renderables[0];
         var center = info.center;
         var centerPoint = this.wwd.drawContext.surfacePointForMode(center.latitude, center.longitude, center.altitude, info.altitudeMode, new Vec3(0, 0, 0));
@@ -194,7 +194,7 @@ define([
         return pt;
     };
 
-    RigidMeshEditTool.prototype._pointFromCenterWithAll = function (xLength, yLength, zLength, info) {
+    RigidMeshEditTool.prototype._pointFromCenterWithAll = function(xLength, yLength, zLength, info) {
         info = info || this.renderables[0];
         var center = info.center;
         var centerPoint = this.wwd.drawContext.surfacePointForMode(center.latitude, center.longitude, center.altitude, info.altitudeMode, new Vec3(0, 0, 0));
@@ -212,21 +212,21 @@ define([
         return pt;
     };
 
-    RigidMeshEditTool.prototype._allHandles = function () {
-        return Object.values(this._rs).reduce(function (arr, o) {
+    RigidMeshEditTool.prototype._allHandles = function() {
+        return Object.values(this._rs).reduce(function(arr, o) {
             arr.push.apply(arr, Object.values(o.handles));
             return arr;
         }, []);
     };
 
-    RigidMeshEditTool.prototype._allConnectors = function () {
-        return Object.values(this._rs).reduce(function (arr, o) {
+    RigidMeshEditTool.prototype._allConnectors = function() {
+        return Object.values(this._rs).reduce(function(arr, o) {
             arr.push.apply(arr, Object.values(o.connectors));
             return arr;
         }, []);
     };
 
-    RigidMeshEditTool.prototype._computeHandlePoints = function (rsk, info) {
+    RigidMeshEditTool.prototype._computeHandlePoints = function(rsk, info) {
         info = info || this.renderables[0];
         var that = this;
         var center = info.center;
@@ -267,7 +267,7 @@ define([
                 throw new Error();
             }
             var result = {};
-            Object.keys(handleCenterPts).forEach(function (k) {
+            Object.keys(handleCenterPts).forEach(function(k) {
                 var pixelSize = that.wwd.drawContext.pixelSizeAtDistance(eyePoint.distanceTo(handleCenterPts[k]));
                 var direction = new Vec3(0, 0, 0).copy(handleCenterPts[k]).subtract(centerPt).normalize();
                 result[k] = new Vec3(0, 0, 0).copy(direction).multiply(pixelSize * RigidMeshEditTool.HANDLE_DISTANCE_PX).add(handleCenterPts[k]);
@@ -276,11 +276,11 @@ define([
         }
     };
 
-    RigidMeshEditTool.prototype._computeHandleScales = function (rsk, info) {
+    RigidMeshEditTool.prototype._computeHandleScales = function(rsk, info) {
         info = info || this.renderables[0];
         var that = this;
         var o = this._rs[rsk];
-        var pixelSizes = Object.keys(o.handles).reduce(function (result, k) {
+        var pixelSizes = Object.keys(o.handles).reduce(function(result, k) {
             var handle = o.handles[k];
             var handleCenterPt = that.wwd.drawContext.surfacePointForMode(handle.center.latitude, handle.center.longitude, handle.center.altitude, handle.altitudeMode, new Vec3(0, 0, 0));
             result[k] = that.wwd.drawContext.pixelSizeAtDistance(that.wwd.drawContext.eyePoint.distanceTo(handleCenterPt));
@@ -305,7 +305,7 @@ define([
                 }
             };
         } else {
-            return Object.keys(o.handles).reduce(function (result, k) {
+            return Object.keys(o.handles).reduce(function(result, k) {
                 var pixelSize = pixelSizes[k];
                 result[k] = {
                     halfWidth: pixelSize * RigidMeshEditTool.HANDLE_RADIUS_PX,
@@ -317,7 +317,7 @@ define([
         }
     };
 
-    RigidMeshEditTool.prototype._getConnectorHandleKeys = function (rsk, connectorKey) {
+    RigidMeshEditTool.prototype._getConnectorHandleKeys = function(rsk, connectorKey) {
         if (rsk === 'move') {
             switch (connectorKey) {
                 case 'width':
@@ -337,8 +337,7 @@ define([
                     return ['heightFirst', 'heightSecond'];
             }
         } else if (rsk === 'rotate') {
-            switch (connectorKey) {
-            }
+            switch (connectorKey) {}
         } else if (rsk === 'skew') {
             switch (connectorKey) {
                 case 'centerToX':
@@ -352,34 +351,34 @@ define([
 
     Object.defineProperties(RigidMeshEditTool.prototype, {
         editingMode: {
-            get: function () {
+            get: function() {
                 return this._editingMode;
             },
-            set: function (editingMode) {
+            set: function(editingMode) {
                 this._editingMode = editingMode;
-                this._allHandles().concat(this._allConnectors()).forEach(function (renderable) {
+                this._allHandles().concat(this._allConnectors()).forEach(function(renderable) {
                     renderable.enabled = false;
                 });
                 switch (this._editingMode) {
                     case EditingMode.NONE:
                         break;
                     case EditingMode.MOVE:
-                        Object.values(this._rs.move.handles).concat(Object.values(this._rs.move.connectors)).forEach(function (renderable) {
+                        Object.values(this._rs.move.handles).concat(Object.values(this._rs.move.connectors)).forEach(function(renderable) {
                             renderable.enabled = true;
                         });
                         break;
                     case EditingMode.SCALE:
-                        Object.values(this._rs.scale.handles).concat(Object.values(this._rs.scale.connectors)).forEach(function (renderable) {
+                        Object.values(this._rs.scale.handles).concat(Object.values(this._rs.scale.connectors)).forEach(function(renderable) {
                             renderable.enabled = true;
                         });
                         break;
                     case EditingMode.ROTATE:
-                        Object.values(this._rs.rotate.handles).concat(Object.values(this._rs.rotate.connectors)).forEach(function (renderable) {
+                        Object.values(this._rs.rotate.handles).concat(Object.values(this._rs.rotate.connectors)).forEach(function(renderable) {
                             renderable.enabled = true;
                         });
                         break;
                     case EditingMode.SKEW:
-                        Object.values(this._rs.skew.handles).concat(Object.values(this._rs.skew.connectors)).forEach(function (renderable) {
+                        Object.values(this._rs.skew.handles).concat(Object.values(this._rs.skew.connectors)).forEach(function(renderable) {
                             renderable.enabled = true;
                         });
                         break;
@@ -390,22 +389,22 @@ define([
         }
     });
 
-    RigidMeshEditTool.prototype._beforeDrawFrame = function () {
+    RigidMeshEditTool.prototype._beforeDrawFrame = function() {
         var that = this;
         var centerPt = this.pointFromPosition(this.renderables[0].center);
         // update handle positions
-        Object.keys(this._rs).forEach(function (rsk) {
+        Object.keys(this._rs).forEach(function(rsk) {
             var o = that._rs[rsk];
             var points = that._computeHandlePoints(rsk);
-            Object.keys(o.handles).forEach(function (k) {
+            Object.keys(o.handles).forEach(function(k) {
                 o.handles[k].center = that.positionFromPoint(points[k]);
             });
         });
         // update handle scales
-        Object.keys(this._rs).forEach(function (rsk) {
+        Object.keys(this._rs).forEach(function(rsk) {
             var o = that._rs[rsk];
             var scales = that._computeHandleScales(rsk);
-            Object.keys(o.handles).forEach(function (k) {
+            Object.keys(o.handles).forEach(function(k) {
                 var handle = o.handles[k];
                 var scale = scales[k];
                 handle.halfWidth = scale.halfWidth;
@@ -414,11 +413,11 @@ define([
             });
         });
         // update handle connectors
-        Object.keys(this._rs).forEach(function (rsk) {
+        Object.keys(this._rs).forEach(function(rsk) {
             var o = that._rs[rsk];
             var points = that._computeHandlePoints(rsk);
             var scales = that._computeHandleScales(rsk);
-            Object.keys(o.connectors).forEach(function (k) {
+            Object.keys(o.connectors).forEach(function(k) {
                 var connector = o.connectors[k];
                 var handleKeys = that._getConnectorHandleKeys(rsk, k);
                 var pt1 = handleKeys[0] === null ? centerPt : points[handleKeys[0]];
@@ -431,7 +430,7 @@ define([
             });
         });
         // update rotate renderable rotations
-        Object.keys(this._rs.rotate.handles).forEach(function (k) {
+        Object.keys(this._rs.rotate.handles).forEach(function(k) {
             var handle = that._rs.rotate.handles[k];
             handle.pitch = that.renderables[0].pitch;
             handle.roll = that.renderables[0].roll;
@@ -439,12 +438,12 @@ define([
         });
         // update altitude modes
         var altitudeMode = this.renderables[0].altitudeMode;
-        this.editLayer.renderables.forEach(function (renderable) {
+        this.editLayer.renderables.forEach(function(renderable) {
             renderable.altitudeMode = altitudeMode;
         });
     };
 
-    RigidMeshEditTool.prototype._computeMoveVerticalPlane = function (clientX, clientY) {
+    RigidMeshEditTool.prototype._computeMoveVerticalPlane = function(clientX, clientY) {
         var right = ExtUtils.computeScreenRightDirection(this.wwd.drawContext, new Vec3(0, 0, 0));
         var pa = this.wwd.drawContext.surfacePointForMode(this.renderables[0].center.latitude, this.renderables[0].center.longitude, this.renderables[0].center.altitude, this.renderables[0].altitudeMode, new Vec3(0, 0, 0));
         var pb = new Vec3(0, 0, 0).copy(pa).add(right);
@@ -452,7 +451,7 @@ define([
         return Plane.fromPoints(pa, pb, pc);
     };
 
-    RigidMeshEditTool.prototype._computeScalePlane = function (clientX, clientY, scaleHandle) {
+    RigidMeshEditTool.prototype._computeScalePlane = function(clientX, clientY, scaleHandle) {
         var right = ExtUtils.computeScreenRightDirection(this.wwd.drawContext, new Vec3(0, 0, 0));
         var handles;
         if (scaleHandle === this._rs.scale.handles.heightFirst || scaleHandle === this._rs.scale.handles.heightSecond) {
@@ -470,9 +469,10 @@ define([
         return Plane.fromPoints(pa, pb, pc);
     };
 
-    RigidMeshEditTool.prototype._computeRotatePlane = function (clientX, clientY, rotateHandle, info) {
+    RigidMeshEditTool.prototype._computeRotatePlane = function(clientX, clientY, rotateHandle, info) {
         info = info || this.renderables[0];
-        var pa = this.pointFromPosition(info.center), pb, pc;
+        var pa = this.pointFromPosition(info.center),
+            pb, pc;
         if (rotateHandle === this._rs.rotate.handles.aroundX) {
             pb = this._pointFromCenterWithAll(0, 1, 0, info);
             pc = this._pointFromCenterWithAll(0, 0, 1, info);
@@ -495,7 +495,7 @@ define([
      * @param {RigidMesh} rotateHandle The handle to compute the axis of rotation for
      * @param {Object} [info] The shape information (defaults to this.renderables[0])
      */
-    RigidMeshEditTool.prototype._computeAbsoluteRotateAxisDirection = function (rotateHandle, info) {
+    RigidMeshEditTool.prototype._computeAbsoluteRotateAxisDirection = function(rotateHandle, info) {
         info = info || this.renderables[0];
         var centerPt = this.pointFromPosition(info.center);
         if (rotateHandle === this._rs.rotate.handles.aroundX) {
@@ -514,7 +514,7 @@ define([
      *
      * @param {RigidMesh} rotateHandle The handle to compute the axis of rotation for
      */
-    RigidMeshEditTool.prototype._computeRelativeRotateAxisDirection = function (rotateHandle) {
+    RigidMeshEditTool.prototype._computeRelativeRotateAxisDirection = function(rotateHandle) {
         if (rotateHandle === this._rs.rotate.handles.aroundX) {
             return new Vec3(1, 0, 0);
         } else if (rotateHandle === this._rs.rotate.handles.aroundY) {
@@ -526,7 +526,7 @@ define([
         }
     };
 
-    RigidMeshEditTool.prototype._computeSkewPlane = function (clientX, clientY, skewHandle, info) {
+    RigidMeshEditTool.prototype._computeSkewPlane = function(clientX, clientY, skewHandle, info) {
         info = info || this.renderables[0];
         if (skewHandle === this._rs.skew.handles.x) {
             return this._computeScalePlane(clientX, clientY, this._rs.scale.handles.widthFirst, info);
@@ -537,7 +537,7 @@ define([
         }
     };
 
-    RigidMeshEditTool.prototype._computeSkewDirection = function (skewHandle, info) {
+    RigidMeshEditTool.prototype._computeSkewDirection = function(skewHandle, info) {
         info = info || this.renderables[0];
         var centerPt = this.pointFromPosition(this.renderables[0].center);
         if (skewHandle === this._rs.skew.handles.x) {
@@ -549,7 +549,7 @@ define([
         }
     };
 
-    RigidMeshEditTool.prototype._dragged = function (renderable, recognizer, ended) {
+    RigidMeshEditTool.prototype._dragged = function(renderable, recognizer, ended) {
         var that = this;
         var update = false;
         var centerPt = this.wwd.drawContext.surfacePointForMode(this.renderables[0].center.latitude, this.renderables[0].center.longitude, this.renderables[0].center.altitude, this.renderables[0].altitudeMode, new Vec3(0, 0, 0));
@@ -559,35 +559,33 @@ define([
             var intersectPt = ExtUtils.nearestIntersectionPoint(ExtUtils.intersectGlobe(this.wwd, ray, renderableAbsAltitude), ray);
             if (intersectPt !== null) {
                 switch (this._editingMode) {
-                    case EditingMode.MOVE:
-                        {
-                            var dragBeginIntersectPos = this.positionFromPoint(this._dragBeginInfo.globeIntersectPt);
-                            var intersectPos = this.positionFromPoint(intersectPt);
-                            var nextCenter = new Position(0, 0, 0).copy(this._dragBeginInfo.center);
-                            nextCenter.latitude += intersectPos.latitude - dragBeginIntersectPos.latitude;
-                            nextCenter.longitude += intersectPos.longitude - dragBeginIntersectPos.longitude;
-                            nextCenter.longitude = ExtUtils.fixLongitude(nextCenter.longitude)
-                            if (ExtUtils.isValidCoordinates(nextCenter.latitude, nextCenter.longitude)) {
-                                this.renderables[0].center = nextCenter;
-                                update = true;
-                            }
-                        }
-                        break;
-                    case EditingMode.SCALE:
-                        {
-                            var lengthRatio = this._dragBeginInfo.halfLength / this._dragBeginInfo.halfWidth;
-                            var heightRatio = this._dragBeginInfo.halfHeight / this._dragBeginInfo.halfWidth;
-                            var beginCenterDist = this._dragBeginInfo.globeIntersectPt.distanceTo(centerPt);
-                            var currCenterDist = intersectPt.distanceTo(centerPt);
-                            var nextHalfWidth = Math.abs(this._dragBeginInfo.halfWidth + currCenterDist - beginCenterDist);
-                            this.renderables[0].halfWidth = nextHalfWidth;
-                            this.renderables[0].halfLength = nextHalfWidth * lengthRatio;
-                            this.renderables[0].halfHeight = nextHalfWidth * heightRatio;
+                    case EditingMode.MOVE: {
+                        var dragBeginIntersectPos = this.positionFromPoint(this._dragBeginInfo.globeIntersectPt);
+                        var intersectPos = this.positionFromPoint(intersectPt);
+                        var nextCenter = new Position(0, 0, 0).copy(this._dragBeginInfo.center);
+                        nextCenter.latitude += intersectPos.latitude - dragBeginIntersectPos.latitude;
+                        nextCenter.longitude += intersectPos.longitude - dragBeginIntersectPos.longitude;
+                        nextCenter.longitude = ExtUtils.fixLongitude(nextCenter.longitude)
+                        if (ExtUtils.isValidCoordinates(nextCenter.latitude, nextCenter.longitude)) {
+                            this.renderables[0].center = nextCenter;
                             update = true;
                         }
-                        break;
-                    default:
-                        throw new Error();
+                    }
+                    break;
+                case EditingMode.SCALE: {
+                    var lengthRatio = this._dragBeginInfo.halfLength / this._dragBeginInfo.halfWidth;
+                    var heightRatio = this._dragBeginInfo.halfHeight / this._dragBeginInfo.halfWidth;
+                    var beginCenterDist = this._dragBeginInfo.globeIntersectPt.distanceTo(centerPt);
+                    var currCenterDist = intersectPt.distanceTo(centerPt);
+                    var nextHalfWidth = Math.abs(this._dragBeginInfo.halfWidth + currCenterDist - beginCenterDist);
+                    this.renderables[0].halfWidth = nextHalfWidth;
+                    this.renderables[0].halfLength = nextHalfWidth * lengthRatio;
+                    this.renderables[0].halfHeight = nextHalfWidth * heightRatio;
+                    update = true;
+                }
+                break;
+                default:
+                    throw new Error();
                 }
             }
         } else if (Object.values(this._rs.move.handles).indexOf(renderable) !== -1) {
@@ -697,11 +695,11 @@ define([
         }
     };
 
-    RigidMeshEditTool.prototype._setCursorIsPointer = function (b) {
+    RigidMeshEditTool.prototype._setCursorIsPointer = function(b) {
         this.wwd.canvas.style.cursor = b ? 'pointer' : 'default';
     };
 
-    RigidMeshEditTool.prototype._renderableDragBegan = function (renderable, recognizer) {
+    RigidMeshEditTool.prototype._renderableDragBegan = function(renderable, recognizer) {
         var ray = ExtUtils.rayFromScreenPoint(this.wwd.drawContext, this.wwd.drawContext.convertPointToViewport(this.wwd.canvasCoordinates(recognizer.clientX, recognizer.clientY), new Vec2(0, 0)), new Line(new Vec3(0, 0, 0), new Vec3(0, 0, 0)));
         this._dragBeginInfo = {
             center: new Position(0, 0, 0).copy(this.renderables[0].center),
@@ -715,14 +713,14 @@ define([
             skewX: this.renderables[0].skewX,
             skewY: this.renderables[0].skewY
         };
-        if (renderable === this.renderables[0]
-            || renderable === this._rs.move.handles.widthFirst
-            || renderable === this._rs.move.handles.widthSecond
-            || renderable === this._rs.move.handles.lengthFirst
-            || renderable === this._rs.move.handles.lengthSecond) {
+        if (renderable === this.renderables[0] ||
+            renderable === this._rs.move.handles.widthFirst ||
+            renderable === this._rs.move.handles.widthSecond ||
+            renderable === this._rs.move.handles.lengthFirst ||
+            renderable === this._rs.move.handles.lengthSecond) {
             this._dragBeginInfo.globeIntersectPt = ExtUtils.nearestIntersectionPoint(ExtUtils.intersectGlobe(this.wwd, ray, ExtUtils.convertWorldWindPositionAltitudeMode(this.wwd, renderable.center, renderable.altitudeMode, WorldWind.ABSOLUTE).altitude), ray);
-        } else if (renderable === this._rs.move.handles.heightFirst
-            || renderable === this._rs.move.handles.heightSecond) {
+        } else if (renderable === this._rs.move.handles.heightFirst ||
+            renderable === this._rs.move.handles.heightSecond) {
             this._dragBeginInfo.verticalPlaneIntersectPt = ExtUtils.intersectPlaneWithLine(this._computeMoveVerticalPlane(recognizer.clientX, recognizer.clientY), ray, new Vec3(0, 0, 0));
         } else if (Object.values(this._rs.scale.handles).indexOf(renderable) !== -1) {
             this._dragBeginInfo.scalePlaneIntersectPt = ExtUtils.intersectPlaneWithLine(this._computeScalePlane(recognizer.clientX, recognizer.clientY, renderable), ray, new Vec3(0, 0, 0));
@@ -739,11 +737,11 @@ define([
         }
     };
 
-    RigidMeshEditTool.prototype._renderableDragChanged = function (renderable, recognizer) {
+    RigidMeshEditTool.prototype._renderableDragChanged = function(renderable, recognizer) {
         this._dragged(renderable, recognizer, false);
     };
 
-    RigidMeshEditTool.prototype._renderableDragEnded = function (renderable, recognizer) {
+    RigidMeshEditTool.prototype._renderableDragEnded = function(renderable, recognizer) {
         this._dragged(renderable, recognizer, true);
         this._dragBeginInfo = null;
         if (!this._haveMouseOn) {
@@ -755,7 +753,7 @@ define([
         }
     };
 
-    RigidMeshEditTool.prototype._renderableMousedOn = function (renderable, recognizer) {
+    RigidMeshEditTool.prototype._renderableMousedOn = function(renderable, recognizer) {
         var isHandle = this._allHandles().indexOf(renderable) !== -1;
         if (isHandle) {
             renderable.highlighted = true;
@@ -768,10 +766,10 @@ define([
         }
     };
 
-    RigidMeshEditTool.prototype._renderableMousedOff = function (renderable, recognizer) {
-        if (AbstractEditTool.getMousedDownObject(this.wwd) !== renderable
-            && this.activeDragRenderable !== renderable
-            && this.editLayer.renderables.indexOf(renderable) !== -1) {
+    RigidMeshEditTool.prototype._renderableMousedOff = function(renderable, recognizer) {
+        if (AbstractEditTool.getMousedDownObject(this.wwd) !== renderable &&
+            this.activeDragRenderable !== renderable &&
+            this.editLayer.renderables.indexOf(renderable) !== -1) {
             renderable.highlighted = false;
             this.wwd.redraw();
         }

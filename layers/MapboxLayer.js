@@ -4,8 +4,8 @@ define([
     'WebWorldWind/util/Color',
     'WebWorldWind/WorldWind',
     'WebWorldWind/layer/MercatorTiledImageLayer'
-], function (Location, Sector, Color, WorldWind, MercatorTiledImageLayer) {
-    var MapboxLayer = function (displayName) {
+], function(Location, Sector, Color, WorldWind, MercatorTiledImageLayer) {
+    var MapboxLayer = function(displayName) {
         this.imageSize = 512;
         displayName = displayName || "Mapbox";
 
@@ -20,7 +20,7 @@ define([
         this.destContext = this.destCanvas.getContext("2d");
 
         this.urlBuilder = {
-            urlForTile: function (tile, imageFormat) {
+            urlForTile: function(tile, imageFormat) {
                 var z = tile.level.levelNumber + 1;
                 var x = tile.column;
                 var y = tile.row;
@@ -31,7 +31,7 @@ define([
 
     MapboxLayer.prototype = Object.create(MercatorTiledImageLayer.prototype);
 
-    MapboxLayer.prototype.createTopLevelTiles = function (dc) {
+    MapboxLayer.prototype.createTopLevelTiles = function(dc) {
         this.topLevelTiles = [];
 
         this.topLevelTiles.push(this.createTile(null, this.levels.firstLevel(), 0, 0));
@@ -40,7 +40,7 @@ define([
         this.topLevelTiles.push(this.createTile(null, this.levels.firstLevel(), 1, 1));
     };
 
-    MapboxLayer.prototype.mapSizeForLevel = function (levelNumber) {
+    MapboxLayer.prototype.mapSizeForLevel = function(levelNumber) {
         return 512 << (levelNumber + 1);
     };
 

@@ -7,9 +7,9 @@ define([
     'WebWorldWind/geom/Matrix',
     'WebWorldWind/pick/PickedObject',
     '../placemarks/ScreenShapePlacemarkAttributes'
-], function (WorldWind, BasicProgram, AbstractShape, Vec2, Vec3, Matrix, PickedObject, ScreenShapePlacemarkAttributes) {
+], function(WorldWind, BasicProgram, AbstractShape, Vec2, Vec3, Matrix, PickedObject, ScreenShapePlacemarkAttributes) {
 
-    var ScreenShapePlacemark = function (unitVertices, position, attributes) {
+    var ScreenShapePlacemark = function(unitVertices, position, attributes) {
         if (typeof hull == 'undefined') {
             throw new Error('hull library is required for ScreenShapePlacemark: https://github.com/AndriiHeonia/hull');
         }
@@ -32,54 +32,54 @@ define([
 
     Object.defineProperties(ScreenShapePlacemark.prototype, {
         unitVertices: {
-            get: function () {
+            get: function() {
                 return this._unitVertices;
             },
-            set: function (unitVertices) {
+            set: function(unitVertices) {
                 this._unitVertices = unitVertices;
                 this._unitVerticesArr = Float32Array.from(this._unitVertices);
                 this.reset();
             }
         },
         position: {
-            get: function () {
+            get: function() {
                 return this._position;
             },
-            set: function (position) {
+            set: function(position) {
                 this._position = position;
                 this.reset();
             }
         },
         width: {
-            get: function () {
+            get: function() {
                 return this._width;
             },
-            set: function (width) {
+            set: function(width) {
                 this._width = width;
                 this.reset();
             }
         },
         height: {
-            get: function () {
+            get: function() {
                 return this._height;
             },
-            set: function (height) {
+            set: function(height) {
                 this._height = height;
                 this.reset();
             }
         },
         offset: {
-            get: function () {
+            get: function() {
                 return this._offset;
             },
-            set: function (offset) {
+            set: function(offset) {
                 this._offset = offset;
                 this.reset();
             }
         }
     });
 
-    ScreenShapePlacemark.prototype._computeOutlineVertices = function () {
+    ScreenShapePlacemark.prototype._computeOutlineVertices = function() {
         var currentData = this.currentData;
         var points = [];
         for (var i = 0; i !== this._unitVertices.length; i += 2) {
@@ -147,7 +147,7 @@ define([
         }
     };
 
-    ScreenShapePlacemark.prototype.doMakeOrderedRenderable = function (dc) {
+    ScreenShapePlacemark.prototype.doMakeOrderedRenderable = function(dc) {
         var currentData = this.currentData;
         var surfacePoint = new Vec3(0, 0, 0);
         var screenPoint = new Vec3(0, 0, 0);
@@ -163,13 +163,13 @@ define([
         return this;
     };
 
-    ScreenShapePlacemark.prototype.beginDrawing = function (dc) {
+    ScreenShapePlacemark.prototype.beginDrawing = function(dc) {
         var gl = dc.currentGlContext;
         dc.findAndBindProgram(BasicProgram);
         gl.enableVertexAttribArray(dc.currentProgram.vertexPointLocation);
     };
 
-    ScreenShapePlacemark.prototype.doRenderOrdered = function (dc) {
+    ScreenShapePlacemark.prototype.doRenderOrdered = function(dc) {
         var gl = dc.currentGlContext;
         var currentData = this.currentData;
         var depthTestWasEnabled = gl.isEnabled(gl.DEPTH_TEST);
@@ -253,7 +253,7 @@ define([
         }
     };
 
-    ScreenShapePlacemark.prototype.endDrawing = function (dc) {
+    ScreenShapePlacemark.prototype.endDrawing = function(dc) {
         var gl = dc.currentGlContext;
         gl.disableVertexAttribArray(dc.currentProgram.vertexPointLocation);
         gl.bindBuffer(gl.ARRAY_BUFFER, null);

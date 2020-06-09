@@ -3,8 +3,8 @@ define([
     'WebWorldWind/geom/Angle',
     'WebWorldWind/geom/Vec3',
     '../shapes/AbstractRigidMesh'
-], function (WorldWind, Angle, Vec3, AbstractRigidMesh) {
-    var RigidWedgeMesh = function (center, angle, majorRadius, minorRadius, verticalRadius, radiusRatio) {
+], function(WorldWind, Angle, Vec3, AbstractRigidMesh) {
+    var RigidWedgeMesh = function(center, angle, majorRadius, minorRadius, verticalRadius, radiusRatio) {
         AbstractRigidMesh.call(this, center);
         if (angle < 0 || angle > 360) {
             throw new Error('Illegal angle');
@@ -20,30 +20,30 @@ define([
 
     Object.defineProperties(RigidWedgeMesh.prototype, {
         angle: {
-            get: function () {
+            get: function() {
                 return this._angle;
             },
-            set: function (angle) {
+            set: function(angle) {
                 this._angle = angle;
                 this.reset();
             }
         },
         radiusRatio: {
-            get: function () {
+            get: function() {
                 return this._radiusRatio;
             },
-            set: function (radiusRatio) {
+            set: function(radiusRatio) {
                 this._radiusRatio = radiusRatio;
                 this.reset();
             }
         }
     });
 
-    RigidWedgeMesh.prototype.computeThetaStep = function (dc) {
+    RigidWedgeMesh.prototype.computeThetaStep = function(dc) {
         return 5;
     };
 
-    RigidWedgeMesh.prototype.shouldRecompute = function (dc) {
+    RigidWedgeMesh.prototype.shouldRecompute = function(dc) {
         if (AbstractRigidMesh.prototype.shouldRecompute(dc)) {
             return true;
         } else {
@@ -58,11 +58,11 @@ define([
         }
     };
 
-    RigidWedgeMesh.prototype.is360 = function () {
+    RigidWedgeMesh.prototype.is360 = function() {
         return Math.abs(360 - this._angle) < Number.EPSILON;
     };
 
-    RigidWedgeMesh.prototype.computeThetas = function (dc) {
+    RigidWedgeMesh.prototype.computeThetas = function(dc) {
         var step = this.computeThetaStep(dc);
         var thetas = [];
         for (var theta = 0; theta < this._angle; theta += step) {
@@ -74,13 +74,14 @@ define([
         return thetas;
     };
 
-    RigidWedgeMesh.prototype.computeUnitPoints = function (dc) {
+    RigidWedgeMesh.prototype.computeUnitPoints = function(dc) {
         var thetas = this.computeThetas(dc);
         var result = [];
         result.push(new Vec3(0, 0, 1));
         var that = this;
-        thetas.forEach(function (theta) {
-            var x = Math.sin(theta * Angle.DEGREES_TO_RADIANS), y = Math.cos(theta * Angle.DEGREES_TO_RADIANS);
+        thetas.forEach(function(theta) {
+            var x = Math.sin(theta * Angle.DEGREES_TO_RADIANS),
+                y = Math.cos(theta * Angle.DEGREES_TO_RADIANS);
             if (that._radiusRatio > 0) {
                 result.push(new Vec3(x * that._radiusRatio, y * that._radiusRatio, 1));
             }
@@ -90,7 +91,7 @@ define([
         return result;
     };
 
-    RigidWedgeMesh.prototype.computeIndices = function (dc) {
+    RigidWedgeMesh.prototype.computeIndices = function(dc) {
         var thetas = this.computeThetas(dc);
         var result = [];
         var bottomCenterIndex = this._radiusRatio > 0 ? 1 + 2 * thetas.length : 1 + thetas.length;

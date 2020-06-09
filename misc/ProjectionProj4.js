@@ -3,8 +3,8 @@ define([
     'WebWorldWind/geom/Vec3',
     'WebWorldWind/projections/GeographicProjection',
     'WebWorldWind/util/WWMath'
-], function (WorldWind, Vec3, GeographicProjection, WWMath) {
-    var ProjectionProj4 = function (proj, projectionLimits) {
+], function(WorldWind, Vec3, GeographicProjection, WWMath) {
+    var ProjectionProj4 = function(proj, projectionLimits) {
         projectionLimits = projectionLimits || null;
 
         GeographicProjection.call(this, 'Proj4', true, projectionLimits);
@@ -18,7 +18,7 @@ define([
 
     ProjectionProj4.prototype = Object.create(GeographicProjection.prototype);
 
-    ProjectionProj4.prototype.geographicToCartesian = function (globe, latitude, longitude, elevation, offset, result) {
+    ProjectionProj4.prototype.geographicToCartesian = function(globe, latitude, longitude, elevation, offset, result) {
         if (this.projectionLimits) {
             if (latitude > this.projectionLimits.maxLatitude) {
                 latitude = this.projectionLimits.maxLatitude;
@@ -45,7 +45,7 @@ define([
         return result;
     };
 
-    ProjectionProj4.prototype.geographicToCartesianGrid = function (globe, sector, numLat, numLon, elevations, referencePoint, offset, result) {
+    ProjectionProj4.prototype.geographicToCartesianGrid = function(globe, sector, numLat, numLon, elevations, referencePoint, offset, result) {
         var deltaLat = (sector.maxLatitude - sector.minLatitude) / (numLat > 1 ? numLat - 1 : 1);
         var deltaLon = (sector.maxLongitude - sector.minLongitude) / (numLon > 1 ? numLon - 1 : 1);
         var lon = sector.minLongitude;
@@ -75,7 +75,7 @@ define([
         return result;
     };
 
-    ProjectionProj4.prototype.cartesianToGeographic = function (globe, x, y, z, offset, result) {
+    ProjectionProj4.prototype.cartesianToGeographic = function(globe, x, y, z, offset, result) {
         var r = this.proj.inverse([
             x - (offset ? offset[0] : 0),
             y

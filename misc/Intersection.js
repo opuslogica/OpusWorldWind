@@ -1,7 +1,7 @@
 define([
     'WebWorldWind/WorldWind'
-], function (WorldWind) {
-    var Intersection = function (point, isTangent) {
+], function(WorldWind) {
+    var Intersection = function(point, isTangent) {
         this.point = point;
         this.isTangent = isTangent;
     };

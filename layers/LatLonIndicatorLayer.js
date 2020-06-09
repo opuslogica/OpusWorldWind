@@ -6,8 +6,8 @@ define([
     'WebWorldWind/layer/Layer',
     'WebWorldWind/shapes/ScreenText',
     'WebWorldWind/shapes/TextAttributes'
-], function (WorldWind, Color, Font, Offset, Layer, ScreenText, TextAttributes) {
-    var LatLonIndicatorLayer = function () {
+], function(WorldWind, Color, Font, Offset, Layer, ScreenText, TextAttributes) {
+    var LatLonIndicatorLayer = function() {
         Layer.call(this, 'Lat Lon Indicator');
 
         this.pickEnabled = false;
@@ -25,10 +25,10 @@ define([
 
     Object.defineProperties(LatLonIndicatorLayer.prototype, {
         latLon: {
-            get: function () {
+            get: function() {
                 return this._latLon;
             },
-            set: function (v) {
+            set: function(v) {
                 this._latLon = v;
                 if (this._latLon !== null) {
                     var latStr = this._latLon.latitude.toString().substring(0, 6);
@@ -41,7 +41,7 @@ define([
         }
     });
 
-    LatLonIndicatorLayer.prototype.doRender = function (dc) {
+    LatLonIndicatorLayer.prototype.doRender = function(dc) {
         if (this._latLon !== null) {
             this.text.render(dc);
         }

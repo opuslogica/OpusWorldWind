@@ -7,8 +7,8 @@ define([
     'WebWorldWind/geom/Angle',
     'WebWorldWind/util/Logger',
     'WebWorldWind/error/UnsupportedOperationError'
-], function (WorldWind, AbstractMesh, Matrix, Vec3, Position, Angle, Logger, UnsupportedOperationError) {
-    var AbstractRigidMesh = function (center, attributes) {
+], function(WorldWind, AbstractMesh, Matrix, Vec3, Position, Angle, Logger, UnsupportedOperationError) {
+    var AbstractRigidMesh = function(center, attributes) {
         AbstractMesh.call(this, attributes);
 
         this._center = center;
@@ -29,10 +29,10 @@ define([
 
     Object.defineProperties(AbstractRigidMesh.prototype, {
         center: {
-            get: function () {
+            get: function() {
                 return this._center;
             },
-            set: function (center) {
+            set: function(center) {
                 this._center = center;
                 this.referencePosition = center;
                 this._needsRecompute = true;
@@ -40,80 +40,80 @@ define([
             }
         },
         pitch: {
-            get: function () {
+            get: function() {
                 return this._pitch;
             },
-            set: function (pitch) {
+            set: function(pitch) {
                 this._pitch = pitch;
                 this._needsRecompute = true;
                 this.reset();
             }
         },
         roll: {
-            get: function () {
+            get: function() {
                 return this._roll;
             },
-            set: function (roll) {
+            set: function(roll) {
                 this._roll = roll;
                 this._needsRecompute = true;
                 this.reset();
             }
         },
         heading: {
-            get: function () {
+            get: function() {
                 return this._heading;
             },
-            set: function (heading) {
+            set: function(heading) {
                 this._heading = heading;
                 this._needsRecompute = true;
                 this.reset();
             }
         },
         halfWidth: {
-            get: function () {
+            get: function() {
                 return this._halfWidth;
             },
-            set: function (halfWidth) {
+            set: function(halfWidth) {
                 this._halfWidth = halfWidth;
                 this._needsRecompute = true;
                 this.reset();
             }
         },
         halfLength: {
-            get: function () {
+            get: function() {
                 return this._halfLength;
             },
-            set: function (halfLength) {
+            set: function(halfLength) {
                 this._halfLength = halfLength;
                 this._needsRecompute = true;
                 this.reset();
             }
         },
         halfHeight: {
-            get: function () {
+            get: function() {
                 return this._halfHeight;
             },
-            set: function (halfHeight) {
+            set: function(halfHeight) {
                 this._halfHeight = halfHeight;
                 this._needsRecompute = true;
                 this.reset();
             }
         },
         skewX: {
-            get: function () {
+            get: function() {
                 return this._skewX;
             },
-            set: function (skewX) {
+            set: function(skewX) {
                 this._skewX = skewX;
                 this._needsRecompute = true;
                 this.reset();
             }
         },
         skewY: {
-            get: function () {
+            get: function() {
                 return this._skewY;
             },
-            set: function (skewY) {
+            set: function(skewY) {
                 this._skewY = skewY;
                 this._needsRecompute = true;
                 this.reset();
@@ -123,7 +123,7 @@ define([
 
     var EPSILON = 1.0e-6;
 
-    AbstractRigidMesh.multiplyMatrixBySkew = function (matrix, theta, phi) {
+    AbstractRigidMesh.multiplyMatrixBySkew = function(matrix, theta, phi) {
         // from World-Wind-Java
         var cotTheta = 1.0e6;
         var cotPhi = 1.0e6;
@@ -147,7 +147,7 @@ define([
         return matrix;
     };
 
-    var skewSymmetricCrossProductMatrix = function (v, result) {
+    var skewSymmetricCrossProductMatrix = function(v, result) {
         result[0] = 0;
         result[1] = -v[2];
         result[2] = v[1];
@@ -167,26 +167,28 @@ define([
         return result;
     };
 
-    var addMatrixToMatrix = function (matrix1, matrix2) {
+    var addMatrixToMatrix = function(matrix1, matrix2) {
         for (var i = 0; i != 16; ++i) {
             matrix1[i] += matrix2[i];
         }
         return matrix1;
     };
 
-    var multiplyMatrixByNumber = function (matrix, term) {
+    var multiplyMatrixByNumber = function(matrix, term) {
         for (var i = 0; i != 16; ++i) {
             matrix[i] *= term;
         }
         return matrix;
     };
 
-    var multiplyMatrixByVectorToVectorRotation = function (matrix, a, b) {
+    var multiplyMatrixByVectorToVectorRotation = function(matrix, a, b) {
         // https://math.stackexchange.com/questions/180418/calculate-rotation-matrix-to-align-vector-a-to-vector-b-in-3d 
         // with a special case for opposite-direction-pointing vectors
         var v = new Vec3(0, 0, 0).copy(a).cross(b);
         if (v.magnitudeSquared() < EPSILON) {
-            var xScale = 1, yScale = 1, zScale = 1;
+            var xScale = 1,
+                yScale = 1,
+                zScale = 1;
             if (Math.abs(a[0] + b[0]) < EPSILON) {
                 xScale *= -1;
             }
@@ -211,7 +213,7 @@ define([
         return matrix;
     };
 
-    AbstractRigidMesh.multiplyMatrixBySurfaceRotation = function (matrix, globe, position) {
+    AbstractRigidMesh.multiplyMatrixBySurfaceRotation = function(matrix, globe, position) {
         var normal = globe.surfaceNormalAtLocation(position.latitude, position.longitude, new Vec3(0, 0, 0));
         var matNormal = multiplyMatrixByVectorToVectorRotation(Matrix.fromIdentity(), new Vec3(0, 0, 1), normal);
         var northTangent = globe.northTangentAtLocation(position.latitude, position.longitude, new Vec3(0, 0, 0));
@@ -221,7 +223,7 @@ define([
         return matrix;
     };
 
-    AbstractRigidMesh.prototype.computeMeshPoints = function (dc, currentData) {
+    AbstractRigidMesh.prototype.computeMeshPoints = function(dc, currentData) {
         var transform = Matrix.fromIdentity();
         AbstractRigidMesh.multiplyMatrixBySurfaceRotation(transform, dc.globe, this._center);
         transform.multiplyByRotation(0, 1, 0, 360 - this._roll);
@@ -243,7 +245,7 @@ define([
         return meshPoints;
     };
 
-    AbstractRigidMesh.prototype.computeMeshIndices = function () {
+    AbstractRigidMesh.prototype.computeMeshIndices = function() {
         var indices = this.currentData.computedIndices;
         var meshIndices = new Uint16Array(indices.length);
         for (var i = 0; i != indices.length; ++i) {
@@ -252,7 +254,7 @@ define([
         return meshIndices;
     };
 
-    AbstractRigidMesh.prototype.doMakeOrderedRenderable = function (dc) {
+    AbstractRigidMesh.prototype.doMakeOrderedRenderable = function(dc) {
         var currentData = this.currentData;
         if (this.shouldRecompute(dc)) {
             delete currentData.computedUnitPoints;
@@ -305,17 +307,17 @@ define([
         return this;
     };
 
-    AbstractRigidMesh.prototype.shouldRecompute = function () {
+    AbstractRigidMesh.prototype.shouldRecompute = function() {
         var result = this._needsRecompute;
         this._needsRecompute = false;
         return result;
     };
 
-    AbstractRigidMesh.prototype.computeUnitPoints = function (dc) {
+    AbstractRigidMesh.prototype.computeUnitPoints = function(dc) {
         throw new UnsupportedOperationError(Logger.logMessage(Logger.LEVEL_SEVERE, "AbstractRigidMesh", "computeUnitPoints", "abstractInvocation"));
     };
 
-    AbstractRigidMesh.prototype.computeIndices = function (dc) {
+    AbstractRigidMesh.prototype.computeIndices = function(dc) {
         throw new UnsupportedOperationError(Logger.logMessage(Logger.LEVEL_SEVERE, "AbstractRigidMesh", "computeIndices", "abstractInvocation"));
     };
 
