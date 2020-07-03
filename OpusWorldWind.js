@@ -52,7 +52,7 @@ define([
     'OpusWorldWind/Wedge',
     'OpusWorldWind/WmsLayer',
     'OpusWorldWind/WmsParamLayer'
-], function (
+], function(
     overrides,
     highDpiOverrides,
     AbstractAirspacePathEditTool,
