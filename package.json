@@ -8,12 +8,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/rw3iss/OpusWorldWind.git"
+    "url": "git@github.com:opuslogica/OpusWorldWind.git"
   },
   "author": "Opus Logica",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/rw3iss/OpusWorldWind/issues"
+    "url": "https://github.com/opuslogica/OpusWorldWind/issues"
   },
-  "homepage": "https://github.com/rw3iss/OpusWorldWind#readme"
+  "homepage": "https://github.com/opuslogica/OpusWorldWind#readme"
 }
