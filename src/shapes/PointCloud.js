@@ -92,11 +92,11 @@ define([
     var PointCloud = function(data, attributes) {
         attributes = attributes || new PointCloudAttributes(null);
 
-        if(!data) {
+        if (!data) {
             data = [];
         }
 
-        if(data.length % 3 !== 0) {
+        if (data.length % 3 !== 0) {
             throw new ArgumentError(WorldWind.Logger.logMessage(WorldWind.Logger.LEVEL_SEVERE, 'PointCloud', 'constructor', 'invalidData'));
         }
 
@@ -124,15 +124,15 @@ define([
     // Adds positions more efficiently than updating the data property directly.
     // data: [latitude1, longitude1, altitude1, latitude2, longitude2, altitude2, ...]
     PointCloud.prototype.addPositions = function(dc, data) {
-        if(data.length % 3 !== 0) {
+        if (data.length % 3 !== 0) {
             throw new ArgumentError(WorldWind.Logger.logMessage(WorldWind.Logger.LEVEL_SEVERE, 'PointCloud', 'addPositions', 'invalidData'));
         }
         var insertIndex = this._data.length;
-        for(var i = 0; i !== data.length; ++i) {
+        for (var i = 0; i !== data.length; ++i) {
             this._data.push(data[i]);
         }
         var currentData = this.currentData;
-        if(!currentData || !currentData.points) {
+        if (!currentData || !currentData.points) {
             // no data to update, just reset
             this.reset();
             return;
@@ -141,7 +141,7 @@ define([
         var points = new Float32Array(this._data.length);
         var pt = new Vec3(0, 0, 0);
         points.set(currentData.points);
-        for(var i = insertIndex; i !== this._data.length; i += 3) {
+        for (var i = insertIndex; i !== this._data.length; i += 3) {
             dc.surfacePointForMode(this._data[i], this._data[i + 1], this._data[i + 2], this._altitudeMode, pt);
             points[i] = pt[0];
             points[i + 1] = pt[1];
@@ -155,16 +155,16 @@ define([
 
     PointCloud.prototype.doMakeOrderedRenderable = function(dc) {
         var currentData = this.currentData;
-        if(!currentData.isExpired && currentData.points) {
+        if (!currentData.isExpired && currentData.points) {
             // points already generated, re-use existing data
             return this;
         }
         currentData.points = new Float32Array(this._data.length);
         var pt = new Vec3(0, 0, 0);
-        if(this._data.length % 3 !== 0) {
+        if (this._data.length % 3 !== 0) {
             throw new ArgumentError(WorldWind.Logger.logMessage(WorldWind.Logger.LEVEL_SEVERE, 'PointCloud', 'doMakeOrderedRenderable', 'invalidData'));
         }
-        for(var i = 0; i !== this._data.length; i += 3) {
+        for (var i = 0; i !== this._data.length; i += 3) {
             dc.surfacePointForMode(this._data[i], this._data[i + 1], this._data[i + 2], this._altitudeMode, pt);
             currentData.points[i] = pt[0];
             currentData.points[i + 1] = pt[1];
@@ -179,12 +179,12 @@ define([
 
     PointCloud.prototype.computeExtent = function() {
         var currentData = this.currentData;
-        if(currentData.points.length === 0) {
+        if (currentData.points.length === 0) {
             delete currentData.extent;
         } else {
             currentData.extent = new BoundingBox();
             currentData.extent.setToPoints(currentData.points);
-            if(currentData.extent.radius < 1) {
+            if (currentData.extent.radius < 1) {
                 // bounding box too small, don't use one
                 delete currentData.extent;
             }
@@ -193,7 +193,7 @@ define([
 
     PointCloud.prototype.beginDrawing = function(dc) {
         var gl = dc.currentGlContext;
-        if(this.activeAttributes.imageSource) {
+        if (this.activeAttributes.imageSource) {
             dc.findAndBindProgram(PointCloudGlyphProgram);
         } else {
             dc.findAndBindProgram(PointCloudCircleProgram);
@@ -205,50 +205,50 @@ define([
         var gl = dc.currentGlContext;
         var currentData = this.currentData;
 
-        if(currentData.points.length === 0) {
+        if (currentData.points.length === 0) {
             return;
         }
 
         var pickColor;
-        if(dc.pickingMode) {
+        if (dc.pickingMode) {
             pickColor = dc.uniquePickColor();
         }
 
-        if(!currentData.vboCacheKey) {
+        if (!currentData.vboCacheKey) {
             currentData.vboCacheKey = dc.gpuResourceCache.generateCacheKey();
         }
 
         var vboId = dc.gpuResourceCache.resourceForKey(currentData.vboCacheKey);
-        if(!vboId) {
+        if (!vboId) {
             vboId = gl.createBuffer();
             currentData.refreshVertexBuffer = true;
         }
 
         var glyphTexture = null;
-        if(this.activeAttributes.imageSource) {
+        if (this.activeAttributes.imageSource) {
             glyphTexture = dc.gpuResourceCache.resourceForKey(this.activeAttributes.imageSource);
-            if(!glyphTexture) {
+            if (!glyphTexture) {
                 glyphTexture = dc.gpuResourceCache.retrieveTexture(gl, this.activeAttributes.imageSource);
             }
         }
 
         gl.bindBuffer(gl.ARRAY_BUFFER, vboId);
-        if(currentData.refreshVertexBuffer) {
-            dc.gpuResourceCache.putResource(currentData.vboCacheKey, vboId, currentData.points.length*4);
+        if (currentData.refreshVertexBuffer) {
+            dc.gpuResourceCache.putResource(currentData.vboCacheKey, vboId, currentData.points.length * 4);
             gl.bufferData(gl.ARRAY_BUFFER, currentData.points, gl.STATIC_DRAW);
             dc.frameStatistics.incrementVboLoadCount(1);
             currentData.refreshVertexBuffer = false;
         }
 
-        if(this.activeAttributes.drawInterior) {
+        if (this.activeAttributes.drawInterior) {
             var prevRange = gl.getParameter(gl.DEPTH_RANGE);
-            if(this.activeAttributes.offsetDepth) {
+            if (this.activeAttributes.offsetDepth) {
                 gl.depthRange(0.0, 0.997);
             }
             dc.currentProgram.loadPointSize(gl, this.activeAttributes.pointSize);
             this.applyMvpMatrix(dc);
-            if(glyphTexture) {
-                if(!glyphTexture.bind(dc)) {
+            if (glyphTexture) {
+                if (!glyphTexture.bind(dc)) {
                     throw new ArgumentError(WorldWind.Logger.logMessage(WorldWind.Logger.LEVEL_SEVERE, 'PointCloud', 'doMakeOrderedRenderable', 'invalidData'));
                 }
                 dc.currentProgram.loadTextureUnit(gl, gl.TEXTURE0);
@@ -256,11 +256,11 @@ define([
                 dc.currentProgram.loadColor(gl, this.activeAttributes.interiorColor);
             }
             gl.vertexAttribPointer(dc.currentProgram.pointLocation, 3, gl.FLOAT, false, 12, 0);
-            gl.drawArrays(gl.POINTS, 0, this._data.length/3);
+            gl.drawArrays(gl.POINTS, 0, this._data.length / 3);
             gl.depthRange(prevRange[0], prevRange[1]);
         }
 
-        if(dc.pickingMode) {
+        if (dc.pickingMode) {
             var po = new PickedObject(pickColor, this.pickDelegate ? this.pickDelegate : this, null, dc.currentLayer, false);
             dc.resolvePick(po);
         }
