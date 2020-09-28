@@ -1,0 +1,22 @@
+{
+  "name": "opusworldwind",
+  "version": "0.1.0",
+  "description": "Various extensions to the WebWorldWind library.",
+  "main": "OpusWorldWind.js",
+  "scripts": {
+    "beautify": "find ./src -type f -name \"*.js\" -exec js-beautify -r {} \\;"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:opuslogica/OpusWorldWind.git"
+  },
+  "author": "Opus Logica",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/opuslogica/OpusWorldWind/issues"
+  },
+  "homepage": "https://github.com/opuslogica/OpusWorldWind#readme",
+  "devDependencies": {
+    "js-beautify": "^1.13.0"
+  }
+}
