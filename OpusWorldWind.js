@@ -1,6 +1,5 @@
 define([
     'OpusWorldWind/overrides',
-    'OpusWorldWind/highDpiOverrides',
     'OpusWorldWind/AbstractAirspacePathEditTool',
     'OpusWorldWind/AbstractEditTool',
     'OpusWorldWind/AbstractPathEditTool',
@@ -54,7 +53,6 @@ define([
     'OpusWorldWind/WmsParamLayer'
 ], function(
     overrides,
-    highDpiOverrides,
     AbstractAirspacePathEditTool,
     AbstractEditTool,
     AbstractPathEditTool,

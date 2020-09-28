@@ -156,8 +156,7 @@ define([
         }
         currentData.eyeDistance = this.alwaysOnTop ? 0 : surfacePoint.distanceTo(dc.eyePoint);
         currentData.shapeTransform = Matrix.fromIdentity();
-        currentData.shapeTransform.setScale(dc.pixelScale * this._width / 2, dc.pixelScale * this._height / 2, 1);
-        currentData.shapeTransform.setTranslation(screenPoint[0] + this._offset[0] * dc.pixelScale, screenPoint[1] + this._offset[1] * dc.pixelScale, screenPoint[2]);
+        currentData.shapeTransform.setScale(this._width / 2, this._height / 2, 1);
         currentData.shapeTransform.setTranslation(screenPoint[0] + this._offset[0], screenPoint[1] + this._offset[1], screenPoint[2]);
         return this;
     };

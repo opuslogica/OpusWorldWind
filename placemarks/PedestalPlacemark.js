@@ -11,7 +11,7 @@ define([
         ], position, attributes);
         this.width = 18;
         this.height = 9;
-        this.offset = new Vec2(0, 4.5 * window.devicePixelRatio);
+        this.offset = new Vec2(0, 4.5);
     };
 
     PedestalPlacemark.prototype = Object.create(ScreenShapePlacemark.prototype);
