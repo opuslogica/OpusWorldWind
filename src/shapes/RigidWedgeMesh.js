@@ -1,8 +1,8 @@
 define([
-    'WebWorldWind/WorldWind',
-    'WebWorldWind/geom/Angle',
-    'WebWorldWind/geom/Vec3',
-    'OpusWorldWind/AbstractRigidMesh'
+    'WorldWind/WorldWind',
+    'WorldWind/geom/Angle',
+    'WorldWind/geom/Vec3',
+    'shapes/AbstractRigidMesh'
 ], function(WorldWind, Angle, Vec3, AbstractRigidMesh) {
     var RigidWedgeMesh = function(center, angle, majorRadius, minorRadius, verticalRadius, radiusRatio) {
         AbstractRigidMesh.call(this, center);

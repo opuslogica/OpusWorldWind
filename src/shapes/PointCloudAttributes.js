@@ -1,6 +1,6 @@
 define([
-    'WebWorldWind/WorldWind',
-    'WebWorldWind/shapes/ShapeAttributes'
+    'WorldWind',
+    'WorldWind/shapes/ShapeAttributes'
 ], function(WorldWind, ShapeAttributes) {
     var PointCloudAttributes = function(attributes) {
         ShapeAttributes.call(this, attributes);

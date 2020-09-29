@@ -3,22 +3,37 @@
  * these should be transformed into issues/pull requests.
  */
 require([
-    'OpusWorldWind/OpusWorldWind',
-    'WebWorldWind/WorldWind',
-    'WebWorldWind/cache/GpuResourceCache',
-    'WebWorldWind/util/ImageSource',
-    'WebWorldWind/util/Logger',
-    'WebWorldWind/render/Texture',
-    'WebWorldWind/layer/TiledImageLayer',
-    'WebWorldWind/shapes/SurfaceShape',
-    'WebWorldWind/shapes/SurfaceShapeTile',
-    'WebWorldWind/shapes/SurfaceCircle',
-    'WebWorldWind/shapes/SurfaceEllipse',
-    'WebWorldWind/shapes/SurfaceRectangle',
-    'WebWorldWind/shapes/Path',
-    'WebWorldWind/shapes/GeographicText',
-    'WebWorldWind/pick/PickedObject'
-], function(OpusWorldWind, WorldWind, GpuResourceCache, ImageSource, Logger, Texture, TiledImageLayer, SurfaceShape, SurfaceShapeTile, SurfaceCircle, SurfaceEllipse, SurfaceRectangle, Path, GeographicText, PickedObject) {
+    'OpusWorldWind',
+    'WorldWind',
+    // 'WebWorldWind/cache/GpuResourceCache',
+    // 'WebWorldWind/util/ImageSource',
+    // 'WebWorldWind/util/Logger',
+    // 'WebWorldWind/render/Texture',
+    // 'WebWorldWind/layer/TiledImageLayer',
+    // 'WebWorldWind/shapes/SurfaceShape',
+    // 'WebWorldWind/shapes/SurfaceShapeTile',
+    // 'WebWorldWind/shapes/SurfaceCircle',
+    // 'WebWorldWind/shapes/SurfaceEllipse',
+    // 'WebWorldWind/shapes/SurfaceRectangle',
+    // 'WebWorldWind/shapes/Path',
+    // 'WebWorldWind/shapes/GeographicText',
+    // 'WebWorldWind/pick/PickedObject'
+], function(OpusWorldWind, WorldWind, ) {
+    'use strict';
+
+    const GpuResourceCache = WorldWind.GpuResourceCache;
+    const ImageSource = WorldWind.ImageSource;
+    const Texture = WorldWind.Texture;
+    const TiledImageLayer = WorldWind.TiledImageLayer;
+    const SurfaceShape = WorldWind.SurfaceShape;
+    const SurfaceShapeTile = WorldWind.SurfaceShapeTile;
+    const SurfaceCircle = WorldWind.SurfaceCircle;
+    const SurfaceEllipse = WorldWind.SurfaceEllipse;
+    const SurfaceRectangle = WorldWind.SurfaceRectangle;
+    // const Path = WorldWind.Path;
+    const GeographicText = WorldWind.GeographicText;
+    const PickedObject = WorldWind.PickedObject;
+
     // patch image retrieving functions to support authenticated cross-origin requests
     ImageSource.fromUrl = function(url, imageWidth, imageHeight) {
         var result = Object.create(ImageSource.prototype);

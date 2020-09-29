@@ -1,13 +1,13 @@
 define([
-    'OpusWorldWind/OpusWorldWind',
-    'WebWorldWind/WorldWind',
-    'WebWorldWind/util/Logger',
-    'WebWorldWind/error/UnsupportedOperationError',
-    'WebWorldWind/geom/Line',
-    'WebWorldWind/geom/Vec3',
-    'OpusWorldWind/edittools/AbstractPathEditTool',
-    'OpusWorldWind/edittools/EditToolClickRecognizer',
-    'OpusWorldWind/misc/ExtUtils'
+    'OpusWorldWind',
+    'WorldWind',
+    'WorldWind/util/Logger',
+    'WorldWind/error/UnsupportedOperationError',
+    'WorldWind/geom/Line',
+    'WorldWind/geom/Vec3',
+    'edittools/AbstractPathEditTool',
+    'edittools/EditToolClickRecognizer',
+    'misc/ExtUtils'
 ], function(OpusWorldWind, WorldWind, Logger, UnsupportedOperationError, Line, Vec3, AbstractPathEditTool, EditToolClickRecognizer, ExtUtils) {
     var AbstractSurfacePathEditTool = function(wwd, path) {
         var that = this;

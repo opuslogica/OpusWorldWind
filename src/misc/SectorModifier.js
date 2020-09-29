@@ -1,10 +1,10 @@
 define([
-    'OpusWorldWind/OpusWorldWind',
-    'WebWorldWind/WorldWind',
-    'WebWorldWind/layer/RenderableLayer',
-    'WebWorldWind/geom/Location',
-    'WebWorldWind/geom/Vec3',
-    'OpusWorldWind/misc/SectorRenderable'
+    'OpusWorldWind',
+    'WorldWind/WorldWind',
+    'WorldWind/layer/RenderableLayer',
+    'WorldWind/geom/Location',
+    'WorldWind/geom/Vec3',
+    'misc/SectorRenderable'
 ], function(OpusWorldWind, WorldWind, RenderableLayer, Location, Vec3, SectorRenderable) {
     /**
      * When constructed, will handle user inputs to modify a sector

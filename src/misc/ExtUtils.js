@@ -1,15 +1,15 @@
 define([
-    'OpusWorldWind/OpusWorldWind',
-    'WebWorldWind/WorldWind',
-    'WebWorldWind/globe/Globe',
-    'WebWorldWind/globe/Globe2D',
-    'WebWorldWind/geom/Angle',
-    'WebWorldWind/geom/Vec3',
-    'WebWorldWind/geom/Matrix',
-    'WebWorldWind/geom/Plane',
-    'WebWorldWind/geom/Line',
-    'WebWorldWind/geom/Position',
-    'OpusWorldWind/misc/Intersection'
+    'OpusWorldWind',
+    'WorldWind/WorldWind',
+    'WorldWind/globe/Globe',
+    'WorldWind/globe/Globe2D',
+    'WorldWind/geom/Angle',
+    'WorldWind/geom/Vec3',
+    'WorldWind/geom/Matrix',
+    'WorldWind/geom/Plane',
+    'WorldWind/geom/Line',
+    'WorldWind/geom/Position',
+    'misc/Intersection'
 ], function(OpusWorldWind, WorldWind, Globe, Globe2D, Angle, Vec3, Matrix, Plane, Line, Position, Intersection) {
     var ExtUtils = {
         scratchMatrix: Matrix.fromIdentity(),

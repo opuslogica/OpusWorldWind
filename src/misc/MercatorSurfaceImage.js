@@ -1,9 +1,9 @@
 define([
-    'OpusWorldWind/OpusWorldWind',
-    'WebWorldWind/WorldWind',
-    'WebWorldWind/shapes/SurfaceImage',
-    'WebWorldWind/util/Logger',
-    'WebWorldWind/util/WWMath'
+    'OpusWorldWind',
+    'WorldWind/WorldWind',
+    'WorldWind/shapes/SurfaceImage',
+    'WorldWind/util/Logger',
+    'WorldWind/util/WWMath'
 ], function(OpusWorldWind, WorldWind, SurfaceImage, Logger, WWMath) {
     var MercatorSurfaceImage = function(sector, imageSource) {
         SurfaceImage.call(this, sector, imageSource);

@@ -1,6 +1,6 @@
 define([
-    'WebWorldWind/WorldWind',
-    'OpusWorldWind/AbstractSurfaceShapeEditTool'
+    'WorldWind',
+    'edittools/AbstractSurfaceShapeEditTool'
 ], function(WorldWind, AbstractSurfaceShapeEditTool) {
     var SurfaceCircleEditTool = function(wwd, shape) {
         AbstractSurfaceShapeEditTool.call(this, wwd, shape);

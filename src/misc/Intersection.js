@@ -1,6 +1,4 @@
-define([
-    'WebWorldWind/WorldWind'
-], function(WorldWind) {
+define([], function() {
     var Intersection = function(point, isTangent) {
         this.point = point;
         this.isTangent = isTangent;

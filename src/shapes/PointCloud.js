@@ -1,13 +1,13 @@
 define([
-    'OpusWorldWind/OpusWorldWind',
-    'OpusWorldWind/PointCloudAttributes',
-    'WebWorldWind/WorldWind',
-    'WebWorldWind/error/ArgumentError',
-    'WebWorldWind/shaders/GpuProgram',
-    'WebWorldWind/geom/Vec3',
-    'WebWorldWind/geom/BoundingBox',
-    'WebWorldWind/shapes/AbstractShape',
-    'WebWorldWind/pick/PickedObject',
+    'OpusWorldWind',
+    'shapes/PointCloudAttributes',
+    'WorldWind/WorldWind',
+    'WorldWind/error/ArgumentError',
+    'WorldWind/shaders/GpuProgram',
+    'WorldWind/geom/Vec3',
+    'WorldWind/geom/BoundingBox',
+    'WorldWind/shapes/AbstractShape',
+    'WorldWind/pick/PickedObject',
 ], function(OpusWorldWind, PointCloudAttributes, WorldWind, ArgumentError, GpuProgram, Vec3, BoundingBox, AbstractShape, PickedObject) {
     var vertexShaderSource =
         'uniform float pointSize;\n' +

@@ -1,8 +1,8 @@
 define([
-    'OpusWorldWind/OpusWorldWind',
-    'WebWorldWind/WorldWind',
-    'WebWorldWind/geom/Vec3',
-    'OpusWorldWind/shapes/AbstractRigidMesh'
+    'OpusWorldWind',
+    'WorldWind',
+    'WorldWind/geom/Vec3',
+    'shapes/AbstractRigidMesh'
 ], function(OpusWorldWind, WorldWind, Vec3, AbstractRigidMesh) {
     var Box = function(center, halfWidth, halfLength, halfHeight, attributes) {
         AbstractRigidMesh.call(this, center, attributes);

@@ -1,16 +1,24 @@
 define([
-    'OpusWorldWind/OpusWorldWind',
-    'WebWorldWind/WorldWind',
-    'WebWorldWind/util/Logger',
-    'WebWorldWind/error/UnsupportedOperationError',
-    'WebWorldWind/geom/Position',
-    'WebWorldWind/geom/Vec2',
-    'WebWorldWind/geom/Vec3',
-    'WebWorldWind/geom/Line',
-    'OpusWorldWind/AbstractPathEditTool',
-    'OpusWorldWind/EditToolClickRecognizer',
-    'OpusWorldWind/ExtUtils'
-], function(OpusWorldWind, WorldWind, Logger, UnsupportedOperationError, Position, Vec2, Vec3, Line, AbstractPathEditTool, EditToolClickRecognizer, ExtUtils) {
+    'OpusWorldWind',
+    'WorldWind',
+    'edittools/AbstractPathEditTool',
+    'WorldWind/WebEditToolClickRecognizer',
+    'misc/ExtUtils'
+], function(
+    OpusWorldWind,
+    WorldWind,
+    AbstractPathEditTool,
+    EditToolClickRecognizer,
+    ExtUtils) {
+
+    const UnsupportedOperationError = WorldWind.UnsupportedOperationError;
+    const Position = WorldWind.Position;
+    const Vec2 = WorldWind.Vec2;
+    const Vec3 = WorldWind.Vec3;
+    const Line = WorldWind.Line;
+
+    const Logger = WorldWind.Logger;
+
     var AbstractAirspacePathEditTool = function(wwd, path) {
         AbstractPathEditTool.call(this, wwd, path);
 

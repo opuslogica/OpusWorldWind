@@ -1,14 +1,24 @@
 define([
-    'OpusWorldWind/OpusWorldWind',
-    'WebWorldWind/WorldWind',
-    'WebWorldWind/layer/RenderableLayer',
-    'WebWorldWind/gesture/ClickRecognizer',
-    'WebWorldWind/gesture/DragRecognizer',
-    'WebWorldWind/navigate/LookAtNavigator',
-    'WebWorldWind/geom/Position',
-    'WebWorldWind/geom/Vec3',
-    'OpusWorldWind/ExtUtils'
-], function(OpusWorldWind, WorldWind, RenderableLayer, ClickRecognizer, DragRecognizer, LookAtNavigator, Position, Vec3, ExtUtils) {
+    'OpusWorldWind',
+    'WorldWind',
+    'WorldWind/layer/RenderableLayer',
+    'WorldWind/gesture/ClickRecognizer',
+    'WorldWind/gesture/DragRecognizer',
+    'WorldWind/navigate/LookAtNavigator',
+    'WorldWind/geom/Position',
+    'WorldWind/geom/Vec3',
+    'misc/ExtUtils'
+], function(
+    OpusWorldWind,
+    WorldWind,
+    RenderableLayer,
+    ClickRecognizer,
+    DragRecognizer,
+    LookAtNavigator,
+    Position,
+    Vec3,
+    ExtUtils
+) {
     var AbstractEditTool = function(wwd, renderables) {
         if (!(renderables instanceof Array)) {
             renderables = [renderables];

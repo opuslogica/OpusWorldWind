@@ -1,16 +1,34 @@
 define([
-    'OpusWorldWind/OpusWorldWind',
-    'WebWorldWind/WorldWind',
-    'WebWorldWind/util/Logger',
-    'WebWorldWind/error/UnsupportedOperationError',
-    'WebWorldWind/shapes/ShapeAttributes',
-    'WebWorldWind/geom/Position',
-    'OpusWorldWind/edittools/AbstractEditTool',
-    'OpusWorldWind/edittools/AbstractSurfaceShapeEditTool',
-    'OpusWorldWind/placemarks/SquarePlacemark',
-    'OpusWorldWind/misc/ExtUtils',
-    'OpusWorldWind/placemarks/ScreenShapePlacemarkAttributes'
-], function(OpusWorldWind, WorldWind, Logger, UnsupportedOperationError, ShapeAttributes, Position, AbstractEditTool, AbstractSurfaceShapeEditTool, SquarePlacemark, ExtUtils, ScreenShapePlacemarkAttributes) {
+    'OpusWorldWind',
+    'WorldWind',
+    // 'WebWorldWind/util/Logger',
+    // 'WebWorldWind/error/UnsupportedOperationError',
+    // 'WebWorldWind/shapes/ShapeAttributes',
+    // 'WebWorldWind/geom/Position',
+    'edittools/AbstractEditTool',
+    'edittools/AbstractSurfaceShapeEditTool',
+    'placemarks/SquarePlacemark',
+    'misc/ExtUtils',
+    'placemarks/ScreenShapePlacemarkAttributes'
+], function(
+    OpusWorldWind,
+    WorldWind,
+    // Logger,
+    // UnsupportedOperationError,
+    // ShapeAttributes,
+    // Position,
+    AbstractEditTool,
+    AbstractSurfaceShapeEditTool,
+    SquarePlacemark,
+    ExtUtils,
+    ScreenShapePlacemarkAttributes
+) {
+
+    const Logger = WorldWind.Logger;
+    const UnsupportedOperationError = WorldWind.UnsupportedOperationError;
+    const ShapeAttributes = WorldWind.ShapeAttributes;
+    const Position = WorldWind.Position;
+
     var AbstractPathEditTool = function(wwd, path) {
         AbstractEditTool.call(this, wwd, path);
         this._handles = null;

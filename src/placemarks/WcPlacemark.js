@@ -1,8 +1,8 @@
 define([
-    'WebWorldWind/WorldWind',
-    'WebWorldWind/shapes/Placemark',
-    'WebWorldWind/util/Color',
-    'OpusWorldWind/OutlineTextureProgram'
+    'WorldWind',
+    'WorldWind/shapes/Placemark',
+    'WorldWind/util/Color',
+    'programs/OutlineTextureProgram'
 ], function(WorldWind, Placemark, Color, OutlineTextureProgram) {
     /**
      * An extension over Placemark that adds extra functionality needed by the Raptor Web Client.
