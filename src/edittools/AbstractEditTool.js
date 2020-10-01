@@ -1,16 +1,12 @@
 define([
-    'OpusWorldWind',
-    'WorldWind',
     'WorldWind/layer/RenderableLayer',
     'WorldWind/gesture/ClickRecognizer',
     'WorldWind/gesture/DragRecognizer',
     'WorldWind/navigate/LookAtNavigator',
     'WorldWind/geom/Position',
     'WorldWind/geom/Vec3',
-    'misc/ExtUtils'
+    '../misc/ExtUtils'
 ], function(
-    OpusWorldWind,
-    WorldWind,
     RenderableLayer,
     ClickRecognizer,
     DragRecognizer,

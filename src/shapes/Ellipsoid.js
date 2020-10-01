@@ -1,9 +1,7 @@
 define([
-    'OpusWorldWind',
-    'WorldWind',
     'WorldWind/geom/Vec3',
-    'shapes/AbstractRigidMesh'
-], function(OpusWorldWind, WorldWind, Vec3, AbstractRigidMesh) {
+    '../shapes/AbstractRigidMesh'
+], function(Vec3, AbstractRigidMesh) {
     var Ellipsoid = function(center, halfWidth, halfLength, halfHeight) {
         AbstractRigidMesh.call(this, center);
         this._halfWidth = halfWidth;

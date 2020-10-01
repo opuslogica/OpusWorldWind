@@ -1,7 +1,6 @@
 define([
-    'WorldWind',
-    'edittools/AbstractSurfaceShapeEditTool'
-], function(WorldWind, AbstractSurfaceShapeEditTool) {
+    '../edittools/AbstractSurfaceShapeEditTool'
+], function(AbstractSurfaceShapeEditTool) {
     var SurfaceEllipseEditTool = function(wwd, shape) {
         AbstractSurfaceShapeEditTool.call(this, wwd, shape);
     };

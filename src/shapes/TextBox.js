@@ -1,13 +1,20 @@
 define([
-    'WorldWind',
     'WorldWind/util/Color',
     'WorldWind/util/Font',
     'WorldWind/geom/Vec2',
     'WorldWind/util/Offset',
     'WorldWind/shapes/GeographicText',
-    'placemarks/PedestalPlacemark',
-    'placemarks/SquarePlacemark'
-], function(WorldWind, Color, Font, Vec2, Offset, GeographicText, PedestalPlacemark, SquarePlacemark) {
+    '../placemarks/PedestalPlacemark',
+    '../placemarks/SquarePlacemark'
+], function(
+    Color,
+    Font,
+    Vec2,
+    Offset,
+    GeographicText,
+    PedestalPlacemark,
+    SquarePlacemark
+) {
     var TextBox = function(wwd, position, text) {
         this._wwd = wwd;
 

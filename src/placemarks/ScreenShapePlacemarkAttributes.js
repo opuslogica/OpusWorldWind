@@ -1,7 +1,7 @@
 define([
-    'WorldWind',
-    'WorldWind/shapes/ShapeAttributes'
-], function(WorldWind, ShapeAttributes) {
+    'WorldWind/shapes/ShapeAttributes',
+], function(ShapeAttributes) {
+    'use strict';
     var ScreenShapePlacemarkAttributes = function(attributes) {
         ShapeAttributes.call(this, attributes);
         this._depthTest = attributes ? attributes.depthTest : true;

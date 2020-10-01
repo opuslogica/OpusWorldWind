@@ -11,8 +11,6 @@ Extensions for [Web WorldWind](https://worldwind.arc.nasa.gov/web/). Features in
   - Paths
   - Rectangle
   - Square
-  - 
-- Native screen resolution (experimental)
 - Efficient rendering of large numbers of track points
 - Text boxes
 

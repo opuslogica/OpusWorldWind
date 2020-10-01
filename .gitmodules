@@ -1,0 +1,3 @@
+[submodule "WebWorldWind-submodule"]
+	path = WebWorldWind-submodule
+	url = git@github.com:NASAWorldWind/WebWorldWind.git

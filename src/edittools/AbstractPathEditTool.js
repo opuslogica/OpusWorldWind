@@ -1,33 +1,24 @@
 define([
-    'OpusWorldWind',
-    'WorldWind',
-    // 'WebWorldWind/util/Logger',
-    // 'WebWorldWind/error/UnsupportedOperationError',
-    // 'WebWorldWind/shapes/ShapeAttributes',
-    // 'WebWorldWind/geom/Position',
-    'edittools/AbstractEditTool',
-    'edittools/AbstractSurfaceShapeEditTool',
-    'placemarks/SquarePlacemark',
-    'misc/ExtUtils',
-    'placemarks/ScreenShapePlacemarkAttributes'
+    'WorldWind/util/Logger',
+    'WorldWind/error/UnsupportedOperationError',
+    'WorldWind/shapes/ShapeAttributes',
+    'WorldWind/geom/Position',
+    '../edittools/AbstractEditTool',
+    '../edittools/AbstractSurfaceShapeEditTool',
+    '../placemarks/SquarePlacemark',
+    '../misc/ExtUtils',
+    '../placemarks/ScreenShapePlacemarkAttributes'
 ], function(
-    OpusWorldWind,
-    WorldWind,
-    // Logger,
-    // UnsupportedOperationError,
-    // ShapeAttributes,
-    // Position,
+    Logger,
+    UnsupportedOperationError,
+    ShapeAttributes,
+    Position,
     AbstractEditTool,
     AbstractSurfaceShapeEditTool,
     SquarePlacemark,
     ExtUtils,
     ScreenShapePlacemarkAttributes
 ) {
-
-    const Logger = WorldWind.Logger;
-    const UnsupportedOperationError = WorldWind.UnsupportedOperationError;
-    const ShapeAttributes = WorldWind.ShapeAttributes;
-    const Position = WorldWind.Position;
 
     var AbstractPathEditTool = function(wwd, path) {
         AbstractEditTool.call(this, wwd, path);

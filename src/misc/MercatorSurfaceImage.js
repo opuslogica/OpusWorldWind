@@ -1,10 +1,9 @@
 define([
-    'OpusWorldWind',
-    'WorldWind/WorldWind',
     'WorldWind/shapes/SurfaceImage',
+    'WorldWind/util/ImageSource',
     'WorldWind/util/Logger',
     'WorldWind/util/WWMath'
-], function(OpusWorldWind, WorldWind, SurfaceImage, Logger, WWMath) {
+], function(SurfaceImage, ImageSource, Logger, WWMath) {
     var MercatorSurfaceImage = function(sector, imageSource) {
         SurfaceImage.call(this, sector, imageSource);
 
@@ -54,7 +53,7 @@ define([
     };
 
     MercatorSurfaceImage.prototype._imageSourceKey = function() {
-        return 'MercatorSurfaceImage:' + (this.imageSource instanceof WorldWind.ImageSource ? this.imageSource.key : this.imageSource);
+        return 'MercatorSurfaceImage:' + (this.imageSource instanceof ImageSource ? this.imageSource.key : this.imageSource);
     };
 
     MercatorSurfaceImage.prototype._retrieveTexture = function(dc) {
@@ -69,7 +68,7 @@ define([
         var gl = dc.currentGlContext;
         var cache = dc.gpuResourceCache;
 
-        if (imageSource instanceof WorldWind.ImageSource) {
+        if (imageSource instanceof ImageSource) {
             var unprojImg = this._unprojectImage(dc, imageSource.image);
             var t = new WorldWind.Texture(gl, unprojImg, gl.CLAMP_TO_EDGE);
             cache.putResource(imageSourceKey, t, t.size);

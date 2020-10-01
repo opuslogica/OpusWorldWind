@@ -1,10 +1,9 @@
 define([
-    'OpusWorldWind',
     'WorldWind/WorldWind',
     'WorldWind/geom/Vec3',
     'WorldWind/projections/GeographicProjection',
     'WorldWind/util/WWMath'
-], function(OpusWorldWind, WorldWind, Vec3, GeographicProjection, WWMath) {
+], function(WorldWind, Vec3, GeographicProjection, WWMath) {
     var ProjectionProj4 = function(proj, projectionLimits) {
         projectionLimits = projectionLimits || null;
 

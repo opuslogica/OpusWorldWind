@@ -1,6 +1,5 @@
 define([
-    // 'WebWorldWind/WorldWind',
-    'placemarks/ScreenShapePlacemark'
+    '../placemarks/ScreenShapePlacemark'
 ], function(ScreenShapePlacemark) {
     var SquarePlacemark = function(position, attributes) {
         ScreenShapePlacemark.call(this, [

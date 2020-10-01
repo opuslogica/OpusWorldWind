@@ -1,5 +1,4 @@
 define([
-    'WorldWind',
     'WorldWind/shapes/Path',
     'WorldWind/shapes/ShapeAttributes',
     'WorldWind/util/Color',
@@ -10,12 +9,29 @@ define([
     'WorldWind/geom/Line',
     'WorldWind/geom/Plane',
     'WorldWind/geom/Matrix',
-    'edittools/AbstractEditTool',
-    'shapes/AbstractRigidMesh',
-    'shapes/Pyramid',
-    'shapes/Ellipsoid',
-    'misc/ExtUtils'
-], function(WorldWind, Path, ShapeAttributes, Color, Position, Angle, Vec3, Vec2, Line, Plane, Matrix, AbstractEditTool, AbstractRigidMesh, Pyramid, Ellipsoid, ExtUtils) {
+    '../edittools/AbstractEditTool',
+    '../shapes/AbstractRigidMesh',
+    '../shapes/Pyramid',
+    '../shapes/Ellipsoid',
+    '../misc/ExtUtils'
+], function(
+    Path,
+    ShapeAttributes,
+    Color,
+    Position,
+    Angle,
+    Vec3,
+    Vec2,
+    Line,
+    Plane,
+    Matrix,
+    AbstractEditTool,
+    AbstractRigidMesh,
+    Pyramid,
+    Ellipsoid,
+    ExtUtils
+) {
+
     var EditingMode = {
         NONE: 'NONE',
         MOVE: 'MOVE',

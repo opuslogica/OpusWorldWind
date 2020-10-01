@@ -1,8 +1,6 @@
 define([
-    'OpusWorldWind',
-    'WorldWind/WorldWind',
     'WorldWind/shaders/GpuProgram'
-], function(OpusWorldWind, WorldWind, GpuProgram) {
+], function(GpuProgram) {
     var OutlineTextureProgram = function(gl) {
         var vertexShaderSource =
             'attribute vec4 vertexPoint;\n' +

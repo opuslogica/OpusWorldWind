@@ -1,5 +1,4 @@
 define([
-    'OpusWorldWind',
     'WorldWind/WorldWind',
     'WorldWind/util/Color',
     'WorldWind/util/Font',
@@ -7,7 +6,7 @@ define([
     'WorldWind/layer/Layer',
     'WorldWind/shapes/ScreenText',
     'WorldWind/shapes/TextAttributes'
-], function(OpusWorldWind, WorldWind, Color, Font, Offset, Layer, ScreenText, TextAttributes) {
+], function(WorldWind, Color, Font, Offset, Layer, ScreenText, TextAttributes) {
     /**
      * A layer that indicates whether playback is active.
      */

@@ -1,9 +1,8 @@
 define([
-    'WorldWind/WorldWind',
     'WorldWind/geom/Angle',
     'WorldWind/geom/Vec3',
-    'shapes/AbstractRigidMesh'
-], function(WorldWind, Angle, Vec3, AbstractRigidMesh) {
+    '../shapes/AbstractRigidMesh'
+], function(Angle, Vec3, AbstractRigidMesh) {
     var RigidWedgeMesh = function(center, angle, majorRadius, minorRadius, verticalRadius, radiusRatio) {
         AbstractRigidMesh.call(this, center);
         if (angle < 0 || angle > 360) {

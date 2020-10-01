@@ -1,24 +1,30 @@
 define([
-    'OpusWorldWind',
-    'WorldWind',
     'WorldWind/util/Logger',
     'WorldWind/error/UnsupportedOperationError',
     'WorldWind/geom/Line',
     'WorldWind/geom/Vec3',
-    'edittools/AbstractPathEditTool',
-    'edittools/EditToolClickRecognizer',
-    'misc/ExtUtils'
-], function(OpusWorldWind, WorldWind, Logger, UnsupportedOperationError, Line, Vec3, AbstractPathEditTool, EditToolClickRecognizer, ExtUtils) {
-    var AbstractSurfacePathEditTool = function(wwd, path) {
+    '../edittools/AbstractPathEditTool',
+    '../edittools/EditToolClickRecognizer',
+    '../misc/ExtUtils'
+], function (
+    Logger,
+    UnsupportedOperationError,
+    Line,
+    Vec3,
+    AbstractPathEditTool,
+    EditToolClickRecognizer,
+    ExtUtils
+) {
+    var AbstractSurfacePathEditTool = function (wwd, path) {
         var that = this;
 
         AbstractPathEditTool.call(this, wwd, path);
 
-        this.addEventListener('renderableDragChanged', function(renderable, recognizer) {
+        this.addEventListener('renderableDragChanged', function (renderable, recognizer) {
             that._dragged(renderable, recognizer, false);
         });
 
-        this.addEventListener('renderableDragEnded', function(renderable, recognizer) {
+        this.addEventListener('renderableDragEnded', function (renderable, recognizer) {
             that._dragged(renderable, recognizer, true);
         });
 
@@ -27,7 +33,7 @@ define([
 
     AbstractSurfacePathEditTool.prototype = Object.create(AbstractPathEditTool.prototype);
 
-    AbstractSurfacePathEditTool.prototype._dragged = function(renderable, recognizer, ended) {
+    AbstractSurfacePathEditTool.prototype._dragged = function (renderable, recognizer, ended) {
         if (this._handles !== null) {
             var index = this.handlePositionIndex(renderable);
             if (index !== null) {
@@ -45,7 +51,7 @@ define([
         }
     };
 
-    AbstractSurfacePathEditTool.prototype._clickRecognized = function(renderable, clickCount, info) {
+    AbstractSurfacePathEditTool.prototype._clickRecognized = function (renderable, clickCount, info) {
         var that = this;
         var handleIndex;
         var positions = this.getPositions();
@@ -76,23 +82,23 @@ define([
         }
     };
 
-    AbstractSurfacePathEditTool.prototype.hasTwoAltitudes = function() {
+    AbstractSurfacePathEditTool.prototype.hasTwoAltitudes = function () {
         return false;
     };
 
-    AbstractSurfacePathEditTool.prototype.getAltitude = function(index) {
+    AbstractSurfacePathEditTool.prototype.getAltitude = function (index) {
         return 0;
     };
 
-    AbstractSurfacePathEditTool.prototype.setPositions = function(positions) {
+    AbstractSurfacePathEditTool.prototype.setPositions = function (positions) {
         throw new UnsupportedOperationError(Logger.logMessage(Logger.LEVEL_SEVERE, "AbstractSurfacePathEditTool", "setPositions", "abstractInvocation"));
     };
 
-    AbstractSurfacePathEditTool.prototype.getMinimumRequiredPositions = function() {
+    AbstractSurfacePathEditTool.prototype.getMinimumRequiredPositions = function () {
         throw new UnsupportedOperationError(Logger.logMessage(Logger.LEVEL_SEVERE, "AbstractSurfacePathEditTool", "getMinimumRequiredPositions", "abstractInvocation"));
     };
 
-    AbstractSurfacePathEditTool.prototype.isLoop = function() {
+    AbstractSurfacePathEditTool.prototype.isLoop = function () {
         throw new UnsupportedOperationError(Logger.logMessage(Logger.LEVEL_SEVERE, "AbstractSurfacePathEditTool", "isLoop", "abstractInvocation"));
     };
 

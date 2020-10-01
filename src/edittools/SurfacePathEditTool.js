@@ -1,8 +1,7 @@
 define([
-    'WorldWind',
     'WorldWind/shapes/ShapeAttributes',
-    'edittools/AbstractSurfacePathEditTool'
-], function(WorldWind, ShapeAttributes, AbstractSurfacePathEditTool) {
+    '../edittools/AbstractSurfacePathEditTool'
+], function(ShapeAttributes, AbstractSurfacePathEditTool) {
     var SurfacePathEditTool = function(wwd, path) {
         AbstractSurfacePathEditTool.call(this, wwd, path);
     };

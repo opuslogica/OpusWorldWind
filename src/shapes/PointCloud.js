@@ -1,6 +1,5 @@
 define([
-    'OpusWorldWind',
-    'shapes/PointCloudAttributes',
+    '../shapes/PointCloudAttributes',
     'WorldWind/WorldWind',
     'WorldWind/error/ArgumentError',
     'WorldWind/shaders/GpuProgram',
@@ -8,7 +7,7 @@ define([
     'WorldWind/geom/BoundingBox',
     'WorldWind/shapes/AbstractShape',
     'WorldWind/pick/PickedObject',
-], function(OpusWorldWind, PointCloudAttributes, WorldWind, ArgumentError, GpuProgram, Vec3, BoundingBox, AbstractShape, PickedObject) {
+], function(PointCloudAttributes, WorldWind, ArgumentError, GpuProgram, Vec3, BoundingBox, AbstractShape, PickedObject) {
     var vertexShaderSource =
         'uniform float pointSize;\n' +
         'uniform vec3 eyePoint;\n' +

@@ -1,8 +1,7 @@
 define([
-    'WorldWind/WorldWind',
     'WorldWind/render/SurfaceTile',
     'WorldWind/render/Texture'
-], function(WorldWind, SurfaceTile, Texture) {
+], function(SurfaceTile, Texture) {
     /**
      * Renderable for visualizing a sector.
      */

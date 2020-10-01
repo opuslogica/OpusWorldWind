@@ -1,25 +1,27 @@
 define([
-    'OpusWorldWind',
-    'WorldWind',
-    'edittools/AbstractPathEditTool',
-    'WorldWind/WebEditToolClickRecognizer',
-    'misc/ExtUtils'
-], function(
-    OpusWorldWind,
-    WorldWind,
+    '../edittools/AbstractPathEditTool',
+    '../edittools/EditToolClickRecognizer', // was WebEditToolClickRecognizer?
+    '../misc/ExtUtils',
+    'WorldWind/error/UnsupportedOperationError',
+    'WorldWind/geom/Position',
+    'WorldWind/geom/Vec2',
+    'WorldWind/geom/Vec3',
+    'WorldWind/geom/Line',
+    'WorldWind/util/Logger'
+], function (
     AbstractPathEditTool,
     EditToolClickRecognizer,
-    ExtUtils) {
+    ExtUtils,
+    UnsupportedOperationError,
+    Position,
+    Vec2,
+    Vec3,
+    Line,
+    Logger
+    ) {
 
-    const UnsupportedOperationError = WorldWind.UnsupportedOperationError;
-    const Position = WorldWind.Position;
-    const Vec2 = WorldWind.Vec2;
-    const Vec3 = WorldWind.Vec3;
-    const Line = WorldWind.Line;
 
-    const Logger = WorldWind.Logger;
-
-    var AbstractAirspacePathEditTool = function(wwd, path) {
+    var AbstractAirspacePathEditTool = function (wwd, path) {
         AbstractPathEditTool.call(this, wwd, path);
 
         this._dragBeginInfo = null;
@@ -36,7 +38,7 @@ define([
 
     AbstractAirspacePathEditTool.prototype = Object.create(AbstractPathEditTool.prototype);
 
-    AbstractAirspacePathEditTool.prototype._renderableAltitudeIndex = function(renderable) {
+    AbstractAirspacePathEditTool.prototype._renderableAltitudeIndex = function (renderable) {
         if (this.hasTwoAltitudes()) {
             return renderable === this.renderables[0] ? 1 : (this.isTopHandle(renderable) ? 1 : 0);
         } else {
@@ -44,7 +46,7 @@ define([
         }
     };
 
-    AbstractAirspacePathEditTool.prototype._renderableDragBegan = function(renderable, recognizer) {
+    AbstractAirspacePathEditTool.prototype._renderableDragBegan = function (renderable, recognizer) {
         var ray = ExtUtils.rayFromScreenPoint(this.wwd.drawContext, this.wwd.drawContext.convertPointToViewport(this.wwd.canvasCoordinates(recognizer.clientX, recognizer.clientY), new Vec3(0, 0)), new Line(new Vec3(0, 0, 0), new Vec3(0, 0, 0)));
         if (renderable === this.renderables[0] || this.handlePositionIndex(renderable) !== null) {
             var positions = this.getPositions().slice();
@@ -52,7 +54,7 @@ define([
             this._dragBeginInfo = {
                 renderable: renderable,
                 altitude: altitude,
-                positions: positions.map(function(pos) {
+                positions: positions.map(function (pos) {
                     return new Position(0, 0, 0).copy(pos);
                 }),
                 translateAltitude: this._translateAltitude
@@ -76,7 +78,7 @@ define([
         }
     };
 
-    AbstractAirspacePathEditTool.prototype._dragged = function(renderable, recognizer, ended) {
+    AbstractAirspacePathEditTool.prototype._dragged = function (renderable, recognizer, ended) {
         var update = false;
         if (this._dragBeginInfo !== null && renderable === this._dragBeginInfo.renderable) {
             var ray = ExtUtils.rayFromScreenPoint(this.wwd.drawContext, this.wwd.drawContext.convertPointToViewport(this.wwd.canvasCoordinates(recognizer.clientX, recognizer.clientY), new Vec2(0, 0)), new Line(new Vec3(0, 0, 0), new Vec3(0, 0, 0)));
@@ -136,27 +138,27 @@ define([
         }
     };
 
-    AbstractAirspacePathEditTool.prototype._renderableDragChanged = function(renderable, recognizer) {
+    AbstractAirspacePathEditTool.prototype._renderableDragChanged = function (renderable, recognizer) {
         this._dragged(renderable, recognizer, false);
     };
 
-    AbstractAirspacePathEditTool.prototype._renderableDragEnded = function(renderable, recognizer) {
+    AbstractAirspacePathEditTool.prototype._renderableDragEnded = function (renderable, recognizer) {
         this._dragged(renderable, recognizer, true);
     };
 
-    AbstractAirspacePathEditTool.prototype._keydown = function(event) {
+    AbstractAirspacePathEditTool.prototype._keydown = function (event) {
         if (event.key === 'Shift') {
             this._translateAltitude = true;
         }
     };
 
-    AbstractAirspacePathEditTool.prototype._keyup = function(event) {
+    AbstractAirspacePathEditTool.prototype._keyup = function (event) {
         if (event.key === 'Shift') {
             this._translateAltitude = false;
         }
     };
 
-    AbstractAirspacePathEditTool.prototype._clickRecognized = function(renderable, clickCount, info) {
+    AbstractAirspacePathEditTool.prototype._clickRecognized = function (renderable, clickCount, info) {
         if (this.handles === null || clickCount !== 2) {
             return;
         }
@@ -189,23 +191,23 @@ define([
         }
     };
 
-    AbstractAirspacePathEditTool.prototype.setAltitude = function(index, altitude) {
+    AbstractAirspacePathEditTool.prototype.setAltitude = function (index, altitude) {
         throw new UnsupportedOperationError(Logger.logMessage(Logger.LEVEL_SEVERE, "AbstractAirspacePathEditTool", "setAltitude", "abstractInvocation"));
     };
 
-    AbstractAirspacePathEditTool.prototype.getMinimumRequiredPositions = function() {
+    AbstractAirspacePathEditTool.prototype.getMinimumRequiredPositions = function () {
         throw new UnsupportedOperationError(Logger.logMessage(Logger.LEVEL_SEVERE, "AbstractAirspacePathEditTool", "getMinimumRequiredPositions", "abstractInvocation"));
     };
 
-    AbstractAirspacePathEditTool.prototype.getPositions = function() {
+    AbstractAirspacePathEditTool.prototype.getPositions = function () {
         throw new UnsupportedOperationError(Logger.logMessage(Logger.LEVEL_SEVERE, "AbstractAirspacePathEditTool", "getPositions", "abstractInvocation"));
     };
 
-    AbstractAirspacePathEditTool.prototype.setPositions = function(positions) {
+    AbstractAirspacePathEditTool.prototype.setPositions = function (positions) {
         throw new UnsupportedOperationError(Logger.logMessage(Logger.LEVEL_SEVERE, "AbstractAirspacePathEditTool", "setPositions", "abstractInvocation"));
     };
 
-    AbstractAirspacePathEditTool.prototype.isLoop = function() {
+    AbstractAirspacePathEditTool.prototype.isLoop = function () {
         throw new UnsupportedOperationError(Logger.logMessage(Logger.LEVEL_SEVERE, "AbstractAirspacePathEditTool", "isLoop", "abstractInvocation"));
     };
 
