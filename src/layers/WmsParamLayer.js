@@ -1,6 +1,6 @@
 define([
-    'WebWorldWind/layer/WmsLayer',
-    'WebWorldWind/util/WmsUrlBuilder'
+    'WorldWind/layer/WmsLayer',
+    'WorldWind/util/WmsUrlBuilder'
 ], function(
     WmsLayer,
     WmsUrlBuilder

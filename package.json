@@ -4,7 +4,8 @@
   "description": "Various extensions to the WebWorldWind library.",
   "main": "OpusWorldWind.js",
   "scripts": {
-    "beautify": "find ./src -type f -name \"*.js\" -exec js-beautify -r {} \\;"
+    "beautify": "find ./src -type f -name \"*.js\" -exec js-beautify -r {} \\;",
+    "build": "grunt"
   },
   "repository": {
     "type": "git",
@@ -17,6 +18,9 @@
   },
   "homepage": "https://github.com/opuslogica/OpusWorldWind#readme",
   "devDependencies": {
+    "almond": "^0.3.3",
+    "grunt": "^1.3.0",
+    "grunt-contrib-requirejs": "^1.0.0",
     "js-beautify": "^1.13.0"
   }
 }

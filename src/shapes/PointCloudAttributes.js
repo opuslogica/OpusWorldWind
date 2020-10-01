@@ -1,7 +1,6 @@
 define([
-    'WebWorldWind/WorldWind',
-    'WebWorldWind/shapes/ShapeAttributes'
-], function(WorldWind, ShapeAttributes) {
+    'WorldWind/shapes/ShapeAttributes'
+], function(ShapeAttributes) {
     var PointCloudAttributes = function(attributes) {
         ShapeAttributes.call(this, attributes);
         this._pointSize = attributes ? attributes.pointSize : PointCloudAttributes.DEFAULT_POINT_SIZE;

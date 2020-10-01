@@ -1,16 +1,25 @@
 define([
-    'OpusWorldWind/OpusWorldWind',
-    'WebWorldWind/WorldWind',
-    'WebWorldWind/util/Logger',
-    'WebWorldWind/error/UnsupportedOperationError',
-    'WebWorldWind/shapes/ShapeAttributes',
-    'WebWorldWind/geom/Position',
-    'OpusWorldWind/edittools/AbstractEditTool',
-    'OpusWorldWind/edittools/AbstractSurfaceShapeEditTool',
-    'OpusWorldWind/placemarks/SquarePlacemark',
-    'OpusWorldWind/misc/ExtUtils',
-    'OpusWorldWind/placemarks/ScreenShapePlacemarkAttributes'
-], function(OpusWorldWind, WorldWind, Logger, UnsupportedOperationError, ShapeAttributes, Position, AbstractEditTool, AbstractSurfaceShapeEditTool, SquarePlacemark, ExtUtils, ScreenShapePlacemarkAttributes) {
+    'WorldWind/util/Logger',
+    'WorldWind/error/UnsupportedOperationError',
+    'WorldWind/shapes/ShapeAttributes',
+    'WorldWind/geom/Position',
+    '../edittools/AbstractEditTool',
+    '../edittools/AbstractSurfaceShapeEditTool',
+    '../placemarks/SquarePlacemark',
+    '../misc/ExtUtils',
+    '../placemarks/ScreenShapePlacemarkAttributes'
+], function(
+    Logger,
+    UnsupportedOperationError,
+    ShapeAttributes,
+    Position,
+    AbstractEditTool,
+    AbstractSurfaceShapeEditTool,
+    SquarePlacemark,
+    ExtUtils,
+    ScreenShapePlacemarkAttributes
+) {
+
     var AbstractPathEditTool = function(wwd, path) {
         AbstractEditTool.call(this, wwd, path);
         this._handles = null;

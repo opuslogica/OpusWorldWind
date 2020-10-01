@@ -1,12 +1,10 @@
 define([
-    'WebWorldWind/WorldWind',
-    'WebWorldWind/shapes/Path',
-    'WebWorldWind/geom/Vec3',
-    'WebWorldWind/geom/Matrix',
-    'WebWorldWind/pick/PickedObject',
-    'OpusWorldWind/programs/TriPathProgram',
-    'OpusWorldWind/misc/ExtUtils'
-], function(WorldWind, Path, Vec3, Matrix, PickedObject, TriPathProgram, ExtUtils) {
+    'WorldWind/shapes/Path',
+    'WorldWind/geom/Vec3',
+    'WorldWind/geom/Matrix',
+    'WorldWind/pick/PickedObject',
+    '../programs/TriPathProgram',
+], function(Path, Vec3, Matrix, PickedObject, TriPathProgram) {
     /**
      * A variant of Path that uses TRIANGLE_STRIP to render lines instead of LINE_STRIP and lineWidth (lineWidth is unsupported on modern browsers).
      */

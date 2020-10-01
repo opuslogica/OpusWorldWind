@@ -1,7 +1,6 @@
 define([
-    'WebWorldWind/WorldWind',
-    'OpusWorldWind/shapes/RigidWedgeMesh'
-], function(WorldWind, RigidWedgeMesh) {
+    '../shapes/RigidWedgeMesh'
+], function(RigidWedgeMesh) {
     var Wedge = function(center, angle, halfWidth, halfLength, halfHeight) {
         RigidWedgeMesh.call(this, center, angle, halfWidth, halfLength, halfHeight, 1);
     };

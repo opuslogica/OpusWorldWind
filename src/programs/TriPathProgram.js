@@ -1,7 +1,6 @@
 define([
-    'WebWorldWind/WorldWind',
-    'WebWorldWind/shaders/GpuProgram'
-], function(WorldWind, GpuProgram) {
+    'WorldWind/shaders/GpuProgram'
+], function(GpuProgram) {
     // Derived from BasicTextureProgram
     var TriPathProgram = function(gl) {
         var vertexShaderSource =

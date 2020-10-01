@@ -1,11 +1,11 @@
 define([
-    'OpusWorldWind/OpusWorldWind',
-    'WebWorldWind/WorldWind',
-    'WebWorldWind/layer/RenderableLayer',
-    'WebWorldWind/geom/Location',
-    'WebWorldWind/geom/Vec3',
-    'OpusWorldWind/misc/SectorRenderable'
-], function(OpusWorldWind, WorldWind, RenderableLayer, Location, Vec3, SectorRenderable) {
+    '../edittools/AbstractEditTool',
+    'WorldWind/WorldWind',
+    'WorldWind/layer/RenderableLayer',
+    'WorldWind/geom/Location',
+    'WorldWind/geom/Vec3',
+    '../misc/SectorRenderable'
+], function(AbstractEditTool, WorldWind, RenderableLayer, Location, Vec3, SectorRenderable) {
     /**
      * When constructed, will handle user inputs to modify a sector
      * and will display the sector on the globe.
@@ -29,7 +29,7 @@ define([
         this._renderables = [];
 
         wwd.addLayer(this._layer);
-        OpusWorldWind.AbstractEditTool.addCustomGestureHandler(this._wwd, this._gestureHandler);
+        AbstractEditTool.addCustomGestureHandler(this._wwd, this._gestureHandler);
 
         this._updateRenderables();
     };
@@ -152,7 +152,7 @@ define([
 
     SectorModifier.prototype.finished = function() {
         this._wwd.removeLayer(this._layer);
-        OpusWorldWind.AbstractEditTool.removeCustomGestureHandler(this._wwd, this._gestureHandler);
+        AbstractEditTool.removeCustomGestureHandler(this._wwd, this._gestureHandler);
     };
 
     return SectorModifier;

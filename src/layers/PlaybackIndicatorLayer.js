@@ -1,13 +1,12 @@
 define([
-    'OpusWorldWind/OpusWorldWind',
-    'WebWorldWind/WorldWind',
-    'WebWorldWind/util/Color',
-    'WebWorldWind/util/Font',
-    'WebWorldWind/util/Offset',
-    'WebWorldWind/layer/Layer',
-    'WebWorldWind/shapes/ScreenText',
-    'WebWorldWind/shapes/TextAttributes'
-], function(OpusWorldWind, WorldWind, Color, Font, Offset, Layer, ScreenText, TextAttributes) {
+    'WorldWind/WorldWind',
+    'WorldWind/util/Color',
+    'WorldWind/util/Font',
+    'WorldWind/util/Offset',
+    'WorldWind/layer/Layer',
+    'WorldWind/shapes/ScreenText',
+    'WorldWind/shapes/TextAttributes'
+], function(WorldWind, Color, Font, Offset, Layer, ScreenText, TextAttributes) {
     /**
      * A layer that indicates whether playback is active.
      */

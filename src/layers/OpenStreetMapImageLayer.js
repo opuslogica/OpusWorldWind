@@ -1,10 +1,14 @@
 define([
-    'WebWorldWind/WorldWind',
-    'WebWorldWind/geom/Location',
-    'WebWorldWind/geom/Sector',
-    'WebWorldWind/util/Color',
-    'WebWorldWind/layer/MercatorTiledImageLayer'
-], function(WorldWind, Location, Sector, Color, MercatorTiledImageLayer) {
+    'WorldWind/geom/Location',
+    'WorldWind/geom/Sector',
+    'WorldWind/util/Color',
+    'WorldWind/layer/MercatorTiledImageLayer'
+], function(
+    Location,
+    Sector,
+    Color,
+    MercatorTiledImageLayer
+) {
     var servers = ['a', 'b', 'c'];
     var OpenStreetMapImageLayer = function(displayName) {
         this.imageSize = 256;

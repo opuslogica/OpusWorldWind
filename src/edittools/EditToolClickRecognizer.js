@@ -1,7 +1,4 @@
-define([
-    'OpusWorldWind/OpusWorldWind',
-    'WebWorldWind/WorldWind'
-], function(OpusWorldWind, WorldWind) {
+define([], function() {
     var EditToolClickRecognizer = function(editTool, cb) {
         this._editTool = editTool;
         this._cb = cb;

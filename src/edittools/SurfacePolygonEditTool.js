@@ -1,5 +1,5 @@
 define([
-    'OpusWorldWind/AbstractSurfacePathEditTool'
+    '../edittools/AbstractSurfacePathEditTool'
 ], function(AbstractSurfacePathEditTool) {
     var SurfacePolygonEditTool = function(wwd, polygon) {
         AbstractSurfacePathEditTool.call(this, wwd, polygon);

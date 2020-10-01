@@ -1,22 +1,21 @@
 define([
-    'OpusWorldWind/OpusWorldWind',
-    'WebWorldWind/WorldWind',
-    'WebWorldWind/util/Logger',
-    'WebWorldWind/util/Color',
-    'WebWorldWind/util/WWMath',
-    'WebWorldWind/geom/Angle',
-    'WebWorldWind/geom/Vec3',
-    'WebWorldWind/geom/Position',
-    'WebWorldWind/geom/Location',
-    'WebWorldWind/error/UnsupportedOperationError',
-    'WebWorldWind/shapes/Path',
-    'WebWorldWind/shapes/ShapeAttributes',
-    'OpusWorldWind/edittools/AbstractEditTool',
-    'OpusWorldWind/placemarks/PointPlacemark',
-    'OpusWorldWind/placemarks/PointPlacemarkAttributes',
-    'OpusWorldWind/placemarks/SquarePlacemark',
-    'OpusWorldWind/placemarks/ScreenShapePlacemarkAttributes'
-], function(OpusWorldWind, WorldWind, Logger, Color, WWMath, Angle, Vec3, Position, Location, UnsupportedOperationError, Path, ShapeAttributes, AbstractEditTool, PointPlacemark, PointPlacemarkAttributes, SquarePlacemark, ScreenShapePlacemarkAttributes) {
+    'WorldWind/WorldWind',
+    'WorldWind/util/Logger',
+    'WorldWind/util/Color',
+    'WorldWind/util/WWMath',
+    'WorldWind/geom/Angle',
+    'WorldWind/geom/Vec3',
+    'WorldWind/geom/Position',
+    'WorldWind/geom/Location',
+    'WorldWind/error/UnsupportedOperationError',
+    'WorldWind/shapes/Path',
+    'WorldWind/shapes/ShapeAttributes',
+    '../edittools/AbstractEditTool',
+    '../placemarks/PointPlacemark',
+    '../placemarks/PointPlacemarkAttributes',
+    '../placemarks/SquarePlacemark',
+    '../placemarks/ScreenShapePlacemarkAttributes'
+], function(WorldWind, Logger, Color, WWMath, Angle, Vec3, Position, Location, UnsupportedOperationError, Path, ShapeAttributes, AbstractEditTool, PointPlacemark, PointPlacemarkAttributes, SquarePlacemark, ScreenShapePlacemarkAttributes) {
     var AbstractSurfaceShapeEditTool = function(wwd, shape) {
         AbstractEditTool.call(this, wwd, [shape]);
 
