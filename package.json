@@ -19,7 +19,7 @@
   "homepage": "https://github.com/opuslogica/OpusWorldWind#readme",
   "devDependencies": {
     "almond": "^0.3.3",
-    "grunt": "^1.3.0",
+    "grunt": "^1.5.2",
     "grunt-contrib-requirejs": "^1.0.0",
     "js-beautify": "^1.13.0"
   }
